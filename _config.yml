@@ -125,7 +125,7 @@ live2d:
   display:
     position: right # 显示在左边还是右边
     width: 200 # 宽度
-    height: 280 # 高度
+    height: 450 # 高度
   mobile:
     show: true
   react:
