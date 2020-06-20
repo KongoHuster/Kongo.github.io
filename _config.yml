@@ -127,6 +127,6 @@ live2d:
     width: 200 # 宽度
     height: 280 # 高度
   mobile:
-    show: false
+    show: true
   react:
     opacityDefault: 0.7 # 默认透明度
