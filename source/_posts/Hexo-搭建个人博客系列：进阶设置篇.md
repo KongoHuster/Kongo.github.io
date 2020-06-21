@@ -1,5 +1,5 @@
 ---
-title: Hexo 搭建个人博客系列：进阶设置篇
+title: 四、Hexo 搭建个人博客系列：进阶设置篇
 categories: Hexo
 tags: Hexo
 date: 2020-06-21 14:30:04

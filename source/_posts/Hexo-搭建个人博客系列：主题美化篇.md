@@ -1,6 +1,7 @@
 ---
 title: 三、Hexo 搭建个人博客系列：主题美化篇
 date: 2020-06-20 15:42:16
+categories: Hexo
 tags:
 - Hexo
 ---
