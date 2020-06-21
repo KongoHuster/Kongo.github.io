@@ -136,3 +136,8 @@ search:
   field: post
   format: html
   limit: 10000
+
+admin:
+  username: yzh
+  password_hash: $2a$10$yD39ZSr.XdKWNtqPECd4euaDl5BqpDVPK3g4fuhW1.3Ip4p4vhU6O
+  secret: Kongo
