@@ -130,3 +130,9 @@ live2d:
     show: true
   react:
     opacityDefault: 0.7 # 默认透明度
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
