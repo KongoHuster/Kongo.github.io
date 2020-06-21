@@ -141,3 +141,9 @@ admin:
   username: yzh
   password_hash: $2a$10$yD39ZSr.XdKWNtqPECd4euaDl5BqpDVPK3g4fuhW1.3Ip4p4vhU6O
   secret: Kongo
+
+symbols_count_time:
+  symbols: true # 统计单篇文章字数
+  time: true # 取消估算单篇文章阅读时间
+  total_symbols: false # 统计站点总字数
+  total_time: false # 取消估算站点总阅读时间

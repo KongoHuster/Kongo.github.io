@@ -250,9 +250,14 @@ post_meta:
 # Post wordcount display settings
 # Dependencies: https://github.com/theme-next/hexo-symbols-count-time
 symbols_count_time:
-  separated_meta: true
-  item_text_post: true
-  item_text_total: false
+  # separated_meta: true
+  # item_text_post: true
+  # item_text_total: false
+  separated_meta: false # 统计信息不换行显示
+  item_text_post: true # 文章统计信息中是否显示“本文字数/阅读时长”等描述文字
+  item_text_total: true # 站点统计信息中是否显示“本文字数/阅读时长”等描述文字
+  awl: 4 # Average Word Length：平均字符长度
+  wpm: 275 # Words Per Minute：阅读速度
 
 # Use icon instead of the symbol # to indicate the tag at the bottom of the post
 tag_icon: false
@@ -261,15 +266,17 @@ tag_icon: false
 # Front-matter variable (unsupport animation).
 reward_settings:
   # If true, reward will be displayed in every article by default.
-  enable: false
-  animation: false
-  #comment: Donate comment here.
+  enable: true
+  animation: true
+  comment: 你的支持就是我前进的动力
 
 reward:
   #wechatpay: /images/wechatpay.png
   #alipay: /images/alipay.png
   #paypal: /images/paypal.png
   #bitcoin: /images/bitcoin.png
+  wechatpay: /images/wechatpay.jpg
+  alipay: /images/alipay.jpg  
 
 # Subscribe through Telegram Channel, Twitter, etc.
 # Usage: `Key: permalink || icon` (Font Awesome)
@@ -610,9 +617,9 @@ changyan:
 # Valine
 # For more information: https://valine.js.org, https://github.com/xCss/Valine
 valine:
-  enable: false
-  appid: # Your leancloud application appid
-  appkey: # Your leancloud application appkey
+  enable: true
+  appid: PULSTRKS13DHxoOUR8UQhJPX-gzGzoHsz # Your leancloud application appid
+  appkey: 7ax6bnBNLWRYJlQ6Qb9rWCIJ # Your leancloud application appkey
   notify: false # Mail notifier
   verify: false # Verification code
   placeholder: Just go go # Comment box placeholder
