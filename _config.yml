@@ -147,3 +147,8 @@ symbols_count_time:
   time: true # 取消估算单篇文章阅读时间
   total_symbols: false # 统计站点总字数
   total_time: false # 取消估算站点总阅读时间
+
+encrypt:
+  enable: true
+  default_abstract: 此文章已被加密，需要输入密码访问。  
+  default_message: 请输入密码以阅读这篇私密文章。  

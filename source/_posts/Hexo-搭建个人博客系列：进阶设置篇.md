@@ -92,3 +92,55 @@ valine:
   pageSize: 10  # 每页评论数
   visitor: true  # 同时开启文章阅读次数统计
 ```
+
+#### 五、添加打赏功能
+
+启用主题配置文件中的打赏相关字段，并将个人收款码图片置于 themes\next\source\images\ 目录下，注意保持图片命名与配置文件中一致：
+
+> themes\next_config.yml
+```
+reward_settings:
+  # If true, reward will be displayed in every article by default.
+  enable: true
+  animation: true
+  comment: 你的支持就是我前进的动力
+
+reward:
+  #wechatpay: /images/wechatpay.png
+  #alipay: /images/alipay.png
+  #paypal: /images/paypal.png
+  #bitcoin: /images/bitcoin.png
+  wechatpay: /images/wechatpay.jpg
+  alipay: /images/alipay.jpg  
+```
+
+#### 六、添加图片灯箱
+添加灯箱功能，实现点击图片后放大聚焦图片，并支持幻灯片播放、全屏播放、缩略图、快速分享到社交媒体等，该功能由 fancyBox 提供
+在根目录下执行以下命令安装相关依赖：
+```
+git clone https://github.com/theme-next/theme-next-fancybox3 themes/next/source/lib/fancybox
+```
+在主题配置文件中设置 fancybox: true：
+
+> themes\next_config.yml
+```
+fancybox: true
+```
+
+#### 七、文章加密访问
+该功能由 hexo-blog-encrypt 插件提供。
+
+在站点根目录中执行以下命令安装依赖：
+```
+$ npm install hexo-blog-encrypt --save
+```
+在站点配置文件中添加如下字段：
+
+> _config.yml
+```
+encrypt:
+  enable: true
+  default_abstract: 此文章已被加密，需要输入密码访问。  //首页文章列表中加密文章的默认描述文案
+  default_message: 请输入密码以阅读这篇私密文章。  //文章详情页的密码输入框上的默认描述文案
+```
+然后在文章 Front-Matter 中添加 password 字段用于设置文章访问密码。重启服务器，这个时候可能需要经历较长一段时间的加密过程，请耐心等待，加密完成后刷新页面将会显示密码输入框，输入密码后才能继续访问文章内容。
