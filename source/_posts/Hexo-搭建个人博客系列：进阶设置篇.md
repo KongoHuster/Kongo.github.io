@@ -15,6 +15,7 @@ date: 2020-06-21 14:30:04
     padding: 2px;">醉美星辰</div>
 </center>
 
+> 本文搭建Hexo主要参考[Yearito's Blog](http://yearito.cn/tags/Hexo/)
 
 #### 一、后台管理界面 
 <!-- more -->

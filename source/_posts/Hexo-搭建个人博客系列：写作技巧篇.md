@@ -16,6 +16,8 @@ tags:
     padding: 2px;">梦境夜空</div>
 </center>
 
+> 本文搭建Hexo主要参考[Yearito's Blog](http://yearito.cn/tags/Hexo/)
+> 
 ### 开始写作
 在博客目录下执行如下命令新建一篇文章
 ```

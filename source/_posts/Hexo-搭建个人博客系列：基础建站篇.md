@@ -21,7 +21,7 @@ comments: true
     padding: 2px;">《逆水寒》</div>
 </center>
 
-
+> 本文搭建Hexo主要参考[Yearito's Blog](http://yearito.cn/tags/Hexo/)
 
 Hexo 是一个高效简洁的静态博客框架，支持 Markdown 写作语法，插件丰富，主题优雅，部署方便。目前已成为多数人博客建站的选择。
 <!-- more -->

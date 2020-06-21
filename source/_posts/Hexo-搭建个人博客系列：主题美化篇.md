@@ -17,6 +17,8 @@ tags:
     padding: 2px;">幻彩魔方</div>
 </center>
 
+> 本文搭建Hexo主要参考[Yearito's Blog](http://yearito.cn/tags/Hexo/)
+> 
 #### 一、修改博客字体
 在 Google Fonts 上找到心仪的字体，然后在主题配置文件中为不同的应用场景配置字体：
 <!-- more -->
