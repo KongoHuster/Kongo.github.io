@@ -21,7 +21,7 @@ tags:
 ```
 $ hexo new [layout] <title>
 ```
-
+<!-- more -->
 如果未指定文章的布局（layout），则默认使用 post 布局，生成的文档存放于 source\_posts\ 目录下，打开后使用 Markdown 语法进行写作，保存后刷新浏览器即可看到文章。
 
 #### 布局

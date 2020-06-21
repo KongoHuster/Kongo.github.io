@@ -18,7 +18,7 @@ tags:
 
 #### 一、修改博客字体
 在 Google Fonts 上找到心仪的字体，然后在主题配置文件中为不同的应用场景配置字体：
-
+<!-- more -->
 > themes\next\_config.yml
 ```
 font:
