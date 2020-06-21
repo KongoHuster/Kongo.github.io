@@ -1,3 +1,6 @@
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
 {%- if theme.footer.beian.enable %}
   <div class="beian">
     {{- next_url('http://www.beian.miit.gov.cn', theme.footer.beian.icp + ' ') }}
@@ -58,4 +61,12 @@
   </div>
 {%- endif %}
 
+<br>
+Total <span id="busuanzi_value_site_pv"></span> views.
+<br>
+您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴
+<br>
+<span id="busuanzi_value_page_pv"></span> Hits
+
 {{- next_inject('footer') }}
+
