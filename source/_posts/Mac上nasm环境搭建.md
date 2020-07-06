@@ -65,7 +65,7 @@ $ ld -o HelloWorld -e _main HelloWorld.o -macosx_version_min 10.15 -static
 
 ### 二、Mac 通过DOSBox搭建汇编环境
 
-> 该教程主要参考[此博客](https://www.e-learn.cn/topic/3366973)
+> 该教程主要参考[此博客](https://www.e-learn.cn/topic/3366973)，学习汇编的资料在https://github.com/honghong1234/assembly-exercise
 
 #### 1.下载安装相关工具
 选择Mac版的DOSBox
@@ -140,9 +140,11 @@ HELLO.EXE
 
 #### 4.DOSBox调试功能
 
-- 进入调试命令 DEBUG 文件名 
-- 查看寄存器的值命令 -r
-- 查看汇编指令命令 -u [行数]，行数省略时默认10行
-- 执行下一条汇编指令命令 -t
-- 查看指定内存单元命令 -d 段地址:偏移地址
-- 退出DEBUG模式命令 -q
+- R命令查看、改变CPU寄存器的内容；
+- D命令查看内存中的内容；
+- E命令改写内存中的内容；
+- U命令将内存中的机器指令翻译成汇编指令；
+- T命令执行一条机器指令；
+- G命令跳转到偏移地址；
+- P命令结束循环或者是int 21H时是退出程序；
+- A命令是以汇编指令的格式在内存中写入一条机器指令。
