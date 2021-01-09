@@ -3272,4 +3272,2167 @@
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Mac上汇编环境搭建</title>
+    <url>/2020/06/29/Mac%E4%B8%8Anasm%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/29/NWb44U.md.jpg">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">星路</div>
+</center>
+
+<blockquote>
+<p>此文为学习汇编语言程序设计写代码时搭建的环境笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="一、下载nasm"><a href="#一、下载nasm" class="headerlink" title="一、下载nasm"></a>一、下载nasm</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ brew install nasm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi HelloWord.asm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SECTION .data</span><br><span class="line"> </span><br><span class="line">msg: db &quot;HelloWorld!&quot;, 0x0a</span><br><span class="line">len: equ $-msg</span><br><span class="line"> </span><br><span class="line">SECTION .text</span><br><span class="line">global _main</span><br><span class="line"> </span><br><span class="line">_main:</span><br><span class="line">    mov rax,0x2000004  ;0x2000004 表示 syscall 调用号 write</span><br><span class="line">    mov rdi,1          ;表示控制台输出</span><br><span class="line">    mov rsi,msg        ;syscall 调用会到 rsi 来获取字符</span><br><span class="line">    mov rdx,len        ;字符串长度</span><br><span class="line">    syscall</span><br><span class="line"> </span><br><span class="line">    mov rax,0x2000001  ;0x2000001 表示退出 syscall</span><br><span class="line">    mov rdi,0</span><br><span class="line">    syscall</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nasm -f macho64 HelloWorld.asm -o HelloWorld.o</span><br></pre></td></tr></table></figure>
+<p>链接</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ ld -o HelloWorld -e _main HelloWorld.o -macosx_version_min 10.15 -static</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="二、Mac-通过DOSBox搭建汇编环境"><a href="#二、Mac-通过DOSBox搭建汇编环境" class="headerlink" title="二、Mac 通过DOSBox搭建汇编环境"></a>二、Mac 通过DOSBox搭建汇编环境</h3><blockquote>
+<p>该教程主要参考<a href="https://www.e-learn.cn/topic/3366973" target="_blank" rel="noopener">此博客</a>，学习汇编的资料在<a href="https://github.com/honghong1234/assembly-exercise" target="_blank" rel="noopener">https://github.com/honghong1234/assembly-exercise</a></p>
+</blockquote>
+<h4 id="1-下载安装相关工具"><a href="#1-下载安装相关工具" class="headerlink" title="1.下载安装相关工具"></a>1.下载安装相关工具</h4><p>选择Mac版的DOSBox</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.dosbox.com&#x2F;download.php?main&#x3D;1</span><br></pre></td></tr></table></figure>
+<p>下载汇编常用工具</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">链接: https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1p5jMRxx0ISPCdOy1cIqR3Q  密码: u97w</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-在用户目录下新建DOSBox目录"><a href="#2-在用户目录下新建DOSBox目录" class="headerlink" title="2.在用户目录下新建DOSBox目录"></a>2.在用户目录下新建DOSBox目录</h4><p>制作目录</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir ~&#x2F;DOSBox&#x2F;</span><br></pre></td></tr></table></figure>
+<p>修改配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;Users&#x2F;yzh&#x2F;Library&#x2F;Preferences&#x2F;DOSBox\ 0.74-3-1\ Preferences</span><br></pre></td></tr></table></figure>
+<p>文件最后添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 挂载~&#x2F;DOSBox目录为C盘</span><br><span class="line">mount C ~&#x2F;DOSBox</span><br><span class="line"># 进入C盘（~&#x2F;DOSBox目录）</span><br><span class="line">C:</span><br></pre></td></tr></table></figure>
+<p>启动BOSBox</p>
+<h4 id="3-在DOSBox目录下编写helloworld测试DOSBox环境"><a href="#3-在DOSBox目录下编写helloworld测试DOSBox环境" class="headerlink" title="3.在DOSBox目录下编写helloworld测试DOSBox环境"></a>3.在DOSBox目录下编写helloworld测试DOSBox环境</h4><p>在桌面新建hello.asm文件，用记事本打开</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DATAS SEGMENT</span><br><span class="line">    ;此处输入数据段代码  </span><br><span class="line">    ;13、10都是十进制，分别表示垂直制表符、退格，&#39;$&#39;表示字符串结尾</span><br><span class="line">    STRING  DB  &#39;Hello World!&#39;,13,10,&#39;$&#39;</span><br><span class="line">DATAS ENDS</span><br><span class="line"></span><br><span class="line">STACKS SEGMENT</span><br><span class="line">    ;此处输入堆栈段代码</span><br><span class="line">STACKS ENDS</span><br><span class="line"></span><br><span class="line">CODES SEGMENT</span><br><span class="line">    ASSUME CS:CODES,DS:DATAS,SS:STACKS</span><br><span class="line">START:</span><br><span class="line">    MOV AX,DATAS</span><br><span class="line">    MOV DS,AX</span><br><span class="line">    ;此处输入代码段代码</span><br><span class="line">    </span><br><span class="line">    LEA  DX,STRING</span><br><span class="line">    MOV  AH,9</span><br><span class="line">    INT  21H</span><br><span class="line">    </span><br><span class="line">    MOV AH,4CH</span><br><span class="line">    INT 21H</span><br><span class="line">CODES ENDS</span><br><span class="line">    END START</span><br></pre></td></tr></table></figure>
+<p>汇编hello.asm文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MASM HELLO.ASM #回车三次</span><br></pre></td></tr></table></figure>
+<p>链接HELLO.OBJ文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LINK HELLO.OBJ</span><br></pre></td></tr></table></figure>
+<p>HELLO.EXE文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HELLO.EXE</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-DOSBox调试功能"><a href="#4-DOSBox调试功能" class="headerlink" title="4.DOSBox调试功能"></a>4.DOSBox调试功能</h4><ul>
+<li>R命令查看、改变CPU寄存器的内容；</li>
+<li>D命令查看内存中的内容；</li>
+<li>E命令改写内存中的内容；</li>
+<li>U命令将内存中的机器指令翻译成汇编指令；</li>
+<li>T命令执行一条机器指令；</li>
+<li>G命令跳转到偏移地址；</li>
+<li>P命令结束循环或者是int 21H时是退出程序；</li>
+<li>A命令是以汇编指令的格式在内存中写入一条机器指令。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Mac</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+        <tag>Nasm</tag>
+        <tag>DOSBox</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MyTinySTL源码阅读笔记</title>
+    <url>/2020/06/25/MyTinySTL%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/25/N08yid.md.jpg">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">走向生</div>
+</center>
+
+<blockquote>
+<p>此文为阅读MyTinySTL做的笔记，学习代码的风格与设计，以及实现算法</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="算法总结"><a href="#算法总结" class="headerlink" title="算法总结"></a>算法总结</h3><h4 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h4><h5 id="1-红黑树产生"><a href="#1-红黑树产生" class="headerlink" title="1.红黑树产生"></a>1.红黑树产生</h5><p>平衡二叉树真的很不错，在查找时既有着二叉查找树的优越性，在插入时还能通过调整继续保持着。那么为什么还要使用到红黑树呢？我觉得可以从以下两个方面来考虑：</p>
+<p>（1）删除：对于平衡二叉树来说，在最坏情况下，需要维护从被删节点到根节点这条路径上所有节点的平衡性，旋转的量级是O(logN)。但是红黑树就不一样了，最多只需3次旋转就会重新平衡，旋转的量级是O(1)。</p>
+<p>（2）保持平衡：平衡二叉树高度平衡，这也就意味着在大量插入和删除节点的场景下，平衡二叉树为了保持平衡需要调整的频率会更高。</p>
+<p>注意：在大量查找的情况下，平衡二叉树的效率更高，也是首要选择。在大量增删的情况下，红黑树是首选。</p>
+<p>鉴于以上原因，因此我们才使用到了红黑树这种更好的结构。上面提了这么多次红黑树，相信你已经迫不及待的想要认识一下了。下面就正式拉开红黑树的序幕。</p>
+<h5 id="2-红黑树的应用场景"><a href="#2-红黑树的应用场景" class="headerlink" title="2.红黑树的应用场景"></a>2.红黑树的应用场景</h5><ul>
+<li>STL中的Map和Set的数据结构</li>
+<li>TreeMap in Java</li>
+<li>HashMap in Java</li>
+<li>计算机科学中的关联数组</li>
+<li>Linux内核中完全公平调度</li>
+<li>实时计算</li>
+<li>计算几何</li>
+</ul>
+<h5 id="3-搜索"><a href="#3-搜索" class="headerlink" title="3.搜索"></a>3.搜索</h5><p>树的遍历</p>
+<ul>
+<li>广度优先（BFS）：先访问离根节点最近的点</li>
+<li>深度优先（DFS）：前序遍历、中序遍历、后续遍历</li>
+</ul>
+<h5 id="3-红黑树的性质"><a href="#3-红黑树的性质" class="headerlink" title="3.红黑树的性质"></a>3.红黑树的性质</h5><ul>
+<li>根节点必须黑色</li>
+<li>父子不能同为红色</li>
+<li>从任何一个节点出发，到达叶子节点经过的黑色节点数量必须一致</li>
+</ul>
+<h3 id="关于C-的积累"><a href="#关于C-的积累" class="headerlink" title="关于C++的积累"></a>关于C++的积累</h3><h4 id="1-C-C-中宏特殊字符的含义及用法总结"><a href="#1-C-C-中宏特殊字符的含义及用法总结" class="headerlink" title="1.C/C++/中宏特殊字符的含义及用法总结"></a>1.C/C++/中宏特殊字符的含义及用法总结</h4><p>在C／C＋＋中，宏定义是由define完成的，宏定义中有几种常见的特殊字符需要我们了解，常用的特殊字符有以下几种：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#：在宏展开的时候会将#后面的参数替换成字符串； 字符串化</span><br><span class="line">##:将前后两个的单词拼接在一起； 连接化</span><br><span class="line">#@:将值序列变为一个字符；   字符化</span><br><span class="line">\:将两行连接起来。行连接化</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-typedef-typename的使用"><a href="#2-typedef-typename的使用" class="headerlink" title="2.typedef typename的使用"></a>2.typedef typename的使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">typedef typename std::vector&lt;T&gt;::size_type size_type;</span><br></pre></td></tr></table></figure>
+
+<p>语句的意思是：<br>typedef创建了存在类型的别名，而typename告诉编译器std::vector<T>::size_type是一个类型而不是一个成员。</T></p>
+<h4 id="3-C-中的-default和-delete"><a href="#3-C-中的-default和-delete" class="headerlink" title="3.C++中的 =default和=delete"></a>3.C++中的 =default和=delete</h4><p>每当我们声明一个有参构造函数时，编译器就不会创建默认构造函数。在这种情况下，我们可以使用default说明符来创建默认说明符。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; use of defaulted functions</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class A &#123;</span><br><span class="line">public:</span><br><span class="line">    &#x2F;&#x2F; A user-defined</span><br><span class="line">    A(int x)&#123;</span><br><span class="line">        cout &lt;&lt; &quot;This is a parameterized constructor&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Using the default specifier to instruct</span><br><span class="line">    &#x2F;&#x2F; the compiler to create the default implementation of the constructor.</span><br><span class="line">    A() &#x3D; default;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    A a;          &#x2F;&#x2F;call A()</span><br><span class="line">    A x(1);       &#x2F;&#x2F;call A(int x)</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在C ++ 11之前，操作符delete 只有一个目的，即释放已动态分配的内存。而C ++ 11标准引入了此操作符的另一种用法，即：禁用成员函数的使用。这是通过附加= delete来完成的; 说明符到该函数声明的结尾。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; copy-constructor using delete operator </span><br><span class="line">#include &lt;iostream&gt; </span><br><span class="line">using namespace std; </span><br><span class="line">  </span><br><span class="line">class A &#123; </span><br><span class="line">public: </span><br><span class="line">    A(int x): m(x) &#123; &#125; </span><br><span class="line">      </span><br><span class="line">    &#x2F;&#x2F; Delete the copy constructor </span><br><span class="line">    A(const A&amp;) &#x3D; delete;      </span><br><span class="line">    &#x2F;&#x2F; Delete the copy assignment operator </span><br><span class="line">    A&amp; operator&#x3D;(const A&amp;) &#x3D; delete;  </span><br><span class="line">    int m; </span><br><span class="line">&#125;; </span><br><span class="line">  </span><br><span class="line">int main() &#123; </span><br><span class="line">    A a1(1), a2(2), a3(3); </span><br><span class="line">    &#x2F;&#x2F; Error, the usage of the copy assignment operator is disabled </span><br><span class="line">    a1 &#x3D; a2;   </span><br><span class="line">    &#x2F;&#x2F; Error, the usage of the copy constructor is disabled </span><br><span class="line">    a3 &#x3D; A(a2);  </span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>源码阅读</category>
+      </categories>
+      <tags>
+        <tag>源码阅读</tag>
+        <tag>MyTinySTL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cJson源码阅读</title>
+    <url>/2020/06/23/cJson%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/23/Ntg2o6.jpg">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">朦胧脸庞</div>
+</center>
+
+<blockquote>
+<p>此文为阅读cJson做的笔记，学习代码的风格与设计</p>
+</blockquote>
+<a id="more"></a>
+
+<h4 id="一、cJson的数据结构"><a href="#一、cJson的数据结构" class="headerlink" title="一、cJson的数据结构"></a>一、cJson的数据结构</h4><p>cJSON的数据结构</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;* The cJSON structure: *&#x2F;</span><br><span class="line">typedef struct cJSON &#123;</span><br><span class="line">	struct cJSON *next,*prev;	&#x2F;* next&#x2F;prev allow you to walk array&#x2F;object chains. Alternatively, use GetArraySize&#x2F;GetArrayItem&#x2F;GetObjectItem *&#x2F;</span><br><span class="line">	struct cJSON *child;		&#x2F;* An array or object item will have a child pointer pointing to a chain of the items in the array&#x2F;object. *&#x2F;</span><br><span class="line"></span><br><span class="line">	int type;					&#x2F;* The type of the item, as above. *&#x2F;</span><br><span class="line"></span><br><span class="line">	char *valuestring;			&#x2F;* The item&#39;s string, if type&#x3D;&#x3D;cJSON_String *&#x2F;</span><br><span class="line">	int valueint;				&#x2F;* The item&#39;s number, if type&#x3D;&#x3D;cJSON_Number *&#x2F;</span><br><span class="line">	double valuedouble;			&#x2F;* The item&#39;s number, if type&#x3D;&#x3D;cJSON_Number *&#x2F;</span><br><span class="line"></span><br><span class="line">	char *string;				&#x2F;* The item&#39;s name string, if this item is the child of, or is in the list of subitems of an object. *&#x2F;</span><br><span class="line">&#125; cJSON;</span><br></pre></td></tr></table></figure>
+
+<p>其中，typey有7种类型</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;* cJSON Types: *&#x2F;</span><br><span class="line">#define cJSON_False 0</span><br><span class="line">#define cJSON_True 1</span><br><span class="line">#define cJSON_NULL 2</span><br><span class="line">#define cJSON_Number 3</span><br><span class="line">#define cJSON_String 4</span><br><span class="line">#define cJSON_Array 5</span><br><span class="line">#define cJSON_Object 6</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、cJson的使用"><a href="#二、cJson的使用" class="headerlink" title="二、cJson的使用"></a>二、cJson的使用</h4><h5 id="构造json"><a href="#构造json" class="headerlink" title="构造json"></a>构造json</h5><p> 要构建的json：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;semantic&quot;: &#123;</span><br><span class="line">        &quot;slots&quot;:    &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;rc&quot;:   0,</span><br><span class="line">    &quot;operation&quot;:    &quot;CALL&quot;,</span><br><span class="line">    &quot;service&quot;:  &quot;telephone&quot;,</span><br><span class="line">    &quot;text&quot;: &quot;打电话给张三&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;cJSON.h&quot;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    cJSON * root &#x3D;  cJSON_CreateObject();</span><br><span class="line">    cJSON * item &#x3D;  cJSON_CreateObject();</span><br><span class="line">    cJSON * next &#x3D;  cJSON_CreateObject();</span><br><span class="line"> </span><br><span class="line">    cJSON_AddItemToObject(root, &quot;rc&quot;, cJSON_CreateNumber(0));&#x2F;&#x2F;根节点下添加</span><br><span class="line">    cJSON_AddItemToObject(root, &quot;operation&quot;, cJSON_CreateString(&quot;CALL&quot;));</span><br><span class="line">    cJSON_AddItemToObject(root, &quot;service&quot;, cJSON_CreateString(&quot;telephone&quot;));</span><br><span class="line">    cJSON_AddItemToObject(root, &quot;text&quot;, cJSON_CreateString(&quot;打电话给张三&quot;));</span><br><span class="line">    cJSON_AddItemToObject(root, &quot;semantic&quot;, item);&#x2F;&#x2F;root节点下添加semantic节点</span><br><span class="line">    cJSON_AddItemToObject(item, &quot;slots&quot;, next);&#x2F;&#x2F;semantic节点下添加item节点</span><br><span class="line">    cJSON_AddItemToObject(next, &quot;name&quot;, cJSON_CreateString(&quot;张三&quot;));&#x2F;&#x2F;添加name节点</span><br><span class="line"> </span><br><span class="line">    printf(&quot;%s\n&quot;, cJSON_Print(root));</span><br><span class="line"> </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="解析的json"><a href="#解析的json" class="headerlink" title="解析的json"></a>解析的json</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;semantic&quot;: &#123;</span><br><span class="line">        &quot;slots&quot;:    &#123;</span><br><span class="line">            &quot;name&quot;: &quot;张三&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;rc&quot;:   0,</span><br><span class="line">    &quot;operation&quot;:    &quot;CALL&quot;,</span><br><span class="line">    &quot;service&quot;:  &quot;telephone&quot;,</span><br><span class="line">    &quot;text&quot;: &quot;打电话给张三&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &quot;cJSON.h&quot;</span><br><span class="line"> </span><br><span class="line">void printJson(cJSON * root)&#x2F;&#x2F;以递归的方式打印json的最内层键值对</span><br><span class="line">&#123;</span><br><span class="line">    for(int i&#x3D;0; i&lt;cJSON_GetArraySize(root); i++)   &#x2F;&#x2F;遍历最外层json键值对</span><br><span class="line">    &#123;</span><br><span class="line">        cJSON * item &#x3D; cJSON_GetArrayItem(root, i);        </span><br><span class="line">        if(cJSON_Object &#x3D;&#x3D; item-&gt;type)      &#x2F;&#x2F;如果对应键的值仍为cJSON_Object就递归调用printJson</span><br><span class="line">            printJson(item);</span><br><span class="line">        else                                &#x2F;&#x2F;值不为json对象就直接打印出键和值</span><br><span class="line">        &#123;</span><br><span class="line">            printf(&quot;%s-&gt;&quot;, item-&gt;string);</span><br><span class="line">            printf(&quot;%s\n&quot;, cJSON_Print(item));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    char * jsonStr &#x3D; &quot;&#123;\&quot;semantic\&quot;:&#123;\&quot;slots\&quot;:&#123;\&quot;name\&quot;:\&quot;张三\&quot;&#125;&#125;, \&quot;rc\&quot;:0, \&quot;operation\&quot;:\&quot;CALL\&quot;, \&quot;service\&quot;:\&quot;telephone\&quot;, \&quot;text\&quot;:\&quot;打电话给张三\&quot;&#125;&quot;;</span><br><span class="line">    cJSON * root &#x3D; NULL;</span><br><span class="line">    cJSON * item &#x3D; NULL;&#x2F;&#x2F;cjson对象</span><br><span class="line"> </span><br><span class="line">    root &#x3D; cJSON_Parse(jsonStr);     </span><br><span class="line">    if (!root) </span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Error before: [%s]\n&quot;,cJSON_GetErrorPtr());</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;%s\n&quot;, &quot;有格式的方式打印Json:&quot;);           </span><br><span class="line">        printf(&quot;%s\n\n&quot;, cJSON_Print(root));</span><br><span class="line">        printf(&quot;%s\n&quot;, &quot;无格式方式打印json：&quot;);</span><br><span class="line">        printf(&quot;%s\n\n&quot;, cJSON_PrintUnformatted(root));</span><br><span class="line"> </span><br><span class="line">        printf(&quot;%s\n&quot;, &quot;一步一步的获取name 键值对:&quot;);</span><br><span class="line">        printf(&quot;%s\n&quot;, &quot;获取semantic下的cjson对象:&quot;);</span><br><span class="line">        item &#x3D; cJSON_GetObjectItem(root, &quot;semantic&quot;);&#x2F;&#x2F;</span><br><span class="line">        printf(&quot;%s\n&quot;, cJSON_Print(item));</span><br><span class="line">        printf(&quot;%s\n&quot;, &quot;获取slots下的cjson对象&quot;);</span><br><span class="line">        item &#x3D; cJSON_GetObjectItem(item, &quot;slots&quot;);</span><br><span class="line">        printf(&quot;%s\n&quot;, cJSON_Print(item));</span><br><span class="line">        printf(&quot;%s\n&quot;, &quot;获取name下的cjson对象&quot;);</span><br><span class="line">        item &#x3D; cJSON_GetObjectItem(item, &quot;name&quot;);</span><br><span class="line">        printf(&quot;%s\n&quot;, cJSON_Print(item));</span><br><span class="line"> </span><br><span class="line">        printf(&quot;%s:&quot;, item-&gt;string);   &#x2F;&#x2F;看一下cjson对象的结构体中这两个成员的意思</span><br><span class="line">        printf(&quot;%s\n&quot;, item-&gt;valuestring);</span><br><span class="line">                        </span><br><span class="line"> </span><br><span class="line">        printf(&quot;\n%s\n&quot;, &quot;打印json所有最内层键值对:&quot;);</span><br><span class="line">        printJson(root);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="三、算法提炼"><a href="#三、算法提炼" class="headerlink" title="三、算法提炼"></a>三、算法提炼</h4><h5 id="pow2gt函数"><a href="#pow2gt函数" class="headerlink" title="pow2gt函数"></a>pow2gt函数</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">static int pow2gt (int x)	&#123;</span><br><span class="line">   	  --x;	</span><br><span class="line">      x|&#x3D;x&gt;&gt;1;	</span><br><span class="line">      x|&#x3D;x&gt;&gt;2;	</span><br><span class="line">      x|&#x3D;x&gt;&gt;4;	</span><br><span class="line">      x|&#x3D;x&gt;&gt;8;	</span><br><span class="line">      x|&#x3D;x&gt;&gt;16;	</span><br><span class="line">      return x+1;	</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/loading/loading.gif" data-original="./cJson%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/20161013234606_75816.png" alt></p>
+<p>考虑到int是32位，那么对于任何一个M，当它执行完上图中的5步操作后，M的最左边为1的那位向右全部被赋值为1，因此，在最后return x+1 时，就会返回&gt;=M最小的2的N次方数。而最开始的–x，是因为当x本身就是一个2的N次方数时，返回值为x本身，所以需要减1来保证正确性。</p>
+<h4 id="四、使用的函数学习"><a href="#四、使用的函数学习" class="headerlink" title="四、使用的函数学习"></a>四、使用的函数学习</h4><h5 id="1-int-tolower-int-c"><a href="#1-int-tolower-int-c" class="headerlink" title="1.int tolower(int c)"></a>1.int tolower(int c)</h5><p>C 库函数 int tolower(int c) 把给定的字母转换为小写字母。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int i &#x3D; 0;</span><br><span class="line">   char c;</span><br><span class="line">   char str[] &#x3D; &quot;RUNOOB&quot;;</span><br><span class="line"> </span><br><span class="line">   while( str[i] ) </span><br><span class="line">   &#123;</span><br><span class="line">      putchar(tolower(str[i]));</span><br><span class="line">      i++;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   return(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">runoob</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-memcpy-void-str1-const-void-str2-size-t-n"><a href="#2-memcpy-void-str1-const-void-str2-size-t-n" class="headerlink" title="2.memcpy(void *str1, const void *str2, size_t n)"></a>2.memcpy(void *str1, const void *str2, size_t n)</h5><blockquote>
+<p>C 库函数 void *memcpy(void *str1, const void *str2, size_t n) 从存储区 str2 复制 n 个字节到存储区 str1。</p>
+</blockquote>
+<ul>
+<li>str1 – 指向用于存储复制内容的目标数组，类型强制转换为 void* 指针。</li>
+<li>str2 – 指向要复制的数据源，类型强制转换为 void* 指针。</li>
+<li>n – 要被复制的字节数。</li>
+</ul>
+<h5 id="3-memset"><a href="#3-memset" class="headerlink" title="3.memset()"></a>3.memset()</h5><blockquote>
+<p>C 库函数 void *memset(void *str, int c, size_t n) 复制字符 c（一个无符号字符）到参数 str 所指向的字符串的前 n 个字符。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void *memset(void *str, int c, size_t n)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>str – 指向要填充的内存块。</li>
+<li>c – 要被设置的值。该值以 int 形式传递，但是函数在填充内存块时是使用该值的无符号字符形式。</li>
+<li>n – 要被设置为该值的字节数。</li>
+</ul>
+<h4 id="风格学习"><a href="#风格学习" class="headerlink" title="风格学习"></a>风格学习</h4><ul>
+<li>函数命名要规范，尽量表达清楚函数的用途</li>
+<li>相近函数功能在头文件里放到一块</li>
+<li>每个函数上面要写清楚注释，说明函数的功能，每个函数的参数的意义，以及某些参数限定的传参</li>
+<li>对输入参数进行过滤，尤其判断一些异常情况</li>
+</ul>
+<h4 id="五、其他细节问题"><a href="#五、其他细节问题" class="headerlink" title="五、其他细节问题"></a>五、其他细节问题</h4><h5 id="extern-“C”"><a href="#extern-“C”" class="headerlink" title="extern “C”"></a>extern “C”</h5><p>在cJson的头文件中存在</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#ifdef __cplusplus</span><br><span class="line">extern &quot;C&quot;</span><br></pre></td></tr></table></figure>
+<p>C++之父在设计C++之时，考虑到当时已经存在了大量的C代码，为了支持原来的C代码和已经写好C库，需要在C++中尽可能的支持C，而extern “C”就是其中的一个策略。</p>
+<p>因此，为了在C++代码中调用用C写成的库文件，就需要用extern “C”来告诉编译器:这是一个用C写成的库文件，请用C的方式来链接它们。</p>
+<h5 id="extern声明函数"><a href="#extern声明函数" class="headerlink" title="extern声明函数"></a>extern声明函数</h5><p>如果函数 的声明中带有关键字extern，仅仅是暗示这个函数 可能在别的源文件里定义，没有其它作用。即下述两个函数 声明没有明显的区别：extern int f(); 和int f();</p>
+<p>当然，这样的用处还是有的，就是在程序中取代include “*.h”来声明函数 ，在一些复杂的项目中，比较习惯在所有的函数 声明前添加extern修饰。</p>
+<h5 id="size-t和int区别"><a href="#size-t和int区别" class="headerlink" title="size_t和int区别"></a>size_t和int区别</h5><p> size_t是一些C/C++标准在stddef.h中定义的。这个类型足以用来表示对象的大小。size_t的真实类型与操作系统有关。</p>
+<p> 在32位架构中被普遍定义为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">typedef   unsigned int size_t;</span><br></pre></td></tr></table></figure>
+<p>而在64位架构中被定义为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">typedef  unsigned long size_t;</span><br></pre></td></tr></table></figure>
+<p>为什么有时候不用int，而是用size_type或者size_t</p>
+<blockquote>
+<p>与int固定四个字节不同有所不同,size_t的取值range是目标平台下最大可能的数组尺寸,一些平台下size_t的范围小于int的正数范围,又或者大于unsigned int. 使用Int既有可能浪费，又有可能范围不够大。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>源码阅读</category>
+      </categories>
+      <tags>
+        <tag>源码阅读</tag>
+        <tag>cJson</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>汇编语言程序设计</title>
+    <url>/2020/06/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/28/N2R1Bj.md.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">眼神</div>
+</center>
+
+<blockquote>
+<p>此文为学习汇编语言程序设计所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-汇编语言基础"><a href="#第一章-汇编语言基础" class="headerlink" title="第一章 汇编语言基础"></a>第一章 汇编语言基础</h3><h4 id="一、硬件组成"><a href="#一、硬件组成" class="headerlink" title="一、硬件组成"></a>一、硬件组成</h4><p>从应用角度看，汇编语言程序员可以将计算机抽象为：寄存器、存储器地址、输入输出地址</p>
+<h5 id="1-寄存器"><a href="#1-寄存器" class="headerlink" title="1.寄存器"></a>1.寄存器</h5><ul>
+<li>处理器内部的高速存储单元</li>
+<li>用于暂时存放程序执行过程中的代码和数据</li>
+<li>透明寄存器：对应用人员不可见、不能编程直接控制</li>
+<li>可编程寄存器：通用寄存器、专用寄存器</li>
+</ul>
+<h5 id="2-通用寄存器"><a href="#2-通用寄存器" class="headerlink" title="2.通用寄存器"></a>2.通用寄存器</h5><ul>
+<li>32位通用寄存器：EAX、EBX、ECX、EDX；ESI、EDI；EBP、ESP</li>
+<li>16位通用寄存器：AX、BX、CX、DX、SI、DI、BP、SP</li>
+<li>8位通用寄存器：AH、AL、BH、BL、CH、CL、DH、DL</li>
+</ul>
+<h5 id="3-专用寄存器"><a href="#3-专用寄存器" class="headerlink" title="3.专用寄存器"></a>3.专用寄存器</h5><ul>
+<li>标志寄存器：EFLAGS</li>
+<li>指令指针寄存器：EIP</li>
+<li>段寄存器：CS、DS、SS、ES、FS、GS</li>
+</ul>
+<h5 id="4-通用寄存器名称"><a href="#4-通用寄存器名称" class="headerlink" title="4.通用寄存器名称"></a>4.通用寄存器名称</h5><ul>
+<li>EAX：累加器</li>
+<li>EBX：基址寄存器</li>
+<li>ECX：计数器</li>
+<li>EDX：数据寄存器</li>
+<li>ESI：源变址寄存器</li>
+<li>EDI：目的编制寄存器</li>
+<li>EBP：基址指针</li>
+<li>ESP：堆栈指针</li>
+</ul>
+<h4 id="二、存储器组织"><a href="#二、存储器组织" class="headerlink" title="二、存储器组织"></a>二、存储器组织</h4><h5 id="1-存储器地址"><a href="#1-存储器地址" class="headerlink" title="1.存储器地址"></a>1.存储器地址</h5><ul>
+<li>主存储器容量很大，被划分成许多存储单元</li>
+<li>每个存储单元被编排一个号码、即存储单元地址</li>
+<li>每个存储单元一字节为基本存储单位，即按字节编址，一个字节等于8bit</li>
+</ul>
+<h5 id="2-位、字节、字、双字"><a href="#2-位、字节、字、双字" class="headerlink" title="2.位、字节、字、双字"></a>2.位、字节、字、双字</h5><p>双字 = 2 字 = 4字节 = 32 位</p>
+<h5 id="3-存储模型"><a href="#3-存储模型" class="headerlink" title="3.存储模型"></a>3.存储模型</h5><ul>
+<li>高性能处理器集成存储管理单元MMU</li>
+<li>操作系统利用MMU进行主存进行管理</li>
+<li>IA-32处理处理器提供3种存储模型：平展存储模型、段式存储模型、实地址存储模型</li>
+</ul>
+<h5 id="4-存储空间分段管理"><a href="#4-存储空间分段管理" class="headerlink" title="4.存储空间分段管理"></a>4.存储空间分段管理</h5><p>“段”是保存相关代码或数据的一个主存区域</p>
+<ul>
+<li>代码段：存放程序的可执行代码</li>
+<li>数据段：存放程序所有的数据，例如全局变量</li>
+<li>堆栈段：程序需要的特殊区域，存放放回地址、临时变量等</li>
+</ul>
+<h5 id="5-逻辑地址"><a href="#5-逻辑地址" class="headerlink" title="5.逻辑地址"></a>5.逻辑地址</h5><ul>
+<li>存储器空间可以分段管理，采用逻辑地址指示</li>
+<li>逻辑地址 = 段地址 ： 偏移地址</li>
+<li>处理器内部以及程序员编程时采用逻辑地址</li>
+</ul>
+<h5 id="6-物理地址和逻辑地址的转换"><a href="#6-物理地址和逻辑地址的转换" class="headerlink" title="6.物理地址和逻辑地址的转换"></a>6.物理地址和逻辑地址的转换</h5><ul>
+<li>程序员编程时采用逻辑地址</li>
+<li>操作系统利用存储管理单元MMU将逻辑地址映射为线性地址（虚拟地址）</li>
+<li>处理器使用物理地址访问存储器芯片</li>
+</ul>
+<h5 id="7-Win32的虚拟地址分配"><a href="#7-Win32的虚拟地址分配" class="headerlink" title="7.Win32的虚拟地址分配"></a>7.Win32的虚拟地址分配</h5><ul>
+<li>系统区（2GB）：操作系统代码、系统DLL等</li>
+<li>用户区（2GB）：用户DLL、进程堆栈、DOS/Win16兼容区、空指针区、</li>
+</ul>
+<h5 id="8-标志寄存器"><a href="#8-标志寄存器" class="headerlink" title="8.标志寄存器"></a>8.标志寄存器</h5><ul>
+<li>状态寄存器：记录指令执行结果的辅助信息</li>
+<li>控制标志：方向DF，仅用于串操作指令</li>
+<li>系统标志：控制操作系统或核心管理程序的操作方式</li>
+</ul>
+<h5 id="9-指令指针寄存器EIP"><a href="#9-指令指针寄存器EIP" class="headerlink" title="9.指令指针寄存器EIP"></a>9.指令指针寄存器EIP</h5><ul>
+<li>顺序执行时自动增量</li>
+<li>分支、调用等操作时执行控制转移指令修改</li>
+<li>出现中断或异常时被处理器赋值二相应改变</li>
+</ul>
+<h5 id="10-段寄存器"><a href="#10-段寄存器" class="headerlink" title="10.段寄存器"></a>10.段寄存器</h5><p>段寄存器表明某个段在主存中的位置</p>
+<ul>
+<li>代码段（CS）——基地址由代码段CS指示、偏移地址由指令指针寄存器EIP保存</li>
+<li>堆栈段（SS）——基地址由SS指示、偏移地址由ESP指示</li>
+<li>数据段（DS、ES、FS、GS）——段基地址由DS指示，有时也由ES、FS、GS指示，偏移地址由有效地址EA指示</li>
+</ul>
+<h4 id="三、处理器指令格式"><a href="#三、处理器指令格式" class="headerlink" title="三、处理器指令格式"></a>三、处理器指令格式</h4><h5 id="1-处理器指令"><a href="#1-处理器指令" class="headerlink" title="1.处理器指令"></a>1.处理器指令</h5><ul>
+<li>程序用程序设计语言编写，有指令构成</li>
+<li>指令由操作码和操作数组成</li>
+<li>操作码在汇编语言使用指令助记符表示</li>
+<li>操作数在汇编语言中使用寄存器、变量、常量等形式表示</li>
+</ul>
+<h5 id="2-IA-32处理器的代码格式"><a href="#2-IA-32处理器的代码格式" class="headerlink" title="2.IA-32处理器的代码格式"></a>2.IA-32处理器的代码格式</h5><ul>
+<li>IA-32处理器采用可变长的指令格式</li>
+<li>操作码——可选的指令前缀；1~3字节的主要操作吗</li>
+<li>操作数——可选的地址域、可选的的位移量、可选的立即数</li>
+</ul>
+<h5 id="3-汇编语言语句"><a href="#3-汇编语言语句" class="headerlink" title="3.汇编语言语句"></a>3.汇编语言语句</h5><ul>
+<li>源程序由语句组成</li>
+<li>通常一个语句占一行</li>
+<li>一个语句不操作132个字符，4个部分</li>
+<li>执行性语句：表达处理器指令、实行功能</li>
+<li>说明性语句：表达伪指令，控制编程方式</li>
+</ul>
+<h5 id="4-标号和名字"><a href="#4-标号和名字" class="headerlink" title="4.标号和名字"></a>4.标号和名字</h5><ul>
+<li>标号和名字是用户定义的标识符</li>
+<li>标号在执行性语句中</li>
+<li>名字在说明性语句中</li>
+</ul>
+<h5 id="5-标识符"><a href="#5-标识符" class="headerlink" title="5.标识符"></a>5.标识符</h5><ul>
+<li>取名原则类似于高级语言，但是默认不区别大小写字母</li>
+<li>不能以数字开头</li>
+<li>在一个源程序中，用户定义的每个标识符必须唯一</li>
+<li>不能是保留字</li>
+</ul>
+<h5 id="6-助记符"><a href="#6-助记符" class="headerlink" title="6.助记符"></a>6.助记符</h5><ul>
+<li>帮助记忆指令功能的符号</li>
+<li>硬指令助记符表示处理器指令</li>
+<li>伪指令助记符表达一个汇编命令</li>
+</ul>
+<h5 id="7-包含伪指令INCLUDE"><a href="#7-包含伪指令INCLUDE" class="headerlink" title="7.包含伪指令INCLUDE"></a>7.包含伪指令INCLUDE</h5><ul>
+<li>用于声明常用的常量定义、过程说明、共享的子程序库等</li>
+<li>相当于C和C++语言中，包含头文件的作用</li>
+</ul>
+<h5 id="8-程序的开始和结束"><a href="#8-程序的开始和结束" class="headerlink" title="8.程序的开始和结束"></a>8.程序的开始和结束</h5><ul>
+<li>程序开始执行的位置（使用一个标号，作为汇编结束END伪指令的参数）</li>
+<li>应用程序执行终止（语句“EXIT 0”终止程序执行，返回操作系统，提供一个返回代码0）</li>
+<li>源程序汇编结束——使用END伪指令语句</li>
+</ul>
+<h3 id="第二章-数据表示"><a href="#第二章-数据表示" class="headerlink" title="第二章 数据表示"></a>第二章 数据表示</h3><h4 id="一、常量表达"><a href="#一、常量表达" class="headerlink" title="一、常量表达"></a>一、常量表达</h4><h5 id="1-常量"><a href="#1-常量" class="headerlink" title="1.常量"></a>1.常量</h5><ul>
+<li>常量是程序中使用的一个确定数值</li>
+<li>表达形式：常数、字符和字符串、符号常量、数值表达式</li>
+</ul>
+<h4 id="二、变量定义"><a href="#二、变量定义" class="headerlink" title="二、变量定义"></a>二、变量定义</h4><h5 id="1-什么是变量"><a href="#1-什么是变量" class="headerlink" title="1.什么是变量"></a>1.什么是变量</h5><ul>
+<li>变量是随程序运行会变化的数据，保存在刻度可写的主存空间</li>
+<li>变量表达主存数据，即存储操作数</li>
+</ul>
+<h5 id="2-变量的定义"><a href="#2-变量的定义" class="headerlink" title="2.变量的定义"></a>2.变量的定义</h5><ul>
+<li>变量名：用户标识符，表示首元素逻辑地址；</li>
+<li>变量定义伪指令：为指令助记符，表示变量类型</li>
+<li>初值表：用逗号分隔的一个或多个参数，表示变量初值</li>
+</ul>
+<h5 id="3-主要的变量定义伪指令"><a href="#3-主要的变量定义伪指令" class="headerlink" title="3.主要的变量定义伪指令"></a>3.主要的变量定义伪指令</h5><ul>
+<li>BYTE：每个数据8位</li>
+<li>WORD：每个数据16位</li>
+<li>DWORD：每个数据32位</li>
+</ul>
+<h5 id="4-变量定义的初值表"><a href="#4-变量定义的初值表" class="headerlink" title="4.变量定义的初值表"></a>4.变量定义的初值表</h5><ul>
+<li>使用“？”表示初值不确定，即未赋初值</li>
+<li>使用赋值操作符DUP表示多个同样的数值，形式：重复次数 DUP（重复参数）</li>
+</ul>
+<h4 id="三、变量运用"><a href="#三、变量运用" class="headerlink" title="三、变量运用"></a>三、变量运用</h4><h5 id="1-字节数据的存储顺序"><a href="#1-字节数据的存储顺序" class="headerlink" title="1.字节数据的存储顺序"></a>1.字节数据的存储顺序</h5><ul>
+<li>大端方式：高对低，低对高</li>
+<li>小端方式：高对高、低对低</li>
+</ul>
+<h5 id="2-变量属性"><a href="#2-变量属性" class="headerlink" title="2.变量属性"></a>2.变量属性</h5><ul>
+<li>地址属性：首个变量所在存储单元的逻辑地址</li>
+<li>类型属性：变量定义的数据单位</li>
+</ul>
+<h5 id="3-变量的地址属性及地址操作符"><a href="#3-变量的地址属性及地址操作符" class="headerlink" title="3.变量的地址属性及地址操作符"></a>3.变量的地址属性及地址操作符</h5><ul>
+<li>[]:括起来的表达式作为存储器地址指针</li>
+<li>$:返回当前偏移的地址</li>
+<li>OFFSET 变量名:返回变量名所在段的偏移地址</li>
+<li>SEG 变量名:返回段基地址</li>
+</ul>
+<h5 id="4-类型操作符"><a href="#4-类型操作符" class="headerlink" title="4.类型操作符"></a>4.类型操作符</h5><ul>
+<li>类型名 PTR 变量名：将变量名按照指定的类型使用</li>
+<li>TYPE 变量名：返回占用字节空间的数字量数值</li>
+<li>LENGTHOF 变量名：返回整个变量的数据项</li>
+<li>SIZEOF 变量名：返回整个变量占用的字节数</li>
+</ul>
+<h3 id="第三章-数据寻址"><a href="#第三章-数据寻址" class="headerlink" title="第三章 数据寻址"></a>第三章 数据寻址</h3><h4 id="一、立即数寻址"><a href="#一、立即数寻址" class="headerlink" title="一、立即数寻址"></a>一、立即数寻址</h4><h5 id="1-寻址方式"><a href="#1-寻址方式" class="headerlink" title="1.寻址方式"></a>1.寻址方式</h5><ul>
+<li>数据寻址：指令执行过程中，访问所需要操作的数据</li>
+<li>指令寻址：一条指令执行后，确定执行的下一条指令的位置</li>
+</ul>
+<h5 id="2-数据寻址"><a href="#2-数据寻址" class="headerlink" title="2.数据寻址"></a>2.数据寻址</h5><ul>
+<li>立即数寻址：数据保存在指令代码中</li>
+<li>寄存器寻址：数据在寄存器中，用寄存器名表示</li>
+<li>存储器寻址：数据来自主存储器，变量指向存储单元，所以访问变量就是存储器寻址。</li>
+<li>IO寻址：数据在外设中，用IO地址表示，可分为直接寻址和间接寻址</li>
+</ul>
+<h4 id="二、寄存器寻址"><a href="#二、寄存器寻址" class="headerlink" title="二、寄存器寻址"></a>二、寄存器寻址</h4><ul>
+<li>操作数存放在处理器的内部</li>
+<li>用寄存器名表示它的内容</li>
+</ul>
+<h4 id="三、存储器寻址"><a href="#三、存储器寻址" class="headerlink" title="三、存储器寻址"></a>三、存储器寻址</h4><h5 id="1-原理"><a href="#1-原理" class="headerlink" title="1.原理"></a>1.原理</h5><ul>
+<li>指令代码表达形式地址</li>
+<li>由形式地址结合规则经过计算得到有效地址EA</li>
+<li>处理器将有效地址转换为物理地址访问存储单元</li>
+<li>逻辑地址 = 段基地址 ： 偏移地址</li>
+</ul>
+<h5 id="2-段寄存器指示段基地址"><a href="#2-段寄存器指示段基地址" class="headerlink" title="2.段寄存器指示段基地址"></a>2.段寄存器指示段基地址</h5><ul>
+<li>读取指令，一定是代码段CS</li>
+<li>堆栈操作，针对堆栈段SS</li>
+<li>读取数据，默认在数据段DS</li>
+</ul>
+<h5 id="3-32位有效地址的组成"><a href="#3-32位有效地址的组成" class="headerlink" title="3.32位有效地址的组成"></a>3.32位有效地址的组成</h5><p>基址寄存器 + 变址寄存器 * 比例 + 位移量</p>
+<ul>
+<li>基址寄存器 ：任何8个32位通用寄存器之一</li>
+<li>变址寄存器：除ESP外的任何32位通用寄存器之一</li>
+<li>比例：1，2，4或8</li>
+<li>位移量：8或32位有符号位</li>
+</ul>
+<h5 id="4-16位有效地址的组成"><a href="#4-16位有效地址的组成" class="headerlink" title="4.16位有效地址的组成"></a>4.16位有效地址的组成</h5><p>基地址寄存器 + 变址寄存器 + 位移量</p>
+<ul>
+<li>基地址寄存器：BX或BP</li>
+<li>变址寄存器：SI或DI</li>
+<li>位移量：8或16位有符号值</li>
+</ul>
+<h5 id="5-直接寻址常用于存取变量"><a href="#5-直接寻址常用于存取变量" class="headerlink" title="5.直接寻址常用于存取变量"></a>5.直接寻址常用于存取变量</h5><ul>
+<li>直接使用变量名</li>
+<li>变量名加或减一个常量</li>
+<li>使用中括号括起的变量名</li>
+</ul>
+<h5 id="6-寄存器间接寻址和相对寻址"><a href="#6-寄存器间接寻址和相对寻址" class="headerlink" title="6.寄存器间接寻址和相对寻址"></a>6.寄存器间接寻址和相对寻址</h5><ul>
+<li>间接寻址其有效地址存放在寄存器中，用中括号括起寄存器表达</li>
+<li>相对寻址其有效地址是寄存器内容与位移量之和，寄存器要用中括号括起来</li>
+</ul>
+<h3 id="第四章-通用数据处理指令"><a href="#第四章-通用数据处理指令" class="headerlink" title="第四章 通用数据处理指令"></a>第四章 通用数据处理指令</h3><h4 id="一、数据传送类指令"><a href="#一、数据传送类指令" class="headerlink" title="一、数据传送类指令"></a>一、数据传送类指令</h4><ul>
+<li>MOV：把一个字节、字或双字的操作数从源位置传送至目的位置</li>
+<li>LEA：地址传送指令获取存储器操作数的地址</li>
+<li>PUSH：数据压进堆栈</li>
+<li>POP：数据弹出堆栈</li>
+</ul>
+<h4 id="二、算术运算类指令"><a href="#二、算术运算类指令" class="headerlink" title="二、算术运算类指令"></a>二、算术运算类指令</h4><h5 id="1-进位标志位CF和溢出标志位"><a href="#1-进位标志位CF和溢出标志位" class="headerlink" title="1.进位标志位CF和溢出标志位"></a>1.进位标志位CF和溢出标志位</h5><ul>
+<li>当加减法运算结果的最高有效位（加法）或借位（减法）时，进位标志位置1</li>
+<li>针对无符号整数，判断加减结果是否超出表达范围</li>
+<li>有溢出，运算结果已经不正确</li>
+<li>无符号数，关心进位；有符号数，注意溢出</li>
+</ul>
+<h5 id="2-零标志、符号标志和奇偶标志"><a href="#2-零标志、符号标志和奇偶标志" class="headerlink" title="2.零标志、符号标志和奇偶标志"></a>2.零标志、符号标志和奇偶标志</h5><ul>
+<li>运行结果为0，则零标志ZF置1</li>
+<li>运算结果最高位为1，则符号标志位SF=1，即最高位=符号位</li>
+<li>当运算结果最低字节中“1”的个数为零或偶数时，奇偶标志位PF=1；否则PF=0</li>
+</ul>
+<h5 id="3-运算指令"><a href="#3-运算指令" class="headerlink" title="3.运算指令"></a>3.运算指令</h5><ul>
+<li>ADD：目的操作数加上源操作数，和送到目的操作数</li>
+<li>SUB：目的操作数减去源操作数，差送到目的操作数</li>
+<li>INC：只有一个操作数，将寄存器中的操作数加一返回原处</li>
+<li>DEC：只有一个操作数，将寄存器中的操作数减一返回原处</li>
+<li><ul>
+<li>NEG：只有一个操作数，将寄存器中的操作数进行求补运算，即用零减去操所数</li>
+</ul>
+</li>
+</ul>
+<h4 id="三、位操作类指令"><a href="#三、位操作类指令" class="headerlink" title="三、位操作类指令"></a>三、位操作类指令</h4><h5 id="1-逻辑运算指令"><a href="#1-逻辑运算指令" class="headerlink" title="1.逻辑运算指令"></a>1.逻辑运算指令</h5><ul>
+<li>AND：逻辑与</li>
+<li>OR：逻辑或</li>
+<li>NOT：逻辑非</li>
+<li>XOR：逻辑异或</li>
+<li>TEST：测试指令</li>
+</ul>
+<h5 id="2-移位指令"><a href="#2-移位指令" class="headerlink" title="2.移位指令"></a>2.移位指令</h5><ul>
+<li>逻辑左移指令 SHL：各位同时左移</li>
+<li>逻辑右移指令 SHR：各位同时右移</li>
+<li>算术左移指令 SAL：各位同时左移，最高位不变</li>
+<li>算术右移指令 SAR：各位同时右移，最高位不变</li>
+</ul>
+<h5 id="3-循环移位指令"><a href="#3-循环移位指令" class="headerlink" title="3.循环移位指令"></a>3.循环移位指令</h5><ul>
+<li>不带进位循环左移指令 ROL</li>
+<li>不带进位循环右移指令 ROR</li>
+<li>带进位循环左移指令 RCL</li>
+<li>带进位循环右移指令 RCR</li>
+</ul>
+<h3 id="第五章-顺序程序结构"><a href="#第五章-顺序程序结构" class="headerlink" title="第五章 顺序程序结构"></a>第五章 顺序程序结构</h3><p>程序的顺序结构是不含分支、循环和调用的一条语句（指令）、一条语句（指令）逐个顺序执行的程序结构。</p>
+<ul>
+<li>移位可以实现乘法（10 = 2^3 + 2）</li>
+<li>自然数求和程序</li>
+</ul>
+<h3 id="第六章-分支程序结构"><a href="#第六章-分支程序结构" class="headerlink" title="第六章 分支程序结构"></a>第六章 分支程序结构</h3><h4 id="一、指令寻址方式"><a href="#一、指令寻址方式" class="headerlink" title="一、指令寻址方式"></a>一、指令寻址方式</h4><h5 id="1-指令寻址"><a href="#1-指令寻址" class="headerlink" title="1.指令寻址"></a>1.指令寻址</h5><ul>
+<li>顺序寻址</li>
+<li>跳转寻址——直接寻址、相对寻址、间接寻址（寄存器间接寻址、存储器间接寻址）</li>
+</ul>
+<h5 id="2-指令的直接寻址"><a href="#2-指令的直接寻址" class="headerlink" title="2.指令的直接寻址"></a>2.指令的直接寻址</h5><ul>
+<li>直接提供目的地址</li>
+<li>目标地址 = 指令操作数</li>
+</ul>
+<h5 id="3-指令的间接寻址"><a href="#3-指令的间接寻址" class="headerlink" title="3.指令的间接寻址"></a>3.指令的间接寻址</h5><ul>
+<li>目标地址来自寄存器或存储单元、间接获得</li>
+<li>可分为寄存器间接寻址和存储器间接寻址</li>
+</ul>
+<h5 id="4-程序流程的控制转移"><a href="#4-程序流程的控制转移" class="headerlink" title="4.程序流程的控制转移"></a>4.程序流程的控制转移</h5><ul>
+<li>程序代码在代码段，CS指明代码段在主存中的段基地址，EIP给出将要执行的偏移地址</li>
+<li>指令调转寻址，程序控制转移，EIP（CS）随之改变</li>
+<li>通过改变EIP（和CS）控制程序流程，实现程序分支、循环、调用等结构</li>
+</ul>
+<h5 id="5-无条件转移指令（JMP）"><a href="#5-无条件转移指令（JMP）" class="headerlink" title="5.无条件转移指令（JMP）"></a>5.无条件转移指令（JMP）</h5><ul>
+<li>JMP lable 程序转向lable标号指定的地址</li>
+<li>JMP reg32/reg16 程序转向寄存器指定的地址</li>
+<li>JMP mem48/mem32/mem16 程序转向存储单元指定的地址</li>
+</ul>
+<h5 id="6-条件转移指令（Jcc）"><a href="#6-条件转移指令（Jcc）" class="headerlink" title="6.条件转移指令（Jcc）"></a>6.条件转移指令（Jcc）</h5><ul>
+<li>单个标志状态位作为条件；两数大小关系作为条件</li>
+<li>ZF：JZ，JE；JNZ，JNE</li>
+<li>CF：JC，JNC</li>
+<li>OF：JO，JNO</li>
+<li>SF：JS，JNS</li>
+<li>PF：JP，JPE，JNP，JPO</li>
+</ul>
+<h4 id="二、单分支结构"><a href="#二、单分支结构" class="headerlink" title="二、单分支结构"></a>二、单分支结构</h4><ul>
+<li>注意和if-then语句相反，当瞒住条件，就发生转移，跳过分支体</li>
+<li>条件不满足，顺序向下执行分支体</li>
+</ul>
+<h4 id="三、双分支结构"><a href="#三、双分支结构" class="headerlink" title="三、双分支结构"></a>三、双分支结构</h4><ul>
+<li>相当于高级语言的if-then-else语句</li>
+<li>条件为真执行一个分支，条件为假执行另一个分支</li>
+</ul>
+<h3 id="第七章-循环指令结构"><a href="#第七章-循环指令结构" class="headerlink" title="第七章 循环指令结构"></a>第七章 循环指令结构</h3><h4 id="一、循环指令"><a href="#一、循环指令" class="headerlink" title="一、循环指令"></a>一、循环指令</h4><h5 id="1-LOOP指令"><a href="#1-LOOP指令" class="headerlink" title="1.LOOP指令"></a>1.LOOP指令</h5><ul>
+<li>LOOP是循环指令，用于实现减量计数多的循环控制</li>
+<li>初值为0时循环次数为2^32次</li>
+<li>LOOP指令是先减1后做判断</li>
+</ul>
+<h5 id="2-JECXZ指令"><a href="#2-JECXZ指令" class="headerlink" title="2.JECXZ指令"></a>2.JECXZ指令</h5><ul>
+<li>为避免计数初值为0可能导致的程序错误</li>
+<li>用于跳过ECX=0的情况</li>
+</ul>
+<h4 id="二、计数控制循环"><a href="#二、计数控制循环" class="headerlink" title="二、计数控制循环"></a>二、计数控制循环</h4><ul>
+<li>计数可以减量进行，即减到0结束</li>
+<li>计数可以增量进行，即达到规定值结束</li>
+</ul>
+<h4 id="三、条件控制循环"><a href="#三、条件控制循环" class="headerlink" title="三、条件控制循环"></a>三、条件控制循环</h4><ul>
+<li>根据条件决定是否进行循环</li>
+<li>所见的是“先判断、后循环”结构</li>
+</ul>
+<h3 id="第八章-子程序结构"><a href="#第八章-子程序结构" class="headerlink" title="第八章 子程序结构"></a>第八章 子程序结构</h3><h4 id="一、子程序设计"><a href="#一、子程序设计" class="headerlink" title="一、子程序设计"></a>一、子程序设计</h4><h5 id="1-子程序指令"><a href="#1-子程序指令" class="headerlink" title="1.子程序指令"></a>1.子程序指令</h5><ul>
+<li>主程序：执行调用指令CALL调用子程序</li>
+<li>子程序：执行返回指令RET返回主程序</li>
+</ul>
+<h4 id="二、参数传递"><a href="#二、参数传递" class="headerlink" title="二、参数传递"></a>二、参数传递</h4><h5 id="1-参数传递"><a href="#1-参数传递" class="headerlink" title="1.参数传递"></a>1.参数传递</h5><ul>
+<li>参数分类：入口参数、出口参数</li>
+<li>参数具体内容：数据本身、数据的存储地址</li>
+<li>参数传递方式：通用寄存器、共享变量、堆栈</li>
+</ul>
+<h5 id="2-寄存器传参"><a href="#2-寄存器传参" class="headerlink" title="2.寄存器传参"></a>2.寄存器传参</h5><ul>
+<li>把参数存于约定的寄存器</li>
+<li>少量数据直接传递数值</li>
+<li>大量数据只能传递地址</li>
+<li>带有出口参数的寄存器不能保护和恢复</li>
+</ul>
+<h5 id="3-共享变量传参"><a href="#3-共享变量传参" class="headerlink" title="3.共享变量传参"></a>3.共享变量传参</h5><ul>
+<li>子程序和主程序使用同一个变量名存取数据</li>
+<li>如果变量定义和使用不在同一个程序模块中，需要使用PUBLIC、EXTERN声明</li>
+<li>特别适合在多个程序段间、尤其在不同程序模块间传递数据</li>
+<li>对应高级语言中的全局变量</li>
+</ul>
+<h5 id="4-堆栈传递参数"><a href="#4-堆栈传递参数" class="headerlink" title="4.堆栈传递参数"></a>4.堆栈传递参数</h5><ul>
+<li>主程序将入口参数压入堆栈</li>
+<li>子程序从堆栈中取出参数</li>
+<li>出口参数通常不适用堆栈传递</li>
+</ul>
+<h4 id="三、程序模块"><a href="#三、程序模块" class="headerlink" title="三、程序模块"></a>三、程序模块</h4><h5 id="1-MASM支持的多模块方法"><a href="#1-MASM支持的多模块方法" class="headerlink" title="1.MASM支持的多模块方法"></a>1.MASM支持的多模块方法</h5><ul>
+<li>源文件包含</li>
+<li>模块连接</li>
+<li>子程序库</li>
+<li>库文件包含</li>
+</ul>
+<h5 id="2-源文件包含"><a href="#2-源文件包含" class="headerlink" title="2.源文件包含"></a>2.源文件包含</h5><ul>
+<li>INC：各种常量、声明语句等组织在包含文件</li>
+<li>MAC：常用的或有价值的宏定义存放宏定义文件</li>
+<li>ASM：常用的子程序形成汇编语言源文件</li>
+</ul>
+<h5 id="3-模块连接"><a href="#3-模块连接" class="headerlink" title="3.模块连接"></a>3.模块连接</h5><p>子程序单独编写一个源程序文件</p>
+<ul>
+<li>使用共用伪指令PUBLIC和外部伪指令EXTERN声明</li>
+<li>子程序在代码段，与主程序文件采用相同的存储模型</li>
+<li>没有开始执行和结束执行点，但有汇编结束语句</li>
+<li>处理好子程序与主程序之间的参数传递问题</li>
+</ul>
+<h5 id="4-子程序库的使用"><a href="#4-子程序库的使用" class="headerlink" title="4.子程序库的使用"></a>4.子程序库的使用</h5><ul>
+<li>子程序单独编写一个源程序文件</li>
+<li>子程序源文件汇编形成目标模块OBJ文件</li>
+<li>利用库管理工具把子程序模块加入到子程序库</li>
+<li>在连接主程序时提供子程序库文件名</li>
+</ul>
+<h5 id="5-库文件包含"><a href="#5-库文件包含" class="headerlink" title="5.库文件包含"></a>5.库文件包含</h5><ul>
+<li>要使用已存入库文件中的子程序</li>
+<li>在主程序源文件中用库文件包含伪指令INCLUDELIB声明</li>
+</ul>
+<h5 id="6-宏汇编"><a href="#6-宏汇编" class="headerlink" title="6.宏汇编"></a>6.宏汇编</h5><ul>
+<li>宏（Macro）是具有宏名的一段汇编语句序列</li>
+<li>宏需要先使用MACRO/ENDM伪指令进行定义</li>
+<li>然后在程序中使用宏名（带参数）进行宏调用</li>
+<li>源程序进行汇编时，宏名被汇编程序用宏定义的，代码序列替代，实现宏展开</li>
+<li>这个过程就是“宏汇编”</li>
+</ul>
+<h5 id="7-宏与子程序"><a href="#7-宏与子程序" class="headerlink" title="7.宏与子程序"></a>7.宏与子程序</h5><ul>
+<li>宏仅是源程序级的简化</li>
+<li>子程序不仅简化源程序，还是目标程序级的简化</li>
+<li>当程序段较短或要求较快执行时，选用宏</li>
+<li>当程序段较长或为减小目标代码时，选用子程序</li>
+</ul>
+]]></content>
+      <categories>
+        <category>汇编语言程序设计</category>
+      </categories>
+      <tags>
+        <tag>汇编语言程序设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软件工程笔记</title>
+    <url>/2020/06/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/23/Ntg2o6.jpg">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">朦胧脸庞</div>
+</center>
+
+<blockquote>
+<p>此文为学习北京大学孙艳春 、黄罡 、刘譞哲的软件工程所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-软件工程简介"><a href="#第一章-软件工程简介" class="headerlink" title="第一章 软件工程简介"></a>第一章 软件工程简介</h3><h4 id="一、软件的定义及特点"><a href="#一、软件的定义及特点" class="headerlink" title="一、软件的定义及特点"></a>一、软件的定义及特点</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>计算机中的程序及其文档</p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>无形的、不可见的逻辑实体</li>
+<li>没有磨损、老化的问题</li>
+<li>是设计开发的，不是生产制造的</li>
+<li>复杂、开发成本高、易于复制</li>
+</ul>
+<h5 id="软件的种类"><a href="#软件的种类" class="headerlink" title="软件的种类"></a>软件的种类</h5><ul>
+<li>系统软件：操作系统、编译器</li>
+<li>支撑软件——支持软件开发、维护和运行的软件：中间件、数据库</li>
+<li>应用软件：财务管理软件、浏览器</li>
+</ul>
+<h4 id="二、软件工程的起源和概念"><a href="#二、软件工程的起源和概念" class="headerlink" title="二、软件工程的起源和概念"></a>二、软件工程的起源和概念</h4><h5 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h5><ul>
+<li>早期计算机程序</li>
+<li>在信息产业中，微电子是基础，计算机是载体，软件是<strong>核心</strong></li>
+</ul>
+<h5 id="软件开发的三个阶段"><a href="#软件开发的三个阶段" class="headerlink" title="软件开发的三个阶段"></a>软件开发的三个阶段</h5><ul>
+<li>个人程序时期</li>
+<li>软件作坊时期</li>
+<li>软件工程时期</li>
+</ul>
+<h5 id="软件工程的定义"><a href="#软件工程的定义" class="headerlink" title="软件工程的定义"></a>软件工程的定义</h5><blockquote>
+<p><em>其目的是倡导使用工程的原理、原则和方法进行软件开发，已解决软件危机</em></p>
+</blockquote>
+<h4 id="三、软件开发的本质和基本手段"><a href="#三、软件开发的本质和基本手段" class="headerlink" title="三、软件开发的本质和基本手段"></a>三、软件开发的本质和基本手段</h4><h5 id="软件开发的含义"><a href="#软件开发的含义" class="headerlink" title="软件开发的含义"></a>软件开发的含义</h5><blockquote>
+<p>实现问题域c中的概念和处理逻辑到运行平台的概念和处理逻辑的映射</p>
+</blockquote>
+<p>问题域-&gt;需求-&gt;设计-&gt;实现-&gt;运行平台</p>
+<h5 id="实现映射的基本手段"><a href="#实现映射的基本手段" class="headerlink" title="实现映射的基本手段"></a>实现映射的基本手段</h5><p>建模</p>
+<ul>
+<li>概念模型</li>
+<li>设计模型</li>
+<li>实现模型</li>
+<li>部署模型</li>
+</ul>
+<h4 id="四、软件工程框架"><a href="#四、软件工程框架" class="headerlink" title="四、软件工程框架"></a>四、软件工程框架</h4><p>软件框架三元组——目标、原则、活动</p>
+<h5 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h5><blockquote>
+<p>生产具有正确性、可用性以及开销合宜的产品</p>
+</blockquote>
+<h5 id="活动"><a href="#活动" class="headerlink" title="活动"></a>活动</h5><blockquote>
+<p>生产一个具有最终满足需求且达到工程目标的软件产品所需的步骤<br>主要包括需求、设计、实现、确认和支持等活动</p>
+</blockquote>
+<h5 id="框架的作用"><a href="#框架的作用" class="headerlink" title="框架的作用"></a>框架的作用</h5><ul>
+<li>给出软件所涉及软件工程的工程要素</li>
+<li>给出各要素之间的关系</li>
+<li>给出软件工程学科所研究的主要内容</li>
+</ul>
+<h4 id="五、软件生存周期"><a href="#五、软件生存周期" class="headerlink" title="五、软件生存周期"></a>五、软件生存周期</h4><h5 id="生存周期概念"><a href="#生存周期概念" class="headerlink" title="生存周期概念"></a>生存周期概念</h5><blockquote>
+<p>软件产品或系统的一系列活动的全周期。从形成的概念开始，经历开发、交付使用、在使用中不断修订和演化，直到最后被淘汰。</p>
+</blockquote>
+<h4 id="软件过程"><a href="#软件过程" class="headerlink" title="软件过程"></a>软件过程</h4><ul>
+<li>软件过程：活动的集合</li>
+<li>活动：任务的集合</li>
+<li>任务：将输入转换为输出的操作</li>
+</ul>
+<h4 id="六、生存周期过程的分类"><a href="#六、生存周期过程的分类" class="headerlink" title="六、生存周期过程的分类"></a>六、生存周期过程的分类</h4><h5 id="过程分类"><a href="#过程分类" class="headerlink" title="过程分类"></a>过程分类</h5><ul>
+<li>基本过程：指那些和软件生产直接相关的活动集<blockquote>
+<p>具体分为获取过程、供应过程、开发过程、运行过程、维护过程</p>
+</blockquote>
+</li>
+<li>支持过程：有关各方按目标所从事的一系列支持活动集<blockquote>
+<p>文档过程、配置管理过程、质量保证、验证过程、确认过程、联合审评、审计过程、问题解决</p>
+</blockquote>
+</li>
+<li>组织过程：那些与软件生产组织有关的活动集<blockquote>
+<p>管理过程、基础设施过程、改进过程、人力资源过程、资产管理过程、复用程序管理过程、领域软件工程过程</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="七、常见的软件生存周期模型"><a href="#七、常见的软件生存周期模型" class="headerlink" title="七、常见的软件生存周期模型"></a>七、常见的软件生存周期模型</h4><h5 id="瀑布模型"><a href="#瀑布模型" class="headerlink" title="瀑布模型"></a>瀑布模型</h5><ul>
+<li>将软件生存周期的各项活动规定为依固定顺序而连接的若干阶段工作</li>
+<li>每个阶段的输入，以及本阶段的工作成果，作为输出传入下一阶段</li>
+</ul>
+<h5 id="增量模型"><a href="#增量模型" class="headerlink" title="增量模型"></a>增量模型</h5><ul>
+<li>是瀑布模型的第一个变体，具有瀑布模型的所有优点</li>
+<li>第一个版本交付版本所需要的成本和时间是很少的</li>
+<li>由于很快发布第一个版本，因此可以减少用户需求的变更</li>
+</ul>
+<h5 id="演化模型"><a href="#演化模型" class="headerlink" title="演化模型"></a>演化模型</h5><ul>
+<li>是一种有弹性的过程模式</li>
+<li>由一些小的开发步组成，每步历经需求分析、设计、实现和验证，产生软件产品的一个增量</li>
+</ul>
+<h5 id="喷泉模型"><a href="#喷泉模型" class="headerlink" title="喷泉模型"></a>喷泉模型</h5><ul>
+<li>迭代、无缝</li>
+<li>与面向对象技术的关系</li>
+</ul>
+<h3 id="第二章-软件需求"><a href="#第二章-软件需求" class="headerlink" title="第二章 软件需求"></a>第二章 软件需求</h3><h4 id="一、需求的作用"><a href="#一、需求的作用" class="headerlink" title="一、需求的作用"></a>一、需求的作用</h4><ul>
+<li>需求分析</li>
+<li>软件体系结构设计</li>
+<li>验证、正确及测试</li>
+</ul>
+<h4 id="二、需求的定义"><a href="#二、需求的定义" class="headerlink" title="二、需求的定义"></a>二、需求的定义</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>一个需求是一个有关“要予构造”的称述，描述了待开发产品/系统功能上的能力、性能参数或者其他性质。</p>
+</blockquote>
+<h5 id="基本性质"><a href="#基本性质" class="headerlink" title="基本性质"></a>基本性质</h5><ul>
+<li>必要的</li>
+<li>无歧义的</li>
+<li>可测量的</li>
+<li>可跟踪的</li>
+</ul>
+<h4 id="三、需求分类"><a href="#三、需求分类" class="headerlink" title="三、需求分类"></a>三、需求分类</h4><ul>
+<li><p>功能</p>
+<blockquote>
+<p>功能需求规约了系统或者系统构建必须执行的功能</p>
+</blockquote>
+</li>
+<li><p>性能</p>
+<blockquote>
+<p>规约了一个系统或系统构建必须具有的性能特性</p>
+</blockquote>
+</li>
+<li><p>外部接口</p>
+<blockquote>
+<p>系统接口、用户接口、硬件接口、软件接口、通讯接口、内存约束、操作、地点需求</p>
+</blockquote>
+</li>
+<li><p>约束设计</p>
+<blockquote>
+<p>设计约束限制了系统或系统构件的设计方案，对项目规划、所需的附加成本和工作生产直接影响</p>
+</blockquote>
+</li>
+<li><p>质量属性</p>
+<blockquote>
+<p>可靠性、存活性、可维护性、用户友好性、安全性、可移植性</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="四、需求发现"><a href="#四、需求发现" class="headerlink" title="四、需求发现"></a>四、需求发现</h4><ul>
+<li>自悟</li>
+<li>交谈</li>
+<li>小组会</li>
+<li>观察</li>
+<li>提炼</li>
+<li>综合运用</li>
+</ul>
+<h4 id="五、需求规约的概念和格式"><a href="#五、需求规约的概念和格式" class="headerlink" title="五、需求规约的概念和格式"></a>五、需求规约的概念和格式</h4><p>需求规约是一个软件产品/系统的概念模型</p>
+<ul>
+<li>引言：目的、范围、定义、参考文献、概述</li>
+<li>总体描述：产品概述、产品功能、约束、假设和依赖</li>
+<li>特定需求</li>
+<li>附录</li>
+<li>索引</li>
+</ul>
+<h3 id="第三章-结构化分析方法"><a href="#第三章-结构化分析方法" class="headerlink" title="第三章 结构化分析方法"></a>第三章 结构化分析方法</h3><h4 id="一、结构化分析方法概念"><a href="#一、结构化分析方法概念" class="headerlink" title="一、结构化分析方法概念"></a>一、结构化分析方法概念</h4><p>软件开发方法：软件卡法过程所遵循的办法和步骤；软件开发活动的目的是有效地得到一个运行的系统及其支持文档，并且满足有关的质量要求；<br>软件开发方法学指的是规则、方法和工具的集成</p>
+<p>结构化方法</p>
+<ul>
+<li>结构化分析方法</li>
+<li>结构化设计方法</li>
+<li>结构化程序设计方法</li>
+</ul>
+<p>结构分析</p>
+<ul>
+<li>提供一组术语</li>
+<li>给出表达模型的工具</li>
+<li>给出指导过程</li>
+</ul>
+<h4 id="二、结构化分析模型"><a href="#二、结构化分析模型" class="headerlink" title="二、结构化分析模型"></a>二、结构化分析模型</h4><p>结构化设计一般又可分为概要设计阶段和详细设计阶段。</p>
+<h5 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h5><ul>
+<li>数据流</li>
+<li>加工 </li>
+<li>数据存储</li>
+<li>数据源</li>
+<li>数据潭<br>其中数据流、数据存储支持数据抽象</li>
+</ul>
+<h5 id="模型表达工具"><a href="#模型表达工具" class="headerlink" title="模型表达工具"></a>模型表达工具</h5><ul>
+<li>DFD图：描述系统功能</li>
+<li>数据字典</li>
+<li>加工小说明</li>
+</ul>
+<h4 id="三、初始化模块结构图精化的启发式规则"><a href="#三、初始化模块结构图精化的启发式规则" class="headerlink" title="三、初始化模块结构图精化的启发式规则"></a>三、初始化模块结构图精化的启发式规则</h4><h5 id="启发式"><a href="#启发式" class="headerlink" title="启发式"></a>启发式</h5><p>根据设计准则，从长期开发实践中，总结出来的设计准则</p>
+<h5 id="常见的六种启发式规则"><a href="#常见的六种启发式规则" class="headerlink" title="常见的六种启发式规则"></a>常见的六种启发式规则</h5><ul>
+<li>改进软件结构，提高模块独立性;</li>
+<li>模块规模适中-每页60行语句;</li>
+<li>深度、宽度、扇入和扇出适中;</li>
+<li>模块的作用域力争在控制域之内;</li>
+<li>降低模块接口的复杂性;</li>
+<li>模块功能应该可以预测。</li>
+</ul>
+<h4 id="四、接口设计"><a href="#四、接口设计" class="headerlink" title="四、接口设计"></a>四、接口设计</h4><h5 id="接口设计的分类"><a href="#接口设计的分类" class="headerlink" title="接口设计的分类"></a>接口设计的分类</h5><ul>
+<li>模块或软件构件间的接口设计</li>
+<li>软件与其他软硬件系统之间的接口设计</li>
+<li>软件与人之间的交互设计</li>
+</ul>
+<h5 id="设计遵循原则"><a href="#设计遵循原则" class="headerlink" title="设计遵循原则"></a>设计遵循原则</h5><ul>
+<li>一致性</li>
+<li>操作步骤少</li>
+<li>不要”哑播放“</li>
+<li>提供Undo功能</li>
+<li>减少人脑的记忆负担</li>
+<li>提高学习效率</li>
+</ul>
+<h4 id="五、数据设计"><a href="#五、数据设计" class="headerlink" title="五、数据设计"></a>五、数据设计</h4><ul>
+<li>文件设计</li>
+<li>数据库设计</li>
+</ul>
+<h4 id="六、详细设计工具"><a href="#六、详细设计工具" class="headerlink" title="六、详细设计工具"></a>六、详细设计工具</h4><ul>
+<li>伪码（PDL）：一种混合语言，外部使用形式语言定义控制结构和数据结构，每部使用自然语言。</li>
+<li>路程图：顺序、选择、循环</li>
+<li>PAD图：支持自顶向下逐步求精的结构化详细设计，PAD图是一种描述程序逻辑结构的工具</li>
+<li>N-S图</li>
+<li>判定表和判定树</li>
+</ul>
+<h4 id="七、软件设计规约"><a href="#七、软件设计规约" class="headerlink" title="七、软件设计规约"></a>七、软件设计规约</h4><h5 id="概念和组成"><a href="#概念和组成" class="headerlink" title="概念和组成"></a>概念和组成</h5><blockquote>
+<p>概念：软件设计规约对软件的组织或其组成部分的内部结构的描述，满足系统需求规约所指定的全部功能及性能要求</p>
+</blockquote>
+<blockquote>
+<p>组成：概要设计规约和详细设计规约</p>
+</blockquote>
+<h5 id="概要设计规约"><a href="#概要设计规约" class="headerlink" title="概要设计规约"></a>概要设计规约</h5><ul>
+<li>系统环境</li>
+<li>设计描述</li>
+<li>对每个模块的描述</li>
+<li>数据结构和全局数据</li>
+</ul>
+<h5 id="详细设计规约"><a href="#详细设计规约" class="headerlink" title="详细设计规约"></a>详细设计规约</h5><p>在概要设计的基础上，增加：各处理过程的算法；算法所设计的全部数据结构的描述</p>
+<h5 id="设计规约的格式"><a href="#设计规约的格式" class="headerlink" title="设计规约的格式"></a>设计规约的格式</h5><ul>
+<li>引言</li>
+<li>总体设计</li>
+</ul>
+<h4 id="八、结构化方法的总结"><a href="#八、结构化方法的总结" class="headerlink" title="八、结构化方法的总结"></a>八、结构化方法的总结</h4><h5 id="世界观"><a href="#世界观" class="headerlink" title="世界观"></a>世界观</h5><blockquote>
+<p>一切系统都是由信息流构成的，每个信息流都有自己的起点——数据源，自己归宿——数据潭，驱动信息流动的加工，因此所谓信息处理主要表现为信息的流动。</p>
+</blockquote>
+<h5 id="基本原理和原则"><a href="#基本原理和原则" class="headerlink" title="基本原理和原则"></a>基本原理和原则</h5><ul>
+<li>自顶向下功能分解</li>
+<li>数据抽象</li>
+<li>功能抽象</li>
+<li>模块化</li>
+</ul>
+<p>结构化方法的抽象层包括</p>
+<ul>
+<li>需求分析层</li>
+<li>设计层</li>
+<li>实现层</li>
+</ul>
+<h3 id="第三章-UML"><a href="#第三章-UML" class="headerlink" title="第三章 UML"></a>第三章 UML</h3><h4 id="一、面向对象方法的概念"><a href="#一、面向对象方法的概念" class="headerlink" title="一、面向对象方法的概念"></a>一、面向对象方法的概念</h4><h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><ul>
+<li>使用面向对象程序设计语言</li>
+<li>使用对象、类、集成、封装、消息等基本概念进行编程</li>
+</ul>
+<h5 id="主要特点"><a href="#主要特点" class="headerlink" title="主要特点"></a>主要特点</h5><ul>
+<li>用对象作为对这些事务的抽象表示，并以此作为系统的基本构成单位</li>
+<li>封装：对象的属性和操作做结合为一体，构成一个独立的实体，对外屏蔽其内部细节</li>
+<li>对事务进行分类，把具有相同属性和相同操作的对象归为一类</li>
+<li>通过不同程度的上运用抽象原则，可以得到较一般和较特殊的类</li>
+<li>复杂的对象可以用简单的对象作为其构成的部分</li>
+<li>对象之间只能通过消息进行通信</li>
+<li>用关联表达类之间的静态关系</li>
+</ul>
+<h5 id="面向对象学习内容"><a href="#面向对象学习内容" class="headerlink" title="面向对象学习内容"></a>面向对象学习内容</h5><ul>
+<li>基本知识</li>
+<li>面向对象的分析（OOA）</li>
+<li>面向对象的设计（OOD）</li>
+<li>面向对象的程序设计（OOP）</li>
+</ul>
+<h4 id="二、UML的概念"><a href="#二、UML的概念" class="headerlink" title="二、UML的概念"></a>二、UML的概念</h4><h5 id="UML概念"><a href="#UML概念" class="headerlink" title="UML概念"></a>UML概念</h5><blockquote>
+<p>UML是系统设计和分析的工具</p>
+</blockquote>
+<ul>
+<li>规约系统的制品</li>
+<li>构造系的制品</li>
+</ul>
+<h5 id="面向对象方法术语"><a href="#面向对象方法术语" class="headerlink" title="面向对象方法术语"></a>面向对象方法术语</h5><ul>
+<li>结构化表达客观事物的术语</li>
+<li>表达客观事物之间关系的术语</li>
+<li>用于组织特定对象结构的包</li>
+<li>注解</li>
+</ul>
+<h4 id="三、类和对象"><a href="#三、类和对象" class="headerlink" title="三、类和对象"></a>三、类和对象</h4><h5 id="定义和表示"><a href="#定义和表示" class="headerlink" title="定义和表示"></a>定义和表示</h5><blockquote>
+<p>类：一组具有相同属性、操作、关系和语义的对象的描述</p>
+</blockquote>
+<blockquote>
+<p>对象：类的一个实例</p>
+</blockquote>
+<h5 id="类名"><a href="#类名" class="headerlink" title="类名"></a>类名</h5><ul>
+<li>使用黑体字。，第一个字母通常大写，位于第一栏的中央</li>
+<li>简单的名词或者名词短语</li>
+</ul>
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><ul>
+<li>一个类可以有多个属性或者没有属性</li>
+<li>可见性：公有的；受保护的（其子类才能使用）；私有的（本类的操作才能使用）；包内的：只有在同一包中声明的类才能使用</li>
+</ul>
+<h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ul>
+<li>操作名除了第一个词之外，其他单词首字母需要大写</li>
+<li>操作可以是抽象操作，此时采用斜体</li>
+<li>可见性：与类相同</li>
+<li>返回值</li>
+<li>参数表</li>
+</ul>
+<h4 id="四、接口"><a href="#四、接口" class="headerlink" title="四、接口"></a>四、接口</h4><h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>接口是一组操作的集合，其中每个操作描述了类或者构件的一个服务</p>
+</blockquote>
+<blockquote>
+<p>基本作用：模型化系统的“接缝”</p>
+</blockquote>
+<h5 id="表示"><a href="#表示" class="headerlink" title="表示"></a>表示</h5><ul>
+<li>可以用带有分栏和关键字的矩阵符号来表示接口</li>
+<li>可以用小圆圈表示接口</li>
+</ul>
+<h5 id="重要说明"><a href="#重要说明" class="headerlink" title="重要说明"></a>重要说明</h5><ul>
+<li>接口只描述类的外不可见操作，不描述内部结构</li>
+<li>接口没有属性，状态或者关联，接口只要操作</li>
+<li>接口形式上等价于一个没有属性、没有方法只有抽象操作的抽象类</li>
+<li>接口之间没有关联、泛化、实现、依赖，但是可以参与泛化、实现和依赖关系</li>
+</ul>
+<h5 id="五、协作"><a href="#五、协作" class="headerlink" title="五、协作"></a>五、协作</h5><blockquote>
+<p>协作：是一组类、接口和其他元素的群体，它们共同工作以提供比个组成部分的总和更强的合作行为</p>
+</blockquote>
+<ul>
+<li>结构部分</li>
+<li>行为部分</li>
+</ul>
+<h5 id="六、其他重要概念"><a href="#六、其他重要概念" class="headerlink" title="六、其他重要概念"></a>六、其他重要概念</h5><p>用况</p>
+<blockquote>
+<p>是对一组动作序列的描述，系统执行这些动作产生对特定的参与者一个有值的、可观察的结果。</p>
+</blockquote>
+<p>主动类</p>
+<blockquote>
+<p>一种至少具有一个进程或者线程的类，因此它能够启动控制活动。</p>
+</blockquote>
+<p>构件</p>
+<blockquote>
+<p>系统逻辑的并且可替换的成分，遵循并提供了一组接口的实现</p>
+</blockquote>
+<p>制品</p>
+<blockquote>
+<p>系统中物理的、可替代的部分</p>
+</blockquote>
+<p>节点</p>
+<blockquote>
+<p>在运行时存在的物理元素，通常它表示一种具有记忆能力和处理能力的计算资源。</p>
+</blockquote>
+<h5 id="七、包"><a href="#七、包" class="headerlink" title="七、包"></a>七、包</h5><blockquote>
+<p>为了组织类目，控制信息组织和文档组织的复杂性，UML引入了术语——包</p>
+</blockquote>
+<ul>
+<li>表示：在大矩形中描述的内容，而把该包的名字放在左上角的小矩形中</li>
+<li>依赖：访问依赖和引用依赖，是的一个包可以访问和引入其他包</li>
+</ul>
+<h5 id="八、表达关系术语"><a href="#八、表达关系术语" class="headerlink" title="八、表达关系术语"></a>八、表达关系术语</h5><p><em>关联</em></p>
+<ul>
+<li>定义：关联是类目之间的结构关系，描述了这一组具有相同结构、相同语义的链</li>
+</ul>
+<p><em>泛化</em></p>
+<ul>
+<li>定义：泛化是一般性事务和它的较为特殊种类之间的关系</li>
+</ul>
+<p>关于泛化需要注意的点</p>
+<ul>
+<li>子类可以继承父类的属性和操作，并且有更多的属性和操作</li>
+<li>子类可以替换父类的声明</li>
+<li>若子类的一个操作的实现覆盖了父类同一个操作的实现，这种情况被称为多态性</li>
+<li>没有父类并且至少有一个子类的类被称为根类或者基类</li>
+</ul>
+<p><em>实现</em></p>
+<ul>
+<li>定义：实现是类目之间的一种语义关系，其中一个类目规约了保证另一个类目执行的契约</li>
+</ul>
+<p><em>依赖</em></p>
+<ul>
+<li>定义：依赖是一种使用关系，用于描述一个事务使用另一个事务的信息和服务</li>
+</ul>
+<h5 id="九、UML模型表达工具概述"><a href="#九、UML模型表达工具概述" class="headerlink" title="九、UML模型表达工具概述"></a>九、UML模型表达工具概述</h5><p>系统静态部分建模工具</p>
+<ul>
+<li>类图：显示类（及接口）、类的内部结构以及与其他类的关系</li>
+<li>构件图</li>
+<li>组合结构图</li>
+<li>对象图</li>
+<li>部署图</li>
+<li>制品图</li>
+</ul>
+<p>系统动态建模工具</p>
+<ul>
+<li>用况图</li>
+<li>状态图</li>
+<li>活动图</li>
+<li>顺序图</li>
+<li>通信图</li>
+<li>交互概观图</li>
+<li>定时图</li>
+</ul>
+<h5 id="十、顺序图"><a href="#十、顺序图" class="headerlink" title="十、顺序图"></a>十、顺序图</h5><ul>
+<li>定义：顺序图是一种交互图，即有一组对象以及这些对象之间的关系组成，其中还包含这些对象之间被发送的消息</li>
+<li>内容：交互各方；交互方式——同步或者异步；交互内容——消息；</li>
+<li>控制类型：选择执行；条件执行；并发执行；迭代执行</li>
+</ul>
+<h5 id="十一、状态图"><a href="#十一、状态图" class="headerlink" title="十一、状态图"></a>十一、状态图</h5><ul>
+<li>定义：状态图示显示一个状态的图，其中强调了从一个状态到另一个状态的控制流</li>
+<li>内容：简单状态和组合状态；事件；转换</li>
+<li>状态分类：初态、终态、正常状态</li>
+</ul>
+<h3 id="第四章-面向对象"><a href="#第四章-面向对象" class="headerlink" title="第四章 面向对象"></a>第四章 面向对象</h3><h4 id="一、面向对象的分析（OOA）"><a href="#一、面向对象的分析（OOA）" class="headerlink" title="一、面向对象的分析（OOA）"></a>一、面向对象的分析（OOA）</h4><h5 id="OOA的基本任务"><a href="#OOA的基本任务" class="headerlink" title="OOA的基本任务"></a>OOA的基本任务</h5><blockquote>
+<p>对问题域和系统责任进行分析和理解，对其中的事务和它们之间的关系产生正确的认识，找出描述问题域和系统责任所需的类和对象。</p>
+</blockquote>
+<h5 id="OOA模型"><a href="#OOA模型" class="headerlink" title="OOA模型"></a>OOA模型</h5><ul>
+<li>需求模型</li>
+<li>OOA模型</li>
+<li>辅助模型</li>
+<li>模型规约</li>
+</ul>
+<h4 id="二、识别类"><a href="#二、识别类" class="headerlink" title="二、识别类"></a>二、识别类</h4><ul>
+<li>研究问题域和用户需求</li>
+<li>策略和启发</li>
+<li>审查和筛选</li>
+<li>识别主动对象</li>
+</ul>
+<h4 id="三、识别属性和操作"><a href="#三、识别属性和操作" class="headerlink" title="三、识别属性和操作"></a>三、识别属性和操作</h4><h5 id="识别属性"><a href="#识别属性" class="headerlink" title="识别属性"></a>识别属性</h5><ul>
+<li>策略和启发</li>
+<li>审查和筛选</li>
+<li>属性的命名：原则与类命名相同</li>
+<li>属性的详细说明</li>
+</ul>
+<h5 id="识别操作"><a href="#识别操作" class="headerlink" title="识别操作"></a>识别操作</h5><ul>
+<li>区分对象行为的类型</li>
+<li>发现操作的策略和启发</li>
+<li>审查和调整</li>
+<li>认识对象的主动行为</li>
+<li>操作的命名和定位</li>
+<li>操作的详细说明</li>
+</ul>
+<h4 id="四、识别对象之间的关系"><a href="#四、识别对象之间的关系" class="headerlink" title="四、识别对象之间的关系"></a>四、识别对象之间的关系</h4><ul>
+<li>识别继承</li>
+<li>识别关联</li>
+<li>识别聚合</li>
+<li>识别依赖</li>
+</ul>
+<h4 id="五、人机交互部分的设计"><a href="#五、人机交互部分的设计" class="headerlink" title="五、人机交互部分的设计"></a>五、人机交互部分的设计</h4><h5 id="什么是人机交互部分"><a href="#什么是人机交互部分" class="headerlink" title="什么是人机交互部分"></a>什么是人机交互部分</h5><blockquote>
+<p>系统中负责人机交互的部分，突出人如何命令系统以及系统如何向用户提交信息。</p>
+</blockquote>
+<h5 id="人机交互部分的需求分析"><a href="#人机交互部分的需求分析" class="headerlink" title="人机交互部分的需求分析"></a>人机交互部分的需求分析</h5><ul>
+<li>分析与系统交互的人</li>
+<li>从use case分析人机交互</li>
+<li>命令的组织</li>
+</ul>
+<h5 id="人机界面的设计准则"><a href="#人机界面的设计准则" class="headerlink" title="人机界面的设计准则"></a>人机界面的设计准则</h5><ul>
+<li>使用简单</li>
+<li>一致性</li>
+<li>启发性</li>
+<li>减少人脑记忆的负担</li>
+<li>减少重复的输入</li>
+<li>容错性</li>
+<li>及时反馈</li>
+<li>防止灾难性地错误</li>
+</ul>
+<h4 id="六、控制驱动部分的设计"><a href="#六、控制驱动部分的设计" class="headerlink" title="六、控制驱动部分的设计"></a>六、控制驱动部分的设计</h4><h5 id="什么是控制驱动部分"><a href="#什么是控制驱动部分" class="headerlink" title="什么是控制驱动部分"></a>什么是控制驱动部分</h5><ul>
+<li>是OOD模型的组成部分之一，该部分由系统中全部主动类构成</li>
+<li>一个控制流就是一个进程或者线程</li>
+</ul>
+<h5 id="需要控制驱动部分的原因"><a href="#需要控制驱动部分的原因" class="headerlink" title="需要控制驱动部分的原因"></a>需要控制驱动部分的原因</h5><ul>
+<li>并发行为是现实中固有的</li>
+<li>当前的大量系统都是并发系统</li>
+<li>多任务的设置</li>
+<li>为了隔离硬件、操作系统、网络的变化对整个系统的影响</li>
+</ul>
+<h5 id="如何设计控制驱动部分"><a href="#如何设计控制驱动部分" class="headerlink" title="如何设计控制驱动部分"></a>如何设计控制驱动部分</h5><ul>
+<li>识别控制流</li>
+<li>审查与筛选</li>
+<li>控制流的表示与分类</li>
+</ul>
+<h4 id="七、数据管理部分的设计"><a href="#七、数据管理部分的设计" class="headerlink" title="七、数据管理部分的设计"></a>七、数据管理部分的设计</h4><h5 id="什么是数据管理部分"><a href="#什么是数据管理部分" class="headerlink" title="什么是数据管理部分"></a>什么是数据管理部分</h5><blockquote>
+<p>数据管理部分OOD模型模型中负责与具体的数据管理系统衔接的外围组成部分，它的系统中需要长久存储的对象提供了在选定的数据管理系统中进行数据存储与恢复的功能</p>
+</blockquote>
+<h5 id="如何设计数据管理部分"><a href="#如何设计数据管理部分" class="headerlink" title="如何设计数据管理部分"></a>如何设计数据管理部分</h5><ul>
+<li>选择数据管理系统</li>
+<li>数据存放设计</li>
+</ul>
+<h4 id="八、面向对象设计概述"><a href="#八、面向对象设计概述" class="headerlink" title="八、面向对象设计概述"></a>八、面向对象设计概述</h4><h5 id="OOD的根本目标"><a href="#OOD的根本目标" class="headerlink" title="OOD的根本目标"></a>OOD的根本目标</h5><ul>
+<li>提高软件生产率</li>
+<li>提高质量</li>
+<li>加强可维护性</li>
+</ul>
+<h5 id="OOP和OOD的关系"><a href="#OOP和OOD的关系" class="headerlink" title="OOP和OOD的关系"></a>OOP和OOD的关系</h5><ul>
+<li>从OOA到OOD不是转化、不是细化，是调整和整补</li>
+<li>OOD运用与OOA部分相同的概念</li>
+<li>OOD采用与OOA一致的表示方法</li>
+</ul>
+<h4 id="九、如何进行问题域部分的设计"><a href="#九、如何进行问题域部分的设计" class="headerlink" title="九、如何进行问题域部分的设计"></a>九、如何进行问题域部分的设计</h4><ul>
+<li>为复用设计与编程的类而增加结构</li>
+<li>增加一般类以建立共同协议</li>
+<li>按编程语言调整继承和多态</li>
+<li>提高性能</li>
+<li>为实现对象永久存储所做的修改</li>
+<li>为编程方便增加底层细节</li>
+</ul>
+<h4 id="十、面向对象的编程和编程语言"><a href="#十、面向对象的编程和编程语言" class="headerlink" title="十、面向对象的编程和编程语言"></a>十、面向对象的编程和编程语言</h4><h5 id="程序设计范型"><a href="#程序设计范型" class="headerlink" title="程序设计范型"></a>程序设计范型</h5><ul>
+<li>过程化编程</li>
+<li>面向对象编程</li>
+<li>指令式编程</li>
+</ul>
+<h5 id="面向对象是一种新的程序设计范型"><a href="#面向对象是一种新的程序设计范型" class="headerlink" title="面向对象是一种新的程序设计范型"></a>面向对象是一种新的程序设计范型</h5><ul>
+<li>思想方法：从客观存在的事务出发构造软件系统，运用人类日常的思维方式</li>
+<li>主要特点：使用对象、类、继承、封装、聚合、关联、消息、多态性等基本概念来进行程序设计</li>
+</ul>
+<h5 id="选择编程语言"><a href="#选择编程语言" class="headerlink" title="选择编程语言"></a>选择编程语言</h5><blockquote>
+<p>C++是一种在C语言基础上扩充OO成分，对封装采取灵活策略的语言，所以属于混合型面向对象语言。</p>
+</blockquote>
+<ul>
+<li>基本原则——主要考虑成本、进度、效率等实际因素</li>
+<li>OOPL是实现OOD的理想语言</li>
+<li>带有类库、编程环境、权限管理的OOPL更好</li>
+</ul>
+<h3 id="第五章-敏捷开发"><a href="#第五章-敏捷开发" class="headerlink" title="第五章 敏捷开发"></a>第五章 敏捷开发</h3><h4 id="一、敏捷开发简介"><a href="#一、敏捷开发简介" class="headerlink" title="一、敏捷开发简介"></a>一、敏捷开发简介</h4><h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><blockquote>
+<p>是一种从1990年代开始逐渐引起广泛关注的一些新型软件开发方法，是一种应对快速需求变化的一种软件开发能力。</p>
+</blockquote>
+<h5 id="原则（部分）"><a href="#原则（部分）" class="headerlink" title="原则（部分）"></a>原则（部分）</h5><ul>
+<li>最优先要做的是：通过尽早地、持续地交付有价值的软件来使客户满意</li>
+<li>及时到了开发后期，也要欢迎需求改变</li>
+<li>经常交互可工作的软件，其时间间隔可以是几周到几个月</li>
+</ul>
+<h4 id="二、极限编程"><a href="#二、极限编程" class="headerlink" title="二、极限编程"></a>二、极限编程</h4><h5 id="实践原则"><a href="#实践原则" class="headerlink" title="实践原则"></a>实践原则</h5><ul>
+<li>客户作为团队的成员</li>
+<li>“用户素材”</li>
+<li>短的交互期</li>
+<li>验收测试</li>
+<li>结对编程</li>
+<li>测试驱动开发</li>
+<li>集体所有权</li>
+<li>持续集成</li>
+</ul>
+<h5 id="极限编程的过程"><a href="#极限编程的过程" class="headerlink" title="极限编程的过程"></a>极限编程的过程</h5><ul>
+<li>策划：用户故事；权值；迭代计划</li>
+<li>设计：Spike解决方案</li>
+<li>编码：重构</li>
+<li>测试：验收测试；单元测试</li>
+<li>发布：软件增量；项目速度估算</li>
+</ul>
+<h4 id="三、敏捷设计"><a href="#三、敏捷设计" class="headerlink" title="三、敏捷设计"></a>三、敏捷设计</h4><h5 id="设计应该避免的问题"><a href="#设计应该避免的问题" class="headerlink" title="设计应该避免的问题"></a>设计应该避免的问题</h5><ul>
+<li>僵化性</li>
+<li>脆弱性</li>
+<li>粘固性——设计难于复用</li>
+<li>粘滞性</li>
+<li>不必要的复杂性</li>
+<li>不必要的复制</li>
+<li>晦涩性</li>
+</ul>
+<h5 id="防止软件腐化的基本途径"><a href="#防止软件腐化的基本途径" class="headerlink" title="防止软件腐化的基本途径"></a>防止软件腐化的基本途径</h5><ul>
+<li>几乎不进行预先设计，不需要成熟的初始设计</li>
+<li>多次使用单元测试和验收测试</li>
+<li>灵活和持续的改进</li>
+</ul>
+<h4 id="四、SCRUM模型"><a href="#四、SCRUM模型" class="headerlink" title="四、SCRUM模型"></a>四、SCRUM模型</h4><h5 id="Scrum的三个阶段"><a href="#Scrum的三个阶段" class="headerlink" title="Scrum的三个阶段"></a>Scrum的三个阶段</h5><ul>
+<li>规划纲要阶段</li>
+<li>一系类冲刺循环</li>
+<li>项目结束阶段总结项目，完善需要的文档</li>
+</ul>
+<h5 id="Scrum过程流"><a href="#Scrum过程流" class="headerlink" title="Scrum过程流"></a>Scrum过程流</h5><ul>
+<li>待定项</li>
+<li>冲刺</li>
+<li>演示</li>
+</ul>
+<h3 id="第六章-软件测试"><a href="#第六章-软件测试" class="headerlink" title="第六章 软件测试"></a>第六章 软件测试</h3><h4 id="一、软件测试的概念"><a href="#一、软件测试的概念" class="headerlink" title="一、软件测试的概念"></a>一、软件测试的概念</h4><h5 id="软件测试的定义和目标"><a href="#软件测试的定义和目标" class="headerlink" title="软件测试的定义和目标"></a>软件测试的定义和目标</h5><blockquote>
+<p>监测和评价软件以确定其质量的过程和方法</p>
+</blockquote>
+<blockquote>
+<p>分类：静态测试；动态测试（黑盒测试，白盒测试）</p>
+</blockquote>
+<h5 id="软件测试的目标"><a href="#软件测试的目标" class="headerlink" title="软件测试的目标"></a>软件测试的目标</h5><ul>
+<li>预防错误</li>
+<li>发现错误</li>
+</ul>
+<h4 id="二、软件测试的过程模型和原则"><a href="#二、软件测试的过程模型和原则" class="headerlink" title="二、软件测试的过程模型和原则"></a>二、软件测试的过程模型和原则</h4><h5 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h5><ul>
+<li>环境</li>
+<li>被测对象模型</li>
+<li>错误模型</li>
+</ul>
+<h5 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h5><ul>
+<li>所有的测试都应当追溯到用户需求</li>
+<li>在测试共走开始前，要进行测试计划的设计</li>
+<li>测试应从小规模开始，逐步转向大规模</li>
+<li>穷举测试是不可能的</li>
+<li>为了尽可能发现错误，应由独立的第三方来测试</li>
+<li>测试只能尽可能多地发现错误，无法保证发现所有的错误</li>
+</ul>
+<h4 id="三、白盒测试"><a href="#三、白盒测试" class="headerlink" title="三、白盒测试"></a>三、白盒测试</h4><h5 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>白盒测试也称结构测试或者逻辑驱动测试，它是知道产品内部工作过程，可通过测试来检测产品内部动作是否按照规格说明书的规定正常运行</p>
+</blockquote>
+<h5 id="各种测试"><a href="#各种测试" class="headerlink" title="各种测试"></a>各种测试</h5><ul>
+<li>路径测试：执行所有额能的穿过程序的控制流程路径，策略是最强的，但是一般不可实现</li>
+<li>语句测试：至少执行程序中所有语句一次</li>
+<li>分支测试：至少执行程序中每一分支一次</li>
+<li>条件组合测试：设计足够多的测试用例，是每个判定中所有可能条件取值至少执行一次</li>
+<li>循环测试：关键路径选取</li>
+</ul>
+<h4 id="四、黑盒测试"><a href="#四、黑盒测试" class="headerlink" title="四、黑盒测试"></a>四、黑盒测试</h4><h5 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>黑盒写实也称功能测试或数据驱动测试，它是在已知产品所有具有的功能，通过测试来检测每个功能是否能正常使用</p>
+</blockquote>
+<h5 id="黑盒测试试图发现以下错误类型"><a href="#黑盒测试试图发现以下错误类型" class="headerlink" title="黑盒测试试图发现以下错误类型"></a>黑盒测试试图发现以下错误类型</h5><ul>
+<li>功能不对或遗漏</li>
+<li>界面错误</li>
+<li>数据结构或者外部数据访问的错误</li>
+<li>性能错误</li>
+<li>初始化和终止错误</li>
+</ul>
+<h5 id="事务流测试"><a href="#事务流测试" class="headerlink" title="事务流测试"></a>事务流测试</h5><blockquote>
+<p>事务：以用户的角度所见的一个工作单元</p>
+</blockquote>
+<p>测试步骤</p>
+<ul>
+<li>获取事务流程图</li>
+<li>浏览和复审</li>
+<li>用例设计</li>
+<li>测试设备开发</li>
+<li>测试执行</li>
+<li>测试结果比较</li>
+</ul>
+<h5 id="等价类"><a href="#等价类" class="headerlink" title="等价类"></a>等价类</h5><blockquote>
+<p>定义：输入域的一个子集，在该子集中，各个输入数据对于揭示程序中的错误都是等效的</p>
+</blockquote>
+<blockquote>
+<p>分类：有效等价类；无效等价类</p>
+</blockquote>
+<h5 id="边界值分析"><a href="#边界值分析" class="headerlink" title="边界值分析"></a>边界值分析</h5><blockquote>
+<p>边界值分析是一种罪常用的黑盒测试技术。通过设计一些测试用例，使程序运行在边界情况附近，这样揭露错误的可能性比较大。</p>
+</blockquote>
+<h4 id="五、软件测试步骤"><a href="#五、软件测试步骤" class="headerlink" title="五、软件测试步骤"></a>五、软件测试步骤</h4><h5 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h5><ul>
+<li>单元测试——往往采用白盒测试，在单元测试中由被测模块调用，用以代替被测模块所调用的子模块被称为桩模块</li>
+<li>集成测试——集中于模块的组装</li>
+<li>确认测试——通常采用黑盒测试</li>
+<li>系统测试——检测整个系统的性能、功能是否达到；功能测试、恢复测试、安全性测试、强度测试、性能测试、可用性测试、部署测试</li>
+</ul>
+<h3 id="第七章-项目管理"><a href="#第七章-项目管理" class="headerlink" title="第七章 项目管理"></a>第七章 项目管理</h3><h4 id="一、软件项目管理简介"><a href="#一、软件项目管理简介" class="headerlink" title="一、软件项目管理简介"></a>一、软件项目管理简介</h4><h5 id="项目定义"><a href="#项目定义" class="headerlink" title="项目定义"></a>项目定义</h5><blockquote>
+<p>为创造一件独特的产品、一项服务或者一种结果而进行的临时性努力</p>
+</blockquote>
+<h5 id="项目管理发展的产物是"><a href="#项目管理发展的产物是" class="headerlink" title="项目管理发展的产物是"></a>项目管理发展的产物是</h5><ul>
+<li>项目管理协会</li>
+<li>项目管理知识体系</li>
+<li>人才认证</li>
+</ul>
+<h4 id="二、项目管理框架和要素"><a href="#二、项目管理框架和要素" class="headerlink" title="二、项目管理框架和要素"></a>二、项目管理框架和要素</h4><h5 id="框架图"><a href="#框架图" class="headerlink" title="框架图"></a>框架图</h5><blockquote>
+<p>关键要素为项目干系人、项目管理知识领域以及项目管理工具和技术</p>
+</blockquote>
+<h4 id="项目干系人"><a href="#项目干系人" class="headerlink" title="项目干系人"></a>项目干系人</h4><ul>
+<li>项目经理</li>
+<li>客户</li>
+<li>项目执行组织</li>
+<li>项目团队及发起人</li>
+<li>项目赞助者、发起人</li>
+<li>项目竞争对手</li>
+</ul>
+<h4 id="九大知识领域"><a href="#九大知识领域" class="headerlink" title="九大知识领域"></a>九大知识领域</h4><ul>
+<li>项目管理的四大核心知识领域是指范围、时间、成本和质量</li>
+<li>四大项目管理辅助知识领域包括人力资源管理、风险管理、沟通管理、采购管理</li>
+</ul>
+<h4 id="项目管理工具和技术"><a href="#项目管理工具和技术" class="headerlink" title="项目管理工具和技术"></a>项目管理工具和技术</h4><ul>
+<li>WBS</li>
+<li>甘特图</li>
+<li>网络图示法</li>
+<li>净值图</li>
+<li>关键路径法</li>
+</ul>
+<h4 id="项目管理要素"><a href="#项目管理要素" class="headerlink" title="项目管理要素"></a>项目管理要素</h4><ul>
+<li>范围</li>
+<li>进度</li>
+<li>成本</li>
+<li>质量</li>
+</ul>
+<h4 id="三、软件项目管理的概念"><a href="#三、软件项目管理的概念" class="headerlink" title="三、软件项目管理的概念"></a>三、软件项目管理的概念</h4><h5 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>软件管理是为了是软件项目能够按照预定的成本、进度、质量顺利完成，而对成本、人员、进度、质量、风险等进行分析和管理的活动。</p>
+</blockquote>
+<h5 id="项目管理过程"><a href="#项目管理过程" class="headerlink" title="项目管理过程"></a>项目管理过程</h5><ul>
+<li>启动过程</li>
+<li>计划过程</li>
+<li>执行过程</li>
+<li>监督和控制过程</li>
+<li>收尾过程</li>
+</ul>
+<h3 id="第八章-CMM"><a href="#第八章-CMM" class="headerlink" title="第八章 CMM"></a>第八章 CMM</h3><p>软件质量三要素：人员、技术、过程</p>
+<h4 id="一、CMM概念及发展"><a href="#一、CMM概念及发展" class="headerlink" title="一、CMM概念及发展"></a>一、CMM概念及发展</h4><h5 id="CMM是什么"><a href="#CMM是什么" class="headerlink" title="CMM是什么"></a>CMM是什么</h5><blockquote>
+<p>一般指软件能力成熟度模型。</p>
+</blockquote>
+<h4 id="CMM族"><a href="#CMM族" class="headerlink" title="CMM族"></a>CMM族</h4><ul>
+<li>SW-CMM</li>
+<li>SE-CMM</li>
+<li>SA-CMM</li>
+<li>IPD-CMM</li>
+<li>P-CMM</li>
+</ul>
+<h4 id="二、CMM的基本内容"><a href="#二、CMM的基本内容" class="headerlink" title="二、CMM的基本内容"></a>二、CMM的基本内容</h4><h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><ul>
+<li>过程和过程能力</li>
+<li>过程性能</li>
+<li>过程成熟度和组织成熟度</li>
+<li>能力成熟度等级</li>
+</ul>
+<h4 id="三、CMM五级标准"><a href="#三、CMM五级标准" class="headerlink" title="三、CMM五级标准"></a>三、CMM五级标准</h4><h5 id="五级框架"><a href="#五级框架" class="headerlink" title="五级框架"></a>五级框架</h5><ul>
+<li>初始级</li>
+<li>可重复级</li>
+<li>已定义级</li>
+<li>已管理级</li>
+<li>持续优化级</li>
+</ul>
+<h4 id="四、ISO-9000"><a href="#四、ISO-9000" class="headerlink" title="四、ISO 9000"></a>四、ISO 9000</h4><h5 id="定义-6"><a href="#定义-6" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>ISO 9000 是一个用于在所有行业建立质量管理体系的国际标准</p>
+</blockquote>
+<h5 id="ISO-9001核心过程"><a href="#ISO-9001核心过程" class="headerlink" title="ISO 9001核心过程"></a>ISO 9001核心过程</h5><ul>
+<li>业务获取</li>
+<li>设计和开发</li>
+<li>测试</li>
+<li>生产和交付</li>
+<li>服务和支持</li>
+<li>业务管理</li>
+<li>供应商管理</li>
+<li>库存管理</li>
+<li>配置管理</li>
+</ul>
+]]></content>
+      <categories>
+        <category>软件工程</category>
+      </categories>
+      <tags>
+        <tag>软件工程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux内核完全注释</title>
+    <url>/2020/07/15/Linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/07/15/UaxEWQ.md.jpg">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">万家灯火</div>
+</center>
+
+
+<blockquote>
+<p>此文为学习《Linux内核完全注释》所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-概述"><a href="#第一章-概述" class="headerlink" title="第一章 概述"></a>第一章 概述</h3><h4 id="一、如何选择阅读内核代码版本"><a href="#一、如何选择阅读内核代码版本" class="headerlink" title="一、如何选择阅读内核代码版本"></a>一、如何选择阅读内核代码版本</h4><ul>
+<li>2.6.0版内核代码行数约592行，极其庞大</li>
+<li>0.11版内核不超过2万行代码量，麻雀虽小，五张俱全</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/QQ20200715-091523@2x.png" alt></p>
+<h4 id="二、Linux的诞生和发展"><a href="#二、Linux的诞生和发展" class="headerlink" title="二、Linux的诞生和发展"></a>二、Linux的诞生和发展</h4><h5 id="1-五个重要的支柱"><a href="#1-五个重要的支柱" class="headerlink" title="1.五个重要的支柱"></a>1.五个重要的支柱</h5><ul>
+<li>Unix操作系统:1969年诞生在Bell实验室</li>
+<li>MINIX操作系统</li>
+<li>GNU计划：旨在开发一个类似于UNIX并且自有免费的完全操作系统</li>
+<li>POSIX标准（该标准是基于Unix实践和标准，描述了操作系统的调用服务接口，是Linux前进的灯塔）和Internet网络</li>
+</ul>
+<h5 id="2-Linux的版本变迁"><a href="#2-Linux的版本变迁" class="headerlink" title="2.Linux的版本变迁"></a>2.Linux的版本变迁</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/QQ20200715-092504@2x.png" alt><br><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/QQ20200715-092656@2x.png" alt></p>
+<h3 id="第二章-微型计算机组成结构"><a href="#第二章-微型计算机组成结构" class="headerlink" title="第二章 微型计算机组成结构"></a>第二章 微型计算机组成结构</h3><h4 id="一、I-O端口和寻址"><a href="#一、I-O端口和寻址" class="headerlink" title="一、I/O端口和寻址"></a>一、I/O端口和寻址</h4><ul>
+<li>端口地址的设置方法一般有两种：统一编址和独立编址</li>
+<li>统一编址：原理是把I/O控制器中的端口地址归入存储器寻址空间范围内</li>
+<li>独立编址：采用一个独立的I/O地址空间对沈北中的寄存器进行寻址和访问</li>
+</ul>
+<h4 id="二、接口访问控制"><a href="#二、接口访问控制" class="headerlink" title="二、接口访问控制"></a>二、接口访问控制</h4><ul>
+<li>程序循环查询方式：指通过CPU在程序循环查询指定设备控制器中的状态来判断是否可以与设备进行数据交换</li>
+<li>中断处理方式：I/O设备通过中断向CPU提出请求时，CPU才会暂时中断当前执行的程序转而执行相应的I/O中断处理服务过程。Linux中大多数设备I/O控制都采用中断处理方式</li>
+<li>DMA传输方式：用于I/O设备与系统内存之间进行批量数据传送，整个操作过程需要专门的DMA控制器进行而无需CPU插手</li>
+</ul>
+<h3 id="第三章-内核编程语言和环境"><a href="#第三章-内核编程语言和环境" class="headerlink" title="第三章 内核编程语言和环境"></a>第三章 内核编程语言和环境</h3><h4 id="一、阅读boot-s"><a href="#一、阅读boot-s" class="headerlink" title="一、阅读boot.s"></a>一、阅读boot.s</h4><ul>
+<li>.globl是汇编指示符，在编译时不会产生任何代码</li>
+<li>.text——正文段、.data——用于标识数据段的开始位置、.bss段——用于标识一个未初始化数据段的开始</li>
+<li>立即数前一定要加“#”，否则将作为内存地址使用</li>
+</ul>
+<h4 id="二、AT-amp-T语法和Intel汇编语法的区别"><a href="#二、AT-amp-T语法和Intel汇编语法的区别" class="headerlink" title="二、AT&amp;T语法和Intel汇编语法的区别"></a>二、AT&amp;T语法和Intel汇编语法的区别</h4><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/QQ20200715-111246@2x.png" alt></p>
+<h4 id="三、内联函数"><a href="#三、内联函数" class="headerlink" title="三、内联函数"></a>三、内联函数</h4><ul>
+<li>内联函数让gcc把函数的代码集成到调用该函数的代码中去</li>
+<li>可以去掉函数调用时进入、退出的时间开销</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Linux内核</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux内核分析与应用</title>
+    <url>/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/07/02/Nb2m3F.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">她</div>
+</center>
+
+<blockquote>
+<p>此文为学习Linux内核所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-概述"><a href="#第一章-概述" class="headerlink" title="第一章 概述"></a>第一章 概述</h3><h4 id="一、Linux操作系统概述"><a href="#一、Linux操作系统概述" class="headerlink" title="一、Linux操作系统概述"></a>一、Linux操作系统概述</h4><h5 id="1-Linux系统整体结构"><a href="#1-Linux系统整体结构" class="headerlink" title="1.Linux系统整体结构"></a>1.Linux系统整体结构</h5><ul>
+<li>应用软件</li>
+<li>系统调用</li>
+<li>内核：进程间通信、进程调度、网络、内存管理、文件系统</li>
+<li>模块</li>
+<li>硬件</li>
+</ul>
+<h5 id="2-机制与策略分离"><a href="#2-机制与策略分离" class="headerlink" title="2.机制与策略分离"></a>2.机制与策略分离</h5><ul>
+<li>机制——提供什么样的功能</li>
+<li>策略——如何使用这些功能</li>
+</ul>
+<h4 id="二、Linux的内核结构及内核模块"><a href="#二、Linux的内核结构及内核模块" class="headerlink" title="二、Linux的内核结构及内核模块"></a>二、Linux的内核结构及内核模块</h4><h5 id="1-Linux内核源码目录"><a href="#1-Linux内核源码目录" class="headerlink" title="1.Linux内核源码目录"></a>1.Linux内核源码目录</h5><p><img src="/images/loading/loading.gif" data-original="././Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200702-152213@2x.png" alt></p>
+<h5 id="2-Linux内核模块编程入门"><a href="#2-Linux内核模块编程入门" class="headerlink" title="2.Linux内核模块编程入门"></a>2.Linux内核模块编程入门</h5><ul>
+<li>任何模块都要包含三个头文件：&lt;linux/module.h&gt;、&lt;linux/kernel.h&gt;、&lt;linux/init.h&gt;</li>
+<li>&lt;linux/module.h&gt;:包含了对模块版本控制</li>
+<li>&lt;linux/kernel.h&gt;:包含了常用的内核函数</li>
+<li>&lt;linux/init.h&gt;:包含了_init和_exit，宏_init告诉编译程序相关的函数和变量仅用于初始化，编译程序将标有_init的所有代码存储到特殊的内存段中，初始化结束就释放这段内存</li>
+<li>入口函数：module_init()</li>
+<li>出口函数：module_cleanup()</li>
+</ul>
+<h5 id="3-相关命令"><a href="#3-相关命令" class="headerlink" title="3.相关命令"></a>3.相关命令</h5><ul>
+<li>插入模块：insmod modele_example.ko</li>
+<li>删除模块：rmmod modele_example.ko</li>
+<li>查看模块信息：dmesg </li>
+<li>调试：kdbug、kdb、kgdb</li>
+</ul>
+<h4 id="三、内核源码入门"><a href="#三、内核源码入门" class="headerlink" title="三、内核源码入门"></a>三、内核源码入门</h4><h5 id="1-链表的演化"><a href="#1-链表的演化" class="headerlink" title="1.链表的演化"></a>1.链表的演化</h5><ul>
+<li>如果减少一个指针域，就退化成单链表</li>
+<li>如果只能对链表的首尾进行插入或删除操作，就演变为队结<br>构</li>
+<li>如果只能对链表的头进行插入或删除操作，就退化为栈结构</li>
+<li>如果前驱和后继表示左右孩子，则演变为一颗二叉树</li>
+</ul>
+<h4 id="2-Linux内核中链表的定义和使用"><a href="#2-Linux内核中链表的定义和使用" class="headerlink" title="2.Linux内核中链表的定义和使用"></a>2.Linux内核中链表的定义和使用</h4><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200702-153709@2x.png" alt></p>
+<h3 id="第二章-内存寻址"><a href="#第二章-内存寻址" class="headerlink" title="第二章 内存寻址"></a>第二章 内存寻址</h3><h4 id="一、内存寻址概述"><a href="#一、内存寻址概述" class="headerlink" title="一、内存寻址概述"></a>一、内存寻址概述</h4><h5 id="1-图灵机和冯-诺依曼体系结构"><a href="#1-图灵机和冯-诺依曼体系结构" class="headerlink" title="1.图灵机和冯.诺依曼体系结构"></a>1.图灵机和冯.诺依曼体系结构</h5><ul>
+<li>冯诺依曼结构——IntelX86，AMD</li>
+<li>哈佛结构——ARM</li>
+</ul>
+<h5 id="2-X86内存寻址的不同时期"><a href="#2-X86内存寻址的不同时期" class="headerlink" title="2.X86内存寻址的不同时期"></a>2.X86内存寻址的不同时期</h5><ul>
+<li>8位：没有段的概念，访问内存都要通过绝对地址，因此程序中的地址必须进行硬编码、（也就是给出具体地址），而且也难以重定位。</li>
+<li>16位：“段”的引入，段描述了一块有限的内存区域，区域的起始位置存在专门的寄存器（也就是段寄存器中）。</li>
+<li>24位：286地址总线位数增加到了24位；从此开始引进了一个全新理念—保护模式；访问内存时不能直接从段寄存器中获得段的起始地址了，而需要经过额外转换和检查 。</li>
+<li>32位或64位：386是一个32位的CPU，其寻址能力达到4GB，把80386以后的处理器统称为x86</li>
+</ul>
+<h5 id="3-为什么引入保护模式？"><a href="#3-为什么引入保护模式？" class="headerlink" title="3.为什么引入保护模式？"></a>3.为什么引入保护模式？</h5><blockquote>
+<p>从物理上来看，应该是保护存储器，从逻辑上来看，保护的是操作系统。正式因为实模式的分段机制可以让内存被随意修改，操作系统得不到保护，所以出现了保护模式。</p>
+</blockquote>
+<h4 id="二、保护模式之段机制"><a href="#二、保护模式之段机制" class="headerlink" title="二、保护模式之段机制"></a>二、保护模式之段机制</h4><h5 id="1-程序的编译过程"><a href="#1-程序的编译过程" class="headerlink" title="1.程序的编译过程"></a>1.程序的编译过程</h5><p>编译（GCC）-&gt;汇编（GAS）-&gt;链接（ld）-&gt;装载并执行</p>
+<h5 id="2-保护模式下的寻址"><a href="#2-保护模式下的寻址" class="headerlink" title="2.保护模式下的寻址"></a>2.保护模式下的寻址</h5><ul>
+<li>CPU把虚地址送给MMU</li>
+<li>MMU把物理地址送给存储器</li>
+</ul>
+<h5 id="3-MMU的地址转换"><a href="#3-MMU的地址转换" class="headerlink" title="3.MMU的地址转换"></a>3.MMU的地址转换</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200702-162916@2x.png" alt></p>
+<h5 id="4-段描述符表——段表"><a href="#4-段描述符表——段表" class="headerlink" title="4.段描述符表——段表"></a>4.段描述符表——段表</h5><ul>
+<li>组成：段号、基地址、界限、属性</li>
+<li>段号描述虚拟地址空间段的编号</li>
+<li>基地址是线性地址空间段的起始地址</li>
+<li>段描述符表中的每一个表项叫做段描述符</li>
+</ul>
+<h5 id="5-保护模式下段寄存器中存放什么"><a href="#5-保护模式下段寄存器中存放什么" class="headerlink" title="5.保护模式下段寄存器中存放什么"></a>5.保护模式下段寄存器中存放什么</h5><ul>
+<li>存放索引或叫段号，因此，这里的段寄存器也叫选择符，即从描述符表中选择某个段。</li>
+<li>RPL表示请求者的特权级（Requestor Privilege Level） </li>
+<li>TI（Table Index）</li>
+</ul>
+<h5 id="6-保护模式下的特权级"><a href="#6-保护模式下的特权级" class="headerlink" title="6.保护模式下的特权级"></a>6.保护模式下的特权级</h5><ul>
+<li>保护模式提供了四个特权级，用0~3四个数字表示</li>
+<li>很多操作系统（包括Linux,Windwos）只使用了其中的最低和最高两个，即0表示最高特权级，对应内核态；3表示最低特权级，对应用户态。</li>
+<li>保护模式规定，高特权级可以访问低特权级，而低特权级不能随便访问高特权级。</li>
+</ul>
+<h5 id="7-保护模式下的描述符"><a href="#7-保护模式下的描述符" class="headerlink" title="7.保护模式下的描述符"></a>7.保护模式下的描述符</h5><ul>
+<li>全局描述符表GDT（Gloabal Descriptor Table） </li>
+<li>中断描述符表IDT（Interrupt Descriptor Table） </li>
+<li>局部描述符表LDT（Local Descriptor Table）</li>
+</ul>
+<h4 id="三、分页机制"><a href="#三、分页机制" class="headerlink" title="三、分页机制"></a>三、分页机制</h4><h5 id="1-分页机制中的页"><a href="#1-分页机制中的页" class="headerlink" title="1.分页机制中的页"></a>1.分页机制中的页</h5><ul>
+<li>所谓分页，就是将虚拟地址空间或线性地址空间划分成若干大小相等的片，称为页（Page） </li>
+<li>对物理地址空间分成与页大小相等的存储块，称为块或页面（Page Frame）</li>
+<li>IA-32页的大小: 4KB, 2MB 和4MB</li>
+<li>IA-64页的大小: 4KB, 8KB, 64KB, 256KB, 1MB, 4MB, 16MB 和256MB.</li>
+</ul>
+<h5 id="2-分页原理是什么"><a href="#2-分页原理是什么" class="headerlink" title="2.分页原理是什么"></a>2.分页原理是什么</h5><ul>
+<li>使得每个进程可以拥有自己独立的虚拟内存空间。为了达到这个目的，CPU在访存的时候就需要进行一次地址变换，也就是把虚地址转换为物理地址，于是我们给出映射函数： Pa=f(va)，这种转换在时间和空间上都要付出代价，因此必须进行优化。</li>
+<li>时间的优化。因为访存很频繁，因此，映射函数f一定要简单，否则会效率很低，所以需要简单查表算法，这也就是页表引入的原因。 </li>
+<li>空间的优化。因为内存空间是按字节编址的，地址一一进行映射的话，效率也很低，于是要按照一定的粒度（也就是页）进行映射，这样，粒度内的相对地址（也就是页内偏移量）在映射时保持不变。</li>
+</ul>
+<h5 id="3-页表"><a href="#3-页表" class="headerlink" title="3.页表"></a>3.页表</h5><ul>
+<li>页表是一种映射机制，存放的是虚拟地址空间与物理空间地址空间的映射关系</li>
+<li>页号对应块号</li>
+</ul>
+<h5 id="4-单级页表结构"><a href="#4-单级页表结构" class="headerlink" title="4.单级页表结构"></a>4.单级页表结构</h5><ul>
+<li>在32位的地址空间，通常页的大小为4KB</li>
+<li>每页起始地址的低12位表示页的属性</li>
+<li>每页的高20位表示页的起始地址</li>
+</ul>
+<h5 id="5-两级页表"><a href="#5-两级页表" class="headerlink" title="5.两级页表"></a>5.两级页表</h5><ul>
+<li>如果只用以及页表，因为每个页表最大可占4MB的空间，而且必须是连续的，这就为内存的分配带来困难</li>
+<li>采用分而治之的原则，将高20位分为两部分，分别占十位，形成两级页表</li>
+</ul>
+<h5 id="6-地址转换过程"><a href="#6-地址转换过程" class="headerlink" title="6.地址转换过程"></a>6.地址转换过程</h5><ul>
+<li>第一步，用最高10位作为页目录项的索引，将它乘以4，与CR3中的页目录的起始地址相加，获得相应目录项在内存的地址。</li>
+<li>第二步，从这个地址开始读取32位页目录项，取出其高20位，再给低12位补0，形成页表在内存的起始地址。</li>
+<li>第三步，用中间的10位作为页表中页表项的索引，将它乘以4，与页表的起始地址相加，获得相应页表项在内存的地址。</li>
+<li>第四步，从这个地址开始读取32位页表项，取出其高20位，再将线性地址的第11~0位放在低12位，形成最终32位页面物理地址。</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-092339@2x.png" alt></p>
+<h5 id="7-页面高速缓存"><a href="#7-页面高速缓存" class="headerlink" title="7.页面高速缓存"></a>7.页面高速缓存</h5><ul>
+<li>页表放在内存中，这使得CPU在每次存取一个数据时，都要至少两次访问，从而大大降低了访问的速度</li>
+<li>引入TLB，在访问某个地址空间时，先访问高速缓存区，如果未命中，再访问内存</li>
+</ul>
+<h4 id="8-Linux中的分页"><a href="#8-Linux中的分页" class="headerlink" title="8.Linux中的分页"></a>8.Linux中的分页</h4><ul>
+<li>Linux主要采用分页机制来实现虚拟存储器管理</li>
+<li>页总目录PGD（Page Global Directory） </li>
+<li>页上级目录PUD（Page Upper Directory） </li>
+<li>页中间目录PMD（Page Middle Derectory） </li>
+<li>页表PT（Page table）</li>
+</ul>
+<h3 id="三、进程管理"><a href="#三、进程管理" class="headerlink" title="三、进程管理"></a>三、进程管理</h3><h4 id="一、进程概述"><a href="#一、进程概述" class="headerlink" title="一、进程概述"></a>一、进程概述</h4><h5 id="1-进程家族"><a href="#1-进程家族" class="headerlink" title="1.进程家族"></a>1.进程家族</h5><ul>
+<li>进程是一个动态的实体，它具有生命周期</li>
+<li>在Linux中，通过调用fork系统调用来创建一个新的进程</li>
+<li>Linux系统启动以后形成了一棵树</li>
+<li>swaspper init_task -&gt; init -&gt; login -&gt; bash -&gt; insmod</li>
+</ul>
+<h5 id="2-进程控制块－信息分类"><a href="#2-进程控制块－信息分类" class="headerlink" title="2.进程控制块－信息分类"></a>2.进程控制块－信息分类</h5><ul>
+<li>状态信息－描述进程动态的变化。</li>
+<li>链接信息－描述进程的父／子关系。</li>
+<li>各种标识符－用简单数字对进程进行标识。</li>
+<li>进程间通信信息－描述多个进程在同一任务上协作工作。</li>
+<li>时间和定时器信息－描述进程在生存周期内使用CPU时间的统计、计费等信息。</li>
+<li>调度信息－描述进程优先级、调度策略等信息。</li>
+<li>文件系统信息－对进程使用文件情况进行记录。</li>
+<li>虚拟内存信息－描述每个进程拥有的地址空间。</li>
+<li>处理器环境信息－描述进程的执行环境(处理器的寄存器及堆栈等)</li>
+</ul>
+<h5 id="3-进程控制块——Linux进程状态及转换"><a href="#3-进程控制块——Linux进程状态及转换" class="headerlink" title="3.进程控制块——Linux进程状态及转换"></a>3.进程控制块——Linux进程状态及转换</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-100956@2x.png" alt></p>
+<h5 id="4-进程控制快——如何存放"><a href="#4-进程控制快——如何存放" class="headerlink" title="4.进程控制快——如何存放"></a>4.进程控制快——如何存放</h5><ul>
+<li>进程的PCB所占的内存是由内核动态分配的，更确切地说，内核根本不给PCB分配内存，而仅仅给内核栈分配8K的内存，并把其中的一部分让给PCB使用。</li>
+<li>随着Linux版本的变化，进程控制块的内容越来越多，因此把部分进程控制块的内容移出这个空间，只保留访问频繁的thread_info。</li>
+</ul>
+<h5 id="5-从进程到容器"><a href="#5-从进程到容器" class="headerlink" title="5.从进程到容器"></a>5.从进程到容器</h5><ul>
+<li>对于进程来说，它的静态表现就是程序，平常都安安静静地待在磁盘上；而一旦运行起来，它就变成了计算机里的数据和状态的总和，这就是它的动态表现。</li>
+<li>容器技术的核心功能，就是通过约束和修改进程的动态表现，从而为其创造出一个“边界”。</li>
+</ul>
+<h4 id="二、进程的调度"><a href="#二、进程的调度" class="headerlink" title="二、进程的调度"></a>二、进程的调度</h4><h5 id="1-进程和线程"><a href="#1-进程和线程" class="headerlink" title="1.进程和线程"></a>1.进程和线程</h5><ul>
+<li>进程是系统资源分配的基本单位，线程是独立运行的基本单位。</li>
+<li>进程和线程几乎共享所有的资源，包括代码，数据，进程空间，打开的文件等</li>
+<li>线程只拥有自己的寄存器和栈。</li>
+</ul>
+<h5 id="2-进程的API实现"><a href="#2-进程的API实现" class="headerlink" title="2.进程的API实现"></a>2.进程的API实现</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-104555@2x.png" alt></p>
+<h5 id="3-fork的实现"><a href="#3-fork的实现" class="headerlink" title="3.fork的实现"></a>3.fork的实现</h5><ul>
+<li>fork调用的do_fork，除了SIGCHLD参数外，有三个参数就是空手而来，有两个参数似乎也没有明确的目标。</li>
+<li>作为子进程，它完全有自己的个性的，根本不想共享父进程的任何资源，而是让父亲把他所有资源给自己复制一份</li>
+<li>老爸没有那么傻，而是假装复制了一下，也就是用一个指针指过去而已</li>
+<li>要写一个页面时，写时复制技术就登场了</li>
+</ul>
+<h5 id="4-vfork的实现"><a href="#4-vfork的实现" class="headerlink" title="4.vfork的实现"></a>4.vfork的实现</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-105539@2x.png" alt></p>
+<h5 id="5-clone的实现"><a href="#5-clone的实现" class="headerlink" title="5.clone的实现"></a>5.clone的实现</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-105716@2x.png" alt></p>
+<h5 id="6-内核线程的创建"><a href="#6-内核线程的创建" class="headerlink" title="6.内核线程的创建"></a>6.内核线程的创建</h5><ul>
+<li>早期内核中创建内核线程是通过kernel_thread()而创建的</li>
+<li>目前内核中调用 kthread_create()创建的，其本质也是向do_fork()提供特定的flags标志而创建的。</li>
+</ul>
+<h5 id="7-copy-process-代码流程图"><a href="#7-copy-process-代码流程图" class="headerlink" title="7.copy_process()代码流程图"></a>7.copy_process()代码流程图</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-110810@2x.png" alt></p>
+<h4 id="三、进程调度"><a href="#三、进程调度" class="headerlink" title="三、进程调度"></a>三、进程调度</h4><h5 id="1-调度模型"><a href="#1-调度模型" class="headerlink" title="1.调度模型"></a>1.调度模型</h5><ul>
+<li>调度就是总就绪队列中选择一个进程投入CPU运行</li>
+<li>调度的主战场是就绪队列，核心是调度算法，实质性的动作是进程切换，对于以时间片调度为主的调度，时钟中断是驱动力，确保每个进程在CPU上运行一定的时间</li>
+</ul>
+<h5 id="2-进程调度-进程的优先级"><a href="#2-进程调度-进程的优先级" class="headerlink" title="2.进程调度-进程的优先级"></a>2.进程调度-进程的优先级</h5><p>用户空间</p>
+<ul>
+<li>普通优先级（nice ）：从-20～19，数字越小，优先级越高，通过修改这个值可以改变普通进程获取cpu资源的比例。</li>
+<li>调度优先级（scheduling priority）。从1（最低）~99（最高），这是实时进程的优先级。当然，普通进程也有调度优先级（scheduling priority），被设定为0。</li>
+</ul>
+<p>内核空间</p>
+<ul>
+<li>动态优先级（prio）</li>
+<li>静态优先级（static_prio）</li>
+<li>归一化优先级（normal_prio）</li>
+<li>实时优先级（rt_priorit）</li>
+</ul>
+<h5 id="3-进程调度-O-1-调度"><a href="#3-进程调度-O-1-调度" class="headerlink" title="3.进程调度-O(1)调度"></a>3.进程调度-O(1)调度</h5><ul>
+<li>基本优化思路就是把原来就绪队列上的单链表变成多个链表，即每一个优先级的进程被挂入不同链表中。</li>
+<li>在O（1）调度器中，实时进程和普通进程被区分开了，普通进程根本不会影响实时进程的调度。</li>
+<li>把CPU资源分成一个个的时间片，分配给每一个就绪的进程。</li>
+<li>主调度器（就是schedule函数）的主要功能是从该CPU的就绪队列中找到一个最合适的进程调度执行。</li>
+</ul>
+<h5 id="4-完全公平调度-CFS"><a href="#4-完全公平调度-CFS" class="headerlink" title="4.完全公平调度-CFS"></a>4.完全公平调度-CFS</h5><ul>
+<li>CFS调度器的目标是保证每一个进程的完全公平调度。</li>
+<li>CFS调度器和以往的调度器不同之处在于没有时间片的概念，而是分配cpu使用时间的比例。</li>
+<li>CFS为了实现公平，必须惩罚当前正在运行的进程，以使那些正在等待的进程下次被调度。</li>
+<li>CFS通过每个进程的虚拟运行时间（vruntime）来衡量哪个进程最值得被调度。</li>
+<li>CFS中的就绪队列是一棵以虚拟时间为键值的红黑树，虚拟时间越小的进程越靠近整个红黑树的最左端。</li>
+</ul>
+<h3 id="第四章-内存管理"><a href="#第四章-内存管理" class="headerlink" title="第四章 内存管理"></a>第四章 内存管理</h3><h4 id="一、内存管理机制"><a href="#一、内存管理机制" class="headerlink" title="一、内存管理机制"></a>一、内存管理机制</h4><h5 id="1-CPU的Cache"><a href="#1-CPU的Cache" class="headerlink" title="1.CPU的Cache"></a>1.CPU的Cache</h5><ul>
+<li>lscpu查看内存的结构层次</li>
+<li>L1d和L1i分别表示一级数据很指令Cache</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-115407@2x.png" alt></p>
+<h5 id="2-虚拟内存实现机制"><a href="#2-虚拟内存实现机制" class="headerlink" title="2.虚拟内存实现机制"></a>2.虚拟内存实现机制</h5><ul>
+<li>地址映射机制</li>
+<li>内存分配机制</li>
+<li>缓存和刷新机制</li>
+<li>交换机制</li>
+<li>请页机制</li>
+</ul>
+<h5 id="3-虚拟内存实现机制关系图"><a href="#3-虚拟内存实现机制关系图" class="headerlink" title="3.虚拟内存实现机制关系图"></a>3.虚拟内存实现机制关系图</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-152646@2x.png" alt></p>
+<blockquote>
+<p>首先内核通过映射机制把进程从磁盘映射到虚拟地址空间，当进程执行时，如果发现要访问的页没有在物理<br>内存时，就发出了页请求如图①；如果有空闲的内存可<br>供分配，就请求分配内存如图②（于是用到了内存的分<br>配和回收机制），并把正在使用的页记录在页缓存中如 图③（于是就使用了缓存机制）。如果没有足够的内存<br>可供分配，那么就调用交换机制，腾出一部分内存如图<br>④⑤。另外在地址映射中要通过TLB来加速物理页的寻找<br>如图⑧；交换机制中也要用到交换缓存如图⑥，并且把<br>物理页内容交换到交换文件中后也要通过修改页表来映<br>射文件地址如图⑦。</p>
+</blockquote>
+<h5 id="4-进程虚拟地址空间"><a href="#4-进程虚拟地址空间" class="headerlink" title="4.进程虚拟地址空间"></a>4.进程虚拟地址空间</h5><ul>
+<li>每个进程通过系统调用进入内核，Linux内核空间由系统内的所有进程共享</li>
+<li>每个进程拥有4G的虚拟地址空间，每个进程有各自的私有用户空间</li>
+<li>进程地址空间：kernel space -&gt; Stack -&gt; Memory Mapping Region -&gt; Heap -&gt; Bss  -&gt; Data -&gt; Text</li>
+</ul>
+<h5 id="5-用数据结构描述进程的用户空间"><a href="#5-用数据结构描述进程的用户空间" class="headerlink" title="5.用数据结构描述进程的用户空间"></a>5.用数据结构描述进程的用户空间</h5><ul>
+<li>mm_struct结构对金成整个用户空间进行描述</li>
+<li>vm_area_structs结构对用户空间中各个内存区进行描述</li>
+</ul>
+<h5 id="6-mm-struct如何描述地址空间"><a href="#6-mm-struct如何描述地址空间" class="headerlink" title="6.mm_struct如何描述地址空间"></a>6.mm_struct如何描述地址空间</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-154202@2x.png" alt></p>
+<h4 id="二、用户空间的创建"><a href="#二、用户空间的创建" class="headerlink" title="二、用户空间的创建"></a>二、用户空间的创建</h4><h5 id="1-创建进程用户空间"><a href="#1-创建进程用户空间" class="headerlink" title="1.创建进程用户空间"></a>1.创建进程用户空间</h5><ul>
+<li>当fork()系统调用在创建新进程时也为该进程创建完整的用户空间</li>
+<li>通过拷贝或共享父进程的用户空间来实现的，即内核调用copy_mm()函数，为新进程建立所有页表和mm_struct结构（通常，每个进程都有自己的用户空间，但是调用clone()函数创建的内核线程时共享父进程的用户空间）</li>
+</ul>
+<h5 id="2-虚存映射"><a href="#2-虚存映射" class="headerlink" title="2.虚存映射"></a>2.虚存映射</h5><ul>
+<li>当调用exec()系统调用开始执行一个进程时，进程的可执行映像（包括代码段、数据段，堆和栈等）必须装入到进程的用户地址空间。</li>
+<li>如果该进程用到了任何一个共享库，则共享库也必须装入到进程的用户空间。</li>
+<li>Linux并不将映像装入到物理内存，相反，可执行文件只是被映射到进程的用户空间中。这种将可以执行文件映像映射到进程用户空间的方法被称为“虚存映射”。</li>
+<li>分类：共享的、私有的、匿名的</li>
+</ul>
+<h5 id="3-VMA的创建方式"><a href="#3-VMA的创建方式" class="headerlink" title="3.VMA的创建方式"></a>3.VMA的创建方式</h5><ul>
+<li>在用户空间通过mmap()系统调用获取do_mmap()的功能</li>
+<li>在内核空间，可以直接调用do_mmap()创建一个新的虚拟内存</li>
+</ul>
+<h5 id="4-请页机制"><a href="#4-请页机制" class="headerlink" title="4.请页机制"></a>4.请页机制</h5><ul>
+<li>进程运行时，CPU访问的是用户空间的虚地址。</li>
+<li>Linux仅把当前要使用的少量页面装入内存，需要时再通过请页机制将特定的页面调入内存。</li>
+<li>当要访问的页不在内存时，产生一个页故障并报告故障原因。</li>
+</ul>
+<h5 id="5-缺页异常处理"><a href="#5-缺页异常处理" class="headerlink" title="5.缺页异常处理"></a>5.缺页异常处理</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-161335@2x.png" alt></p>
+<h4 id="三、内存分配与回收机制"><a href="#三、内存分配与回收机制" class="headerlink" title="三、内存分配与回收机制"></a>三、内存分配与回收机制</h4><h5 id="1-程序的装载过程"><a href="#1-程序的装载过程" class="headerlink" title="1.程序的装载过程"></a>1.程序的装载过程</h5><ul>
+<li>程序在装载时，并没有把指令和数据加载进物理内存，知识通过ELF文件头部信息建立起可执行文件与虚拟地址空间的映射关系而已</li>
+<li>真正的加载过程发生在缺页异常处理时</li>
+<li>内核根据建立的映射关系，在可执行文件中找到所需的内容</li>
+<li>分配一个物理内存页面，并将可执行文件内容加载到改内存中</li>
+<li>建立该物理内存和虚拟地址空间的映射关系，即填充页表，然后把控制权移交给进程</li>
+</ul>
+<h5 id="2-内核空间的划分"><a href="#2-内核空间的划分" class="headerlink" title="2.内核空间的划分"></a>2.内核空间的划分</h5><ul>
+<li>0M到high_memory的物理内存称为地段内存，大于high_memory的物理内存称为高端内存</li>
+<li>高端内存映射到内核空间的方式：永久映射、固定映射、vmalloc机制</li>
+</ul>
+<h5 id="3-物理内存管理机制"><a href="#3-物理内存管理机制" class="headerlink" title="3.物理内存管理机制"></a>3.物理内存管理机制</h5><ul>
+<li>伙伴算法：负责大块连续物理内存的分配和释放，以页框为基本单位。可以避免外部碎片</li>
+<li>per-CPU页框高速缓存：内核经常请求和释放单个页框，该缓存包含预先分配的页框，用于满足本地CPU发出的单一页框请求</li>
+<li>slab缓存：负责小块内存的分配，并且它也作为高速缓存，主要针对内核中经常分配并释放的对象</li>
+<li>vmalloc机制：vmalloc机制使得内核通过连续的线性地址来访问非连续的物理页框，这样可以最大限度的使用高端物理内存。</li>
+</ul>
+<h5 id="4-Slab分配机制"><a href="#4-Slab分配机制" class="headerlink" title="4.Slab分配机制"></a>4.Slab分配机制</h5><ul>
+<li>slab通用缓存：通用缓存针对一般情况，使用分配任意大小的物理内存，其接口为kmalloc()</li>
+<li>slab专用缓存：专用缓存是对特定的对象，比如为进程控制块创建高速缓存task_struct_cachep</li>
+</ul>
+<h5 id="5-vmalloc和kmalloc之间的区别"><a href="#5-vmalloc和kmalloc之间的区别" class="headerlink" title="5.vmalloc和kmalloc之间的区别"></a>5.vmalloc和kmalloc之间的区别</h5><ul>
+<li>vmalloc分配的物理地址无需连续，分配在VMALLOC_START~VMALLOC_END之间</li>
+<li>kmacloc确保页在物理上是连续的，分配的内存处于3GB~high_memory之间，这段内核空间与物理空间一一对应</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-201653@2x.png" alt></p>
+<h5 id="6-伙伴算法概述"><a href="#6-伙伴算法概述" class="headerlink" title="6.伙伴算法概述"></a>6.伙伴算法概述</h5><ul>
+<li>大小相同、物理地址连续的两个页块被称为伙伴。</li>
+<li>Linux的伙伴算法把所有的空闲页面分为多个块链表（该默认大小为11）个，每个链表中的一个块含有2的幂次个页面，即页块或简称块。</li>
+<li>伙伴算法的分配原理是，如果分配阶为n的页框块，那么先从第n条页框块链表中查找是否存在这么大小的空闲页块。如果有则分配，否则在第n+1条链表中继续查找，直到找到为止。</li>
+</ul>
+<h5 id="7-物理内存分配器"><a href="#7-物理内存分配器" class="headerlink" title="7.物理内存分配器"></a>7.物理内存分配器</h5><blockquote>
+<p>基于伙伴算法、每CPU高速缓存和slab高速缓存形成两种<br>内存分配器。</p>
+</blockquote>
+<ul>
+<li>第一种是分区页框分配器（zoned page frame allocator），处理对连续页框的内存分配请求。</li>
+<li>第二种是slab分配器，它将各种分配对象分组放进高速缓存，即每个高速缓存都对同类型分配对象的一种“储备”。</li>
+</ul>
+<h5 id="8-从用户态到内核态的内存分配"><a href="#8-从用户态到内核态的内存分配" class="headerlink" title="8.从用户态到内核态的内存分配"></a>8.从用户态到内核态的内存分配</h5><ul>
+<li>首先进入内核，建立虚拟地址空间的映射，获得一块虚拟内存区VMA。</li>
+<li>当进程对这块虚存区进行访问时，如果物理内存尚未分配，那么此时发生一个缺页异常，通过get_free_pages 申请一个或多个物理页面</li>
+<li>再将此物理内存和虚拟内存的映射关系写入页表。</li>
+</ul>
+<h3 id="第五章-中断"><a href="#第五章-中断" class="headerlink" title="第五章 中断"></a>第五章 中断</h3><h4 id="一、中断概述"><a href="#一、中断概述" class="headerlink" title="一、中断概述"></a>一、中断概述</h4><h5 id="1-中断简介"><a href="#1-中断简介" class="headerlink" title="1.中断简介"></a>1.中断简介</h5><ul>
+<li>中断是CPU对系统发生的某个事件做出的一种反应</li>
+<li>引入中断，是为了支持CPU和设备之间的并行操作</li>
+<li>CPU接收到中断信号，并不会立即响应，而是在执行每条指令周期的最后一个时钟周期，一旦检测到中断信号有效，cpu才在当前指令执行完后转入中断响应周期</li>
+</ul>
+<h5 id="2-高级可编程中断控制器（APIC）"><a href="#2-高级可编程中断控制器（APIC）" class="headerlink" title="2.高级可编程中断控制器（APIC）"></a>2.高级可编程中断控制器（APIC）</h5><ul>
+<li>每个x86的核有一个本地APIC，这些本地APIC通过中断控制器通信总线连接到IO APIC上</li>
+<li>IO APIC手机各个外设的中断，并翻译成总线上的信息，传递给某个CPU上的本地APIC</li>
+</ul>
+<h5 id="3-中断子系统分成4个部分"><a href="#3-中断子系统分成4个部分" class="headerlink" title="3.中断子系统分成4个部分"></a>3.中断子系统分成4个部分</h5><ul>
+<li>硬件无关的代码，称之为Linux内核通用中断处理模块</li>
+<li>CPU体系结构相关的中断处理。</li>
+<li>中断控制器的驱动代码，和系统使用的中断控制器相关</li>
+<li>普通外设的驱动。这些驱动使用Linux内核通用中断处理模块的API来实现自己的驱动逻辑</li>
+</ul>
+<h5 id="4-中断向量——中断源"><a href="#4-中断向量——中断源" class="headerlink" title="4.中断向量——中断源"></a>4.中断向量——中断源</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-231850@2x.png" alt></p>
+<h5 id="5-中断描述符表中门"><a href="#5-中断描述符表中门" class="headerlink" title="5.中断描述符表中门"></a>5.中断描述符表中门</h5><blockquote>
+<p>“门”的含义是当中断发生时必须先通过这些门，然后才<br>能进入相应的处理程序。</p>
+</blockquote>
+<ul>
+<li>中断门：用户态的进程不能访问Intel的中断门。所有的中断处理程序<br>都由中断门激活，并全部限制在内核态。</li>
+<li>陷阱门：控制权通过陷阱门进入处理程序时维持中断标志位（IF）不变，也就是说，不关中断。</li>
+<li>系统门：这是Linux内核特别设置的，用来让用户态的进程访问Intel的陷阱门，因此，门描述符的DPL为3。系统调用就是通过系统门进入内核的。</li>
+</ul>
+<h4 id="一、中断处理机制"><a href="#一、中断处理机制" class="headerlink" title="一、中断处理机制"></a>一、中断处理机制</h4><h5 id="1-初始化中断描述符"><a href="#1-初始化中断描述符" class="headerlink" title="1.初始化中断描述符"></a>1.初始化中断描述符</h5><ul>
+<li>Linux内核在系统的初始化阶段要初始化可编程控制器</li>
+<li>将中断描述符表的起始地址装入中段描述符表寄存器，并初始化表中的每一项，当计算机运行在实模式时，中断秒适度表被初始化，并由BIOS使用</li>
+<li>真正进入了Linux内核，中断描述符就被移到内存的另一个区域，并为进入保护模式进行初始化</li>
+</ul>
+<h5 id="2-中断门的设置"><a href="#2-中断门的设置" class="headerlink" title="2.中断门的设置"></a>2.中断门的设置</h5><ul>
+<li>中断门的设置是由init_IRQ()函数中的一段代码完成的</li>
+<li>设置时必须跳过用于系统调用的向量0x80 </li>
+<li>中断处理程序的入口地址是一个数组interrupt[]，数组中的每个元素是指向中断处理例程（ISR）的指针。 </li>
+<li>每个中断处理例程属于内核中的代码段，其段基地址存放于全局描述表（GDT）中</li>
+</ul>
+<h5 id="3-中断处理过程"><a href="#3-中断处理过程" class="headerlink" title="3.中断处理过程"></a>3.中断处理过程</h5><ul>
+<li>中断和异常的硬件处理</li>
+<li>中断请求队列的建立</li>
+<li>中断处理程序的执行</li>
+<li>从中断返回</li>
+</ul>
+<h5 id="4-X86的中断处理"><a href="#4-X86的中断处理" class="headerlink" title="4.X86的中断处理"></a>4.X86的中断处理</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-101105@2x.png" alt></p>
+<h5 id="5-中断描述符——IRQ数据结构"><a href="#5-中断描述符——IRQ数据结构" class="headerlink" title="5.中断描述符——IRQ数据结构"></a>5.中断描述符——IRQ数据结构</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-104955@2x.png" alt></p>
+<h5 id="6-从中断-异常-系统调用返回"><a href="#6-从中断-异常-系统调用返回" class="headerlink" title="6.从中断/异常/系统调用返回"></a>6.从中断/异常/系统调用返回</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-105552@2x.png" alt></p>
+<h4 id="三、中断的下半部"><a href="#三、中断的下半部" class="headerlink" title="三、中断的下半部"></a>三、中断的下半部</h4><h5 id="1-中断的下半部"><a href="#1-中断的下半部" class="headerlink" title="1.中断的下半部"></a>1.中断的下半部</h5><ul>
+<li>随着系统的不断复杂，中断处理函数要做的事情也越来越多，多到都来不及接收新的中断了，于是发生了中断丢失</li>
+<li>内核把中断处理分为两部分：上半部（top half）不可中断和下半部（bottom half）可中断，上半部（也就是中断服务程序）内核立即执行，而下半部（就是一些内核函数）留着稍后处理</li>
+</ul>
+<h5 id="2-软中断机制"><a href="#2-软中断机制" class="headerlink" title="2.软中断机制"></a>2.软中断机制</h5><ul>
+<li>中断的上半部、下半部是一种概念，实际上是内核中的一个函数，这些函数写好后，什么时候执行，如何执行，必须由内核管理</li>
+<li>中断注册函数request_irq()把中断服务历程添加到中断请求队列中</li>
+<li>执行由do_IRQ完成</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-122047@2x.png" alt></p>
+<h5 id="3-软中断类型"><a href="#3-软中断类型" class="headerlink" title="3.软中断类型"></a>3.软中断类型</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-122146@2x.png" alt></p>
+<h5 id="4-何时使用哪种中断机制"><a href="#4-何时使用哪种中断机制" class="headerlink" title="4.何时使用哪种中断机制"></a>4.何时使用哪种中断机制</h5><ul>
+<li>软中断的使用原则很简单，最好不用。它甚至都不算是一种真正的中断处理机制，只是tasklet的实现基础。</li>
+<li>工作队列也要少用，如果不是必须要用到线程才能用的某些机制，就不要使用工作队列</li>
+<li>对于中断来说，只是对中断进行简单的处理，大部分工作是在驱动程序中完成的</li>
+<li>除了上述情况，一般都使用小任务tasklet。</li>
+</ul>
+<h4 id="三、Linux的时间系统"><a href="#三、Linux的时间系统" class="headerlink" title="三、Linux的时间系统"></a>三、Linux的时间系统</h4><h5 id="1-时钟中断的作用"><a href="#1-时钟中断的作用" class="headerlink" title="1.时钟中断的作用"></a>1.时钟中断的作用</h5><ul>
+<li>维持系统时间</li>
+<li>促进进程的转换</li>
+<li>保证所有进程共享CPU</li>
+<li>利用时钟中断进行记账、系统监督工作以及确定未来的调度优先级等工作</li>
+</ul>
+<h5 id="2-基本时钟硬件"><a href="#2-基本时钟硬件" class="headerlink" title="2.基本时钟硬件"></a>2.基本时钟硬件</h5><ul>
+<li>编程定时/计数器产生脉冲，由此引发中断请求信号</li>
+<li>从本质上说，时钟中断知识一个周期性地信号，完全是硬件行为</li>
+</ul>
+<h5 id="3-与时钟有关的硬件"><a href="#3-与时钟有关的硬件" class="headerlink" title="3.与时钟有关的硬件"></a>3.与时钟有关的硬件</h5><ul>
+<li>实时时钟RTC</li>
+<li>可编程间隔器PIT</li>
+<li>时间戳计数器</li>
+<li>高精度计时器</li>
+<li>CPU本地定时器</li>
+<li>高精度定时器</li>
+</ul>
+<h5 id="4-基本时钟运行机制"><a href="#4-基本时钟运行机制" class="headerlink" title="4.基本时钟运行机制"></a>4.基本时钟运行机制</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-161459@2x.png" alt></p>
+<h5 id="5-Linux时钟框架"><a href="#5-Linux时钟框架" class="headerlink" title="5.Linux时钟框架"></a>5.Linux时钟框架</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-162129@2x.png" alt></p>
+<ul>
+<li>在软件架构上看，时钟事件设备（clock_event_device）被分为了两层，与硬件相关的被放在了machine层，而与硬件无关的通用代码则被集中到了通用时间框架层</li>
+<li>tick_device起什么作用？它是基于时钟事件设备的进一步封装，用于代替原有的时钟滴答中断，给内核提供节拍事件，以完成进程的调度和进程信息统计，负载平衡和时间更新等操作。</li>
+<li>高分辨率定时器的代码实现时，内核的开发者考察了多种数据结构，例如基数树、哈希表等等，最终选择了红黑树（rbtree）来组织hrtimer。hrtimer不停地被创建和销毁，新的hrtimer按顺序被插入到红黑树中，树的最左边的节点就是最快到期的定时器。</li>
+</ul>
+<h5 id="6-定时器的使用"><a href="#6-定时器的使用" class="headerlink" title="6.定时器的使用"></a>6.定时器的使用</h5><ul>
+<li>定义定时器</li>
+<li>struct timer_list my_timer; </li>
+<li>初始化定时器，填充定时器的结构</li>
+<li>init_timer(&amp;my_timer); </li>
+<li>激活定时器：add_timer(&amp;my_timer);</li>
+<li>如果需要修改修改定时器，则调用 mod_timer(&amp;my_timer) </li>
+<li>如果需要在定时器到期前停止定时器，可以使用</li>
+<li>del_timer(&amp;my_timer)函数：</li>
+</ul>
+<h3 id="第六章-系统调用"><a href="#第六章-系统调用" class="headerlink" title="第六章 系统调用"></a>第六章 系统调用</h3><h4 id="一、Linux中各种接口"><a href="#一、Linux中各种接口" class="headerlink" title="一、Linux中各种接口"></a>一、Linux中各种接口</h4><h5 id="1-Linux-API"><a href="#1-Linux-API" class="headerlink" title="1. Linux API"></a>1. Linux API</h5><ul>
+<li>Linux内核的系统调用接口和GNU C库（glibc）中的例程。</li>
+<li>Linux内核系统调用接口系统调用接口是内核中所有已实现和可用系统调用的集合</li>
+<li>GNU C标准库是Linux内核系统调用接口的封装</li>
+</ul>
+<h5 id="2-POSIX标准"><a href="#2-POSIX标准" class="headerlink" title="2.POSIX标准"></a>2.POSIX标准</h5><ul>
+<li>POSIX表示可移植操作系统接口（Portable Operating System Interface of UNIX，缩写为 POSIX ）</li>
+<li>POSIX标准定义了操作系统应该为程序提供的标准接口</li>
+</ul>
+<h5 id="3-Linux-ABI内容"><a href="#3-Linux-ABI内容" class="headerlink" title="3.Linux ABI内容"></a>3.Linux ABI内容</h5><ul>
+<li>一个特定的处理器指令集</li>
+<li>函数调用惯例</li>
+<li>系统调用方式 </li>
+<li>可执行文件的格式(ELF,PE)</li>
+</ul>
+<h4 id="二、系统调用机制"><a href="#二、系统调用机制" class="headerlink" title="二、系统调用机制"></a>二、系统调用机制</h4><h5 id="1-跟踪进程所调用的系统调用"><a href="#1-跟踪进程所调用的系统调用" class="headerlink" title="1.跟踪进程所调用的系统调用"></a>1.跟踪进程所调用的系统调用</h5><blockquote>
+<p>strace ls</p>
+</blockquote>
+<h5 id="2-中断、异常和系统调用比较"><a href="#2-中断、异常和系统调用比较" class="headerlink" title="2.中断、异常和系统调用比较"></a>2.中断、异常和系统调用比较</h5><ul>
+<li>中断：外设发出的请求</li>
+<li>异常：应用程序意想不到的行为</li>
+<li>系统调用：应用程序请求OS提供服务 </li>
+<li>响应方式<blockquote>
+<p>中断是异步的，异常是同步的，而系统调用既可以是异步，也可以是同步。</p>
+</blockquote>
+</li>
+<li>处理机制<blockquote>
+<p>中断服务程序在内核态下运行，对用户是透明的。异常出现时，或者杀死进程，或者重新执行引起异常的指令。系统调用，用户发出请求后等待OS的服务。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="3-系统调用的基本概念"><a href="#3-系统调用的基本概念" class="headerlink" title="3.系统调用的基本概念"></a>3.系统调用的基本概念</h5><ul>
+<li>系统调用标识号：用来唯一标识每个系统调用</li>
+<li>系统调用表：是用来把系统调用号和相应的服务例程关联起来。该表存放在sys_call_table数组中</li>
+</ul>
+<h3 id="第七章-内核同步"><a href="#第七章-内核同步" class="headerlink" title="第七章 内核同步"></a>第七章 内核同步</h3><h4 id="一、内核同步机制概述"><a href="#一、内核同步机制概述" class="headerlink" title="一、内核同步机制概述"></a>一、内核同步机制概述</h4><h5 id="1-并发执行的原因"><a href="#1-并发执行的原因" class="headerlink" title="1.并发执行的原因"></a>1.并发执行的原因</h5><ul>
+<li>中断</li>
+<li>睡眠</li>
+<li>内核抢占</li>
+<li>对称多处理</li>
+</ul>
+<h5 id="2-竞争条件"><a href="#2-竞争条件" class="headerlink" title="2.竞争条件"></a>2.竞争条件</h5><ul>
+<li>至少有两个可执行上下文“并行执行”</li>
+<li>可执行上下文对共享内训变量执行“读写”访问</li>
+</ul>
+<h5 id="3-临界区"><a href="#3-临界区" class="headerlink" title="3.临界区"></a>3.临界区</h5><ul>
+<li>访问和操作共享数据的代码段叫做临界区</li>
+<li>多个内核任务并发访问同一个资源通常是不安全的。为了避免对临界区进行并发访问，编程者必须保证临界区代码被原子地执行。</li>
+</ul>
+<h5 id="4-保护临界区的措施"><a href="#4-保护临界区的措施" class="headerlink" title="4.保护临界区的措施"></a>4.保护临界区的措施</h5><ul>
+<li>使临界区的操作原子进行</li>
+<li>进入临界区后禁止抢占</li>
+<li>串行地访问临界区</li>
+</ul>
+<h5 id="5-原子操作"><a href="#5-原子操作" class="headerlink" title="5.原子操作"></a>5.原子操作</h5><blockquote>
+<p>对于由多个内核任务进行共享的变量，其load-modify-store必须是原子地进行的，不能分割</p>
+</blockquote>
+<h5 id="6-共享队列和加锁"><a href="#6-共享队列和加锁" class="headerlink" title="6.共享队列和加锁"></a>6.共享队列和加锁</h5><ul>
+<li>当共享资源是一个复杂的数据结构时，竞争状态往往会使该数据结构遭到破坏。</li>
+<li>访问队列必须加锁</li>
+</ul>
+<h5 id="7-死锁的避免"><a href="#7-死锁的避免" class="headerlink" title="7.死锁的避免"></a>7.死锁的避免</h5><blockquote>
+<p>所有任务都在相互等待，但它们永远不会释放已经占有的资源，于是任何任务都无法继续，这种情况就是死锁。</p>
+</blockquote>
+<ul>
+<li>加锁的顺序是关键。</li>
+<li>防止发生饥饿</li>
+<li>不要重复请求同一个锁</li>
+<li>越复杂的加锁方案越有可能造成死锁</li>
+</ul>
+<h4 id="二、内核同步措施"><a href="#二、内核同步措施" class="headerlink" title="二、内核同步措施"></a>二、内核同步措施</h4><blockquote>
+<p>内核同步措施主要有中断屏蔽、原子操作、自旋锁、信号量</p>
+</blockquote>
+<h5 id="1-中断屏蔽"><a href="#1-中断屏蔽" class="headerlink" title="1.中断屏蔽"></a>1.中断屏蔽</h5><ul>
+<li>在进入临界区之前屏蔽系统的中断，从而保证正在执行的内核任务不被中断处理程序锁抢断，防止某些静态条件的发生，在退出临界区后，重新打开中断</li>
+<li>中断屏蔽的缺点：1.不能解决多处理器引发的竞态；2.在屏蔽器件所有的中断无法得到处理</li>
+</ul>
+<h5 id="2-自旋锁"><a href="#2-自旋锁" class="headerlink" title="2.自旋锁"></a>2.自旋锁</h5><ul>
+<li>设计自旋锁的初衷是在短期间内进行轻量级的锁定，所以自旋锁不应该被持有时间过长。</li>
+<li>自旋锁在内核中主要用来防止多处理器中并发访问临界区，防止内核抢占造成的竞争</li>
+<li>自旋锁不允许任务睡眠，持有自旋锁的任务睡眠会造成自死锁，因此自旋锁能够在中断上下文中使用。</li>
+</ul>
+<h5 id="3-信号量"><a href="#3-信号量" class="headerlink" title="3.信号量"></a>3.信号量</h5><ul>
+<li>Linux中的信号量是一种睡眠锁</li>
+<li>若有一个任务试图获得一个已被持有的信号量时，信号量会将其推入等待队列，然后让其睡眠。</li>
+<li>信号量具有睡眠特性，适用于锁会被长时间持有的情况，只能在进程上下文中使用。</li>
+</ul>
+<h5 id="4-信号量与自旋锁的比较"><a href="#4-信号量与自旋锁的比较" class="headerlink" title="4.信号量与自旋锁的比较"></a>4.信号量与自旋锁的比较</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-231325@2x.png" alt></p>
+<h5 id="5-内核其他的同步措施"><a href="#5-内核其他的同步措施" class="headerlink" title="5.内核其他的同步措施"></a>5.内核其他的同步措施</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-231439@2x.png" alt></p>
+<h3 id="第八章-文件系统"><a href="#第八章-文件系统" class="headerlink" title="第八章 文件系统"></a>第八章 文件系统</h3><h4 id="一、虚拟文件系统的引入"><a href="#一、虚拟文件系统的引入" class="headerlink" title="一、虚拟文件系统的引入"></a>一、虚拟文件系统的引入</h4><h5 id="1-Linux文件系统"><a href="#1-Linux文件系统" class="headerlink" title="1.Linux文件系统"></a>1.Linux文件系统</h5><ul>
+<li>文件系统是操作系统用于明确存储设备或分区上的文件的方法和数据结构</li>
+<li>操作系统文件信息的软件机构称为文件管理系统</li>
+<li>Linux常见的文件系统有ext2,3,4,NTFS,JFS,XFS等</li>
+</ul>
+<h5 id="2-Linux的文件结构"><a href="#2-Linux的文件结构" class="headerlink" title="2.Linux的文件结构"></a>2.Linux的文件结构</h5><blockquote>
+<p>Linux采用标准的目录结构—树型结构，无论操作系统管理几个磁盘分区，这样的目录树只有一个。</p>
+</blockquote>
+<h5 id="3-Linux文件系统之索引点"><a href="#3-Linux文件系统之索引点" class="headerlink" title="3.Linux文件系统之索引点"></a>3.Linux文件系统之索引点</h5><ul>
+<li>Linux文件系统使用索引节点来记录文件信息</li>
+<li>系统给每个索引节点分配一个号码，称为索引节点</li>
+<li>文件系统就是靠这个索引节点号识别一个文件</li>
+</ul>
+<h5 id="4-文件系统类型"><a href="#4-文件系统类型" class="headerlink" title="4.文件系统类型"></a>4.文件系统类型</h5><ul>
+<li>ext2具有极快的速度和极小的CPU占用率，可用于硬盘和移动存储设备</li>
+<li>ext3增加日志功能，可回溯追踪</li>
+<li>ext4日志式文件系统，支持1EB（1024*1024TB），最大单文件16TB，支持连续写入可减少文件碎片。</li>
+<li>xfs可以管理500T的硬盘，</li>
+<li>brtfs文件系统针对固态盘做优化等等</li>
+</ul>
+<h5 id="5-文件系统的安装"><a href="#5-文件系统的安装" class="headerlink" title="5.文件系统的安装"></a>5.文件系统的安装</h5><blockquote>
+<p>将一个文件系统的顶层目录挂到另一个文件系统的子目录上，使他们成为一个整体，称为“安装（mount）”。把该子目录称为“安装点（mount point）”</p>
+</blockquote>
+<h5 id="6-虚拟文件系统（VFS）框架"><a href="#6-虚拟文件系统（VFS）框架" class="headerlink" title="6.虚拟文件系统（VFS）框架"></a>6.虚拟文件系统（VFS）框架</h5><blockquote>
+<p>虚拟文件系统所提供的抽象界面主要由一组标准的、抽象的操作构成，例如open(),read()、write()等，这些函数以系统调用的形式供用户程序调用。</p>
+</blockquote>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-110931@2x.png" alt></p>
+<ul>
+<li>Linux内核采用VFS框架来组织文件系统，每个文件系统用一个超级块数据结构来描述</li>
+<li>一个文件系统如果想加入VFS，就得先在VFS进行注册</li>
+</ul>
+<h4 id="二、VFS的数据结构"><a href="#二、VFS的数据结构" class="headerlink" title="二、VFS的数据结构"></a>二、VFS的数据结构</h4><h5 id="1-VFS共性对象的抽象"><a href="#1-VFS共性对象的抽象" class="headerlink" title="1.VFS共性对象的抽象"></a>1.VFS共性对象的抽象</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-112514@2x.png" alt></p>
+<h5 id="2-索引节点对象-描述文件属性"><a href="#2-索引节点对象-描述文件属性" class="headerlink" title="2.索引节点对象-描述文件属性"></a>2.索引节点对象-描述文件属性</h5><blockquote>
+<p>索引节点对象存储了文件的相关信息，代表了存储设备上的一个实际的物理文件。当一个 文件首次被访问时，内核会在内存中组装相应的索引节点对象，以便向内核提供对一个文件进行操 作时所必需的全部信息；这些信息一部分存储在磁盘特定位置，另外一部分是在加载时动态填充的。</p>
+</blockquote>
+<h5 id="3-目录项对象——描述文件的路径"><a href="#3-目录项对象——描述文件的路径" class="headerlink" title="3.目录项对象——描述文件的路径"></a>3.目录项对象——描述文件的路径</h5><ul>
+<li>引入目录项的概念主要是出于方便查找文件的目的。</li>
+<li>一个路径的各个组成部分，不管是目录还是普通的文件，都是一个目录项对象。</li>
+<li>不同于前面的两个对象，目录项对象没有对应的磁盘数据结构，VFS在遍历路径名的过程中现场将它们逐个地解析成目录项对象。</li>
+</ul>
+<h5 id="4-文件对象"><a href="#4-文件对象" class="headerlink" title="4.文件对象"></a>4.文件对象</h5><blockquote>
+<p>文件对象是已打开的文件在内存中的表示，主要用于建立进程和磁盘上的文件的对应关系。它由sys_open()现场创建，由sys_close()销毁。</p>
+</blockquote>
+<h5 id="5-与进程相关的文件结构"><a href="#5-与进程相关的文件结构" class="headerlink" title="5.与进程相关的文件结构"></a>5.与进程相关的文件结构</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-114147@2x.png" alt></p>
+<h4 id="三、文件系统的缓冲区"><a href="#三、文件系统的缓冲区" class="headerlink" title="三、文件系统的缓冲区"></a>三、文件系统的缓冲区</h4><h5 id="1-文件系统中的缓冲区"><a href="#1-文件系统中的缓冲区" class="headerlink" title="1.文件系统中的缓冲区"></a>1.文件系统中的缓冲区</h5><blockquote>
+<p>缓冲区(buffer)，它是内存空间的一部分。也就是说，在内存空间中预留了一定的存储空间，这些存储空间用来缓冲输入或输出的数据，这部分预留的空间就叫做缓冲区。</p>
+</blockquote>
+<h5 id="2-buffer和cache有何不同"><a href="#2-buffer和cache有何不同" class="headerlink" title="2.buffer和cache有何不同"></a>2.buffer和cache有何不同</h5><blockquote>
+<p>buffer，内存缓冲区，是各进程产生的文件临时存放区，一定时间段内统一写入磁盘，减少磁盘碎片和 硬盘的反复寻道，从而提高系统性能；简单来说，buffer就是存放要写入磁盘的数据。</p>
+</blockquote>
+<blockquote>
+<p>cache，内存缓存区，经常被用在磁盘的I/O请求上，如果有文件频繁被访问到，系统会将文件缓存在cache区，供CPU、进程等访问；简单来说cache中的数据就是存放磁盘中读出来的数据。</p>
+</blockquote>
+<h5 id="3-Buffer-Cache和-Page-Cache有何不同？"><a href="#3-Buffer-Cache和-Page-Cache有何不同？" class="headerlink" title="3.Buffer Cache和 Page Cache有何不同？"></a>3.Buffer Cache和 Page Cache有何不同？</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-120555@2x.png" alt></p>
+<h4 id="四、页高速缓存以及读写"><a href="#四、页高速缓存以及读写" class="headerlink" title="四、页高速缓存以及读写"></a>四、页高速缓存以及读写</h4><h5 id="1-文件系统的读写单位"><a href="#1-文件系统的读写单位" class="headerlink" title="1.文件系统的读写单位"></a>1.文件系统的读写单位</h5><blockquote>
+<p>文件系统的读写单位是块，一个块的大小是2的n次方个扇区，比如1k，2k, 4k, 4M 等</p>
+</blockquote>
+<h5 id="2-从Buffer-Cache到Page-Cache"><a href="#2-从Buffer-Cache到Page-Cache" class="headerlink" title="2.从Buffer Cache到Page Cache"></a>2.从Buffer Cache到Page Cache</h5><ul>
+<li>buffer cache是面向底层块设备的，所以它的粒度是文件系统的块，块设备和系统采用块进行交互。</li>
+<li>块再转换成磁盘的基本物理结构扇区。</li>
+<li>内核的内存管理组件采用了比文件系统的块更高级别的抽象-页(page)，页的大小一般从4KB到2MB,粒度更大，处理的性能更高。</li>
+</ul>
+<h5 id="3-索引节点、页和页缓存之间的关系"><a href="#3-索引节点、页和页缓存之间的关系" class="headerlink" title="3.索引节点、页和页缓存之间的关系"></a>3.索引节点、页和页缓存之间的关系</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-142807@2x.png" alt></p>
+<h5 id="4-如何读取一个文件"><a href="#4-如何读取一个文件" class="headerlink" title="4.如何读取一个文件"></a>4.如何读取一个文件</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-143501@2x.png" alt></p>
+<h5 id="5-如何写入文件"><a href="#5-如何写入文件" class="headerlink" title="5.如何写入文件"></a>5.如何写入文件</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-143926@2x.png" alt></p>
+<h3 id="第九章-设备驱动"><a href="#第九章-设备驱动" class="headerlink" title="第九章 设备驱动"></a>第九章 设备驱动</h3><h4 id="一、设备驱动概述"><a href="#一、设备驱动概述" class="headerlink" title="一、设备驱动概述"></a>一、设备驱动概述</h4><h5 id="1-如何表示设备"><a href="#1-如何表示设备" class="headerlink" title="1.如何表示设备"></a>1.如何表示设备</h5><ul>
+<li>索引节点</li>
+<li>主设备号</li>
+<li>次设备号</li>
+</ul>
+<h5 id="2-设备的分类"><a href="#2-设备的分类" class="headerlink" title="2.设备的分类"></a>2.设备的分类</h5><ul>
+<li>块设备</li>
+<li>字符设备</li>
+<li>网络设备</li>
+</ul>
+<h5 id="3-不同设备的类型的差异性"><a href="#3-不同设备的类型的差异性" class="headerlink" title="3.不同设备的类型的差异性"></a>3.不同设备的类型的差异性</h5><ul>
+<li>字符设备和块设备对应/dev下的一个设备文件。而网络设备不存在这样的设备文件。网络设备使用套接字socket访问，虽然也使用read,write系统调用，但这些调用只作用于软件对象。</li>
+<li>块设备只响应来自内核的请求，而网络驱动程序异步接收来自外部世界的数据包，并发送到内核。</li>
+<li>文件系统通常都建立在块设备上，也有很多文件系统放在内存，比如/proc，不需要驱动程序。</li>
+</ul>
+<h5 id="4-设备驱动程序在应用开发中的位置"><a href="#4-设备驱动程序在应用开发中的位置" class="headerlink" title="4.设备驱动程序在应用开发中的位置"></a>4.设备驱动程序在应用开发中的位置</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-150652@2x.png" alt></p>
+<h5 id="5-内核配置选项及驱动程序编译"><a href="#5-内核配置选项及驱动程序编译" class="headerlink" title="5.内核配置选项及驱动程序编译"></a>5.内核配置选项及驱动程序编译</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-150948@2x.png" alt></p>
+<h4 id="二、IO空间的管理"><a href="#二、IO空间的管理" class="headerlink" title="二、IO空间的管理"></a>二、IO空间的管理</h4><h5 id="1-I-O端口"><a href="#1-I-O端口" class="headerlink" title="1.I/O端口"></a>1.I/O端口</h5><ul>
+<li>设备驱动程序要直接访问外设或其接口卡上的物理电路，通常以寄存器的形式出现访问；</li>
+<li>外设寄存器也称为I/O端口，通常包括控制寄存器、状态寄存器和数据寄存器三类。</li>
+</ul>
+<h5 id="2-I-O资源管理"><a href="#2-I-O资源管理" class="headerlink" title="2.I/O资源管理"></a>2.I/O资源管理</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-152040@2x.png" alt></p>
+<h4 id="三、设备驱动模型"><a href="#三、设备驱动模型" class="headerlink" title="三、设备驱动模型"></a>三、设备驱动模型</h4><h5 id="1-Linux设备驱动模型引入的目的"><a href="#1-Linux设备驱动模型引入的目的" class="headerlink" title="1.Linux设备驱动模型引入的目的"></a>1.Linux设备驱动模型引入的目的</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-153901@2x.png" alt></p>
+<h5 id="2-核心对象之kobject"><a href="#2-核心对象之kobject" class="headerlink" title="2.核心对象之kobject"></a>2.核心对象之kobject</h5><ul>
+<li>kobject结构体是设备驱动模型底层的一个结构体，这个结构体是设备驱动模型下的所有对象的一个基本单元，它是对设备驱动模型下所有对象抽象出来的共有的部分；</li>
+<li>kobject结构体提供了一些公共型的服务：对象引用计数、维护对象链表、对象上锁、对用户空间的表示。</li>
+<li>设备驱动模型中的各种对象其内部都会包含一个kobject，地位相当于面向对象思想中的总基类。</li>
+</ul>
+<h4 id="三、字符设备驱动程序"><a href="#三、字符设备驱动程序" class="headerlink" title="三、字符设备驱动程序"></a>三、字符设备驱动程序</h4><h5 id="1-字符设备基础"><a href="#1-字符设备基础" class="headerlink" title="1.字符设备基础"></a>1.字符设备基础</h5><ul>
+<li>字符设备是指只能一个字节一个字节进行读写操作的设备，不能随机读取设备中的某一数据，读取数据要按照先后顺序</li>
+<li>字符设备是面向流的设备，常见的字符设备有鼠标、键盘、串口、控制台和LED等</li>
+<li>一般每个字符设备或者块设备会在/dev目录下对应一个设备文件</li>
+</ul>
+<h5 id="2-编写字符设备驱动的步骤"><a href="#2-编写字符设备驱动的步骤" class="headerlink" title="2.编写字符设备驱动的步骤"></a>2.编写字符设备驱动的步骤</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-155434@2x.png" alt></p>
+<h5 id="3-设备号的申请和释放"><a href="#3-设备号的申请和释放" class="headerlink" title="3.设备号的申请和释放"></a>3.设备号的申请和释放</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-155651@2x.png" alt></p>
+<h4 id="五、块设备驱动程序"><a href="#五、块设备驱动程序" class="headerlink" title="五、块设备驱动程序"></a>五、块设备驱动程序</h4><h5 id="1-块设备和字符设备的区别"><a href="#1-块设备和字符设备的区别" class="headerlink" title="1.块设备和字符设备的区别"></a>1.块设备和字符设备的区别</h5><ul>
+<li>块设备上可以mount文件系统，而字符设备是不可以的；</li>
+<li>数据经过块设备相比操作字符设备需要多经历一个数据缓冲层（buffer cache）机制。</li>
+</ul>
+<h5 id="2-I-O调度算法"><a href="#2-I-O调度算法" class="headerlink" title="2.I/O调度算法"></a>2.I/O调度算法</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-160058@2x.png" alt></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux内核</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux实验</title>
+    <url>/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/</url>
+    <content><![CDATA[<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/07/06/UPgae1.md.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">白发少女</div>
+</center>
+
+
+<blockquote>
+<p>此文为学习《奔跑吧Linux内核》所做实验做的笔记</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="第一章-Linux系统入门"><a href="#第一章-Linux系统入门" class="headerlink" title="第一章 Linux系统入门"></a>第一章 Linux系统入门</h3><h4 id="1-阅读服务器系统信息"><a href="#1-阅读服务器系统信息" class="headerlink" title="1.阅读服务器系统信息"></a>1.阅读服务器系统信息</h4><p>cat /proc/cpuinfo</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vendor_id　：CPU制造商     </span><br><span class="line">cpu family　：CPU产品系列代号</span><br><span class="line">model　　　：CPU属于其系列中的哪一代的代号</span><br><span class="line">model name：CPU属于的名字及其编号、标称主频</span><br><span class="line">stepping　  ：CPU属于制作更新版本</span><br><span class="line">cpu MHz　  ：CPU的实际使用主频</span><br><span class="line">cache size   ：CPU二级缓存大小</span><br><span class="line">physical id   ：单个CPU的标号</span><br><span class="line">siblings       ：单个CPU逻辑物理核数</span><br><span class="line">core id        ：当前物理核在其所处CPU中的编号，这个编号不一定连续</span><br><span class="line">cpu cores    ：该逻辑核所处CPU的物理核数</span><br><span class="line">apicid          ：用来区分不同逻辑核的编号，系统中每个逻辑核的此编号必然不同，此编号不一定连续</span><br><span class="line">fpu             ：是否具有浮点运算单元（Floating Point Unit）</span><br><span class="line">fpu_exception  ：是否支持浮点计算异常</span><br><span class="line">cpuid level   ：执行cpuid指令前，eax寄存器中的值，根据不同的值cpuid指令会返回不同的内容</span><br><span class="line">wp             ：表明当前CPU是否在内核态支持对用户空间的写保护（Write Protection）</span><br><span class="line">flags          ：当前CPU支持的功能</span><br><span class="line">bogomips   ：在系统内核启动时粗略测算的CPU速度（Million Instructions Per Second）</span><br><span class="line">clflush size  ：每次刷新缓存的大小单位</span><br><span class="line">cache_alignment ：缓存地址对齐单位</span><br><span class="line">address sizes     ：可访问地址空间位数</span><br><span class="line">power management ：对能源管理的支持，有以下几个可选支持功能</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二章-Linux内核基础知识"><a href="#第二章-Linux内核基础知识" class="headerlink" title="第二章 Linux内核基础知识"></a>第二章 Linux内核基础知识</h3><h4 id="一、C文件编译"><a href="#一、C文件编译" class="headerlink" title="一、C文件编译"></a>一、C文件编译</h4><p>vi test.c添加一下内容</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#define PAGE_SIZE 4096</span><br><span class="line">#define MAX_SIZE 100*PAGE_SIZE</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">        char *buf &#x3D; (char *)malloc(MAX_SIZE);</span><br><span class="line">        memset(buf, 0, MAX_SIZE);</span><br><span class="line">        printf(&quot;buffer adress &#x3D; 0x%p\n&quot;, buf);</span><br><span class="line">        free(buf);</span><br><span class="line">        return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>预处理 GCC的“-E”选项可以让预处理阶段就结束，-o指定输出文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc -E test.c -o test.i</span><br></pre></td></tr></table></figure>
+<p>编译 “-S”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc test.i -o test.s</span><br></pre></td></tr></table></figure>
+<p>汇编 “-c”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc -c test.s -o test.o</span><br></pre></td></tr></table></figure>
+<p>链接 “–static”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc  test.o -o test --static</span><br></pre></td></tr></table></figure>
+<p>写个Makefile来编译</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cc &#x3D; arm-linux-gnueabi-gcc</span><br><span class="line">prom &#x3D; test </span><br><span class="line">obj &#x3D; test.o</span><br><span class="line">CFLAGS &#x3D; -static</span><br><span class="line"></span><br><span class="line">$(prom) : $(obj)</span><br><span class="line">        $(cc) -o $(prom) $(obj) $(CFLAGS)</span><br><span class="line"></span><br><span class="line">%.o: %.c</span><br><span class="line">        $(cc) -c $&lt; -o $@</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">        rm -rf $(obj) $(prom)</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、把Vim打造成一个强大的IDE编辑器"><a href="#二、把Vim打造成一个强大的IDE编辑器" class="headerlink" title="二、把Vim打造成一个强大的IDE编辑器"></a>二、把Vim打造成一个强大的IDE编辑器</h4><h5 id="下载Vundle"><a href="#下载Vundle" class="headerlink" title="下载Vundle"></a>下载Vundle</h5><p>（1）下载插件管理器Vundle</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;VundleVim&#x2F;Vundle.vim.git ~&#x2F;.vim&#x2F;bundle&#x2F;Vundle.vim</span><br></pre></td></tr></table></figure>
+<p>（2）配置Vundle，编辑Vim的配置文件vimrc</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim .vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set nocompatible              &quot; be iMproved, required</span><br><span class="line">filetype off                  &quot; required</span><br><span class="line"></span><br><span class="line">&quot; 启用vundle来管理vim插件</span><br><span class="line">set rtp+&#x3D;~&#x2F;.vim&#x2F;bundle&#x2F;Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">&quot; 安装插件写在这之后</span><br><span class="line"></span><br><span class="line">&quot; let Vundle manage Vundle, required</span><br><span class="line">Plugin &#39;VundleVim&#x2F;Vundle.vim&#39;</span><br><span class="line"></span><br><span class="line">&quot; 安装插件写在这之前</span><br><span class="line">call vundle#end()            &quot; required</span><br><span class="line">filetype plugin on    &quot; required</span><br><span class="line"></span><br><span class="line">&quot; 常用命令</span><br><span class="line">&quot; :PluginList       - 查看已经安装的插件</span><br><span class="line">&quot; :PluginInstall    - 安装插件</span><br><span class="line">&quot; :PluginUpdate     - 更新插件</span><br><span class="line">&quot; :PluginSearch     - 搜索插件，例如 :PluginSearch xml就能搜到xml相关的插件</span><br><span class="line">&quot; :PluginClean      - 删除插件，把安装插件对应行删除，然后执行这个命令即可</span><br></pre></td></tr></table></figure>
+<p>（3）安装插件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+
+<h5 id="ctags工具"><a href="#ctags工具" class="headerlink" title="ctags工具"></a>ctags工具</h5><blockquote>
+<p>ctags的功能：扫描指定的源文件，找出其中所包含的语法元素，并将找到的相关内容记录下来</p>
+</blockquote>
+<p>下载ctags</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ctags</span><br></pre></td></tr></table></figure>
+<p>递归扫描源代码根目录和子目录的文件并且生成索引文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ctags -R</span><br></pre></td></tr></table></figure>
+<p>进入vim加载这个tags文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:set tags&#x3D;tags</span><br></pre></td></tr></table></figure>
+
+<h5 id="Tagbar插件"><a href="#Tagbar插件" class="headerlink" title="Tagbar插件"></a>Tagbar插件</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Plugin &#39;majutsushi&#x2F;tagbar&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+
+<h5 id="NerdTree插件"><a href="#NerdTree插件" class="headerlink" title="NerdTree插件"></a>NerdTree插件</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Plugin &#39;scrooloose&#x2F;nerdtree&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+
+<h5 id="YouCompleteMe插件"><a href="#YouCompleteMe插件" class="headerlink" title="YouCompleteMe插件"></a>YouCompleteMe插件</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Plugin &#39;valloric&#x2F;YouCompleteMe&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+<p>插件安装完成以后需要重新编译它，编译之前需要下载如下软件包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install build-essential cmake python-dev python3-dev</span><br></pre></td></tr></table></figure>
+<p>进入 YouCompleteMe进行编译</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd ~&#x2F;.vim&#x2F;bundle&#x2F;YouCompleteMe</span><br><span class="line">.&#x2F;install.py --clang-comleter</span><br></pre></td></tr></table></figure>
+<p>拷贝配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp ~&#x2F;.vim&#x2F;bundle&#x2F;YouCompleteMe&#x2F;third_party&#x2F;ycmd&#x2F;examples&#x2F;.ycm_extra_conf.py ~&#x2F;.vim</span><br></pre></td></tr></table></figure>
+<p>再在.vimrc配置文件中还需要添加如下配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let g:ycm_server_python_interpreter&#x3D;&#39;&#x2F;usr&#x2F;bin&#x2F;python&#39;</span><br><span class="line">let g:ycm_global_ycm_extra_conf&#x3D;&#39;~&#x2F;.vim&#x2F;.ycm_extra_conf.py&#39;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、在服务器上建立git仓库"><a href="#三、在服务器上建立git仓库" class="headerlink" title="三、在服务器上建立git仓库"></a>三、在服务器上建立git仓库</h4><p>服务器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir KongoBlog.git</span><br><span class="line">cd KongoBlog.git</span><br><span class="line">git --bare init</span><br></pre></td></tr></table></figure>
+<p>客户端</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir KongoBlog</span><br><span class="line">cd KongBlog</span><br><span class="line">git init </span><br><span class="line">git remote add origin ssh:&#x2F;&#x2F;root@ip:&#x2F;root&#x2F;KongoBlog.git</span><br></pre></td></tr></table></figure>
+<p>推送方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin master</span><br></pre></td></tr></table></figure>
+<p>拉取方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone ssh:&#x2F;&#x2F;root@ip:&#x2F;root&#x2F;KongoBlog.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三章-内核编译和调试"><a href="#第三章-内核编译和调试" class="headerlink" title="第三章 内核编译和调试"></a>第三章 内核编译和调试</h3><h4 id="一、通过QEMU调试ARM-Linux内核"><a href="#一、通过QEMU调试ARM-Linux内核" class="headerlink" title="一、通过QEMU调试ARM Linux内核"></a>一、通过QEMU调试ARM Linux内核</h4><h5 id="1-下载软件"><a href="#1-下载软件" class="headerlink" title="1.下载软件"></a>1.下载软件</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install gdb-multiarch</span><br></pre></td></tr></table></figure>
+<h5 id="2-内核配置"><a href="#2-内核配置" class="headerlink" title="2.内核配置"></a>2.内核配置</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">export ARCH&#x3D;arm</span><br><span class="line">export CROSS_COMPILE&#x3D;arm-linux-gnueabi-</span><br><span class="line">make vexpress_defconfig</span><br><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+<p>记得保证编译的内核包含调试信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Kernel Hacking  ---&gt;</span><br><span class="line">Compile-time checks and compiler options ---&gt;</span><br><span class="line">  [*] Compile the kernel with debug info</span><br></pre></td></tr></table></figure>
+<p>重新编译内核</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make bzImage -j4 </span><br><span class="line">make dtbs</span><br></pre></td></tr></table></figure>
+<p>在终端输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">qemu-system-arm -nographic -M vexpress-a9 -m 100M -kernel arch&#x2F;arm&#x2F;boot&#x2F;zImage -append &quot;rdinit&#x3D;&#x2F;linuxrc console&#x3D;ttyAMA0 loglevel&#x3D;8&quot; -dtb arch&#x2F;arm&#x2F;boot&#x2F;dts&#x2F;vexpress-v2p-ca9.dtb -S -s</span><br></pre></td></tr></table></figure>
+<p>-S 表示QEMU虚拟机会冻结CPU，直到远程GDB输入相应的控制指令为止<br>-s 表示在1234端口接受GDB的调试连接</p>
+<p>在另一中断输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">.&#x2F;run.sh arm32 debug</span><br></pre></td></tr></table></figure>
+<p>再在另一中断输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">gdb-multiarch --tui vmlinux</span><br><span class="line">(gdb) set architecture arm </span><br><span class="line">(gdb) target remote localhost:1234</span><br><span class="line">(gdb) b start_kernel</span><br><span class="line">(gdb) c</span><br></pre></td></tr></table></figure>
+
+<h3 id="第四章-内核模块"><a href="#第四章-内核模块" class="headerlink" title="第四章 内核模块"></a>第四章 内核模块</h3><h4 id="1-编写一个简单的内核模块"><a href="#1-编写一个简单的内核模块" class="headerlink" title="1.编写一个简单的内核模块"></a>1.编写一个简单的内核模块</h4><p>编译内核</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">export ARCH&#x3D;arm</span><br><span class="line">export CROSS_COMPILE&#x3D;arm-linux-gnueabi-</span><br><span class="line">make vexpress_defconfig</span><br><span class="line">make </span><br><span class="line">make bzImage -j4</span><br><span class="line">make dtbs</span><br></pre></td></tr></table></figure>
+<p>建立文件夹，写好Makefile和my_test.c</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir simple_module</span><br><span class="line">export BASEINCLUDE&#x3D;&#x2F;root&#x2F;runninglinuxkernel_4.0</span><br><span class="line">vi Makefile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BASEINCLUDE ?&#x3D; &#x2F;root&#x2F;runninglinuxkernel_4.0</span><br><span class="line"></span><br><span class="line">mytest-objs :&#x3D; my_test.o</span><br><span class="line">obj-m :&#x3D;  my_test.o</span><br><span class="line">path :&#x3D; &#x2F;root&#x2F;simple_module</span><br><span class="line"></span><br><span class="line">all : </span><br><span class="line">	$(MAKE) -C $(BASEINCLUDE) M&#x3D;$(path) modules;</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	$(MAKE) -C $(BASEINCLUDE) SUBDIR&#x3D;$(PWD) clean;</span><br><span class="line">	rm -f *.ko;</span><br></pre></td></tr></table></figure>
+<p>my_test.c</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;linux&#x2F;module.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;init.h&gt;</span><br><span class="line"></span><br><span class="line">static int __init my_test_init(void)&#123;</span><br><span class="line">    printk(&quot;My first kernel module init.\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit my_test_exit(void)&#123;</span><br><span class="line">    printk(&quot;Goodbye!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(my_test_init);</span><br><span class="line">module_exit(my_test_exit);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(&quot;GPL&quot;);</span><br><span class="line">MODULE_AUTHOR(&quot;Kongo&quot;);</span><br><span class="line">MODULE_DESCRIPTION(&quot;Kongo&#39;s first kernel module!&quot;);</span><br><span class="line">MODULE_ALIAS(&quot;mytest&quot;);</span><br></pre></td></tr></table></figure>
+<p>编译拷贝ko文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make </span><br><span class="line">cp my_test.ko ..&#x2F;runninglinuxkernel_4.0&#x2F;kmodule</span><br></pre></td></tr></table></figure>
+<p>启动qemu</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;run.sh arm32</span><br></pre></td></tr></table></figure>
+<p>装载ko</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insmod &#x2F;mnt&#x2F;my_test.ko</span><br></pre></td></tr></table></figure>
+<p>卸载ko</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rmmod my_test.ko</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-向内核模块传递参数"><a href="#2-向内核模块传递参数" class="headerlink" title="2.向内核模块传递参数"></a>2.向内核模块传递参数</h4><p>实验步骤和实验1相同，源代码如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;linux&#x2F;module.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;init.h&gt;</span><br><span class="line"></span><br><span class="line">static int debug &#x3D; 1;</span><br><span class="line">module_param(debug, int, 0644);</span><br><span class="line">MODULE_PARM_DESC(debug, &quot;enable debugging information!&quot;);</span><br><span class="line"></span><br><span class="line">#define dprintk(args...) \</span><br><span class="line">    if(debug)&#123; \</span><br><span class="line">        printk(KERN_DEBUG args); \</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">static int mytest &#x3D; 100;</span><br><span class="line">module_param(mytest, int, 0644);</span><br><span class="line">MODULE_PARM_DESC(mytest, &quot;test for module paramter&quot;);</span><br><span class="line"></span><br><span class="line">static int __init my_test_init(void)&#123;</span><br><span class="line">    dprintk(&quot;My first kernel module init.\n&quot;);</span><br><span class="line">    dprintk(&quot;moduel parameter&#x3D;%d\n&quot;,mytest);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit my_test_exit(void)&#123;</span><br><span class="line">    printk(&quot;Goodbye!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(my_test_init);</span><br><span class="line">module_exit(my_test_exit);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(&quot;GPL&quot;);</span><br><span class="line">MODULE_AUTHOR(&quot;Kongo&quot;);</span><br><span class="line">MODULE_DESCRIPTION(&quot;Kongo&#39;s first kernel module!&quot;);</span><br><span class="line">MODULE_ALIAS(&quot;mytest&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h3><h4 id="1-简单的字符设备"><a href="#1-简单的字符设备" class="headerlink" title="1.简单的字符设备"></a>1.简单的字符设备</h4><p>my_demodev.c</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;linux&#x2F;module.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;init.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;fs.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;uaccess.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;cdev.h&gt;</span><br><span class="line"></span><br><span class="line">#define DEMO_NAME &quot;my_demo_dev&quot;</span><br><span class="line">static dev_t dev;</span><br><span class="line">static struct cdev *demo_cdev;</span><br><span class="line">static signed count &#x3D; 1;</span><br><span class="line"></span><br><span class="line">static int demodrv_open(struct inode *inode, struct file *file)&#123;</span><br><span class="line"></span><br><span class="line">    int major &#x3D; MAJOR(inode-&gt;i_rdev);</span><br><span class="line">    int minor &#x3D; MINOR(inode-&gt;i_rdev);</span><br><span class="line">    printk(&quot;%s: major&#x3D;%%d, minor&#x3D;%d\n&quot;, __func__, major, minor);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int demodrv_release(struct inode *inode, struct file *file)&#123;</span><br><span class="line">    printk(&quot;Release the dev.\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">static int demodrv_read(struct file *file, char __user *buf, size_t lbuf, loff_t *ppos)&#123;</span><br><span class="line">    printk(&quot;%s enter\n&quot;, __func__);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int demodrv_write(struct file *file, char __user *buf, size_t count, loff_t *f_pos)&#123;</span><br><span class="line">    printk(&quot;%s enter\n&quot;, __func__);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static const struct file_operations demodrv_fops &#x3D; &#123;</span><br><span class="line">    .owner &#x3D; THIS_MODULE,</span><br><span class="line">    .open &#x3D; demodrv_open,</span><br><span class="line">    .release &#x3D; demodrv_release,</span><br><span class="line">    .read &#x3D; demodrv_read,</span><br><span class="line">    .write &#x3D; demodrv_write</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static int __init simple_char_init(void)&#123;</span><br><span class="line">    int ret;</span><br><span class="line">    ret &#x3D; alloc_chrdev_region(&amp;dev, 0, count, DEMO_NAME);</span><br><span class="line">    if (ret)&#123;</span><br><span class="line">        printk(&quot;Failed to allocate cha device region.\n&quot;);</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    demo_cdev &#x3D; cdev_alloc();</span><br><span class="line">    if (!demo_cdev)&#123;</span><br><span class="line">        printk(&quot;Cdev_alloc failed.\n&quot;);</span><br><span class="line">        goto unregister_chrdev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cdev_init(demo_cdev, &amp;demodrv_fops);</span><br><span class="line">    ret &#x3D; cdev_add(demo_cdev, dev, count);</span><br><span class="line">    if(ret)&#123;</span><br><span class="line">        printk(&quot;Cdev_add failed\n&quot;);</span><br><span class="line">        goto cdev_fail;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    printk(&quot;Succeeed register char device: %s\n&quot;, DEMO_NAME);</span><br><span class="line">    printk(&quot;Major number &#x3D; %d, minor number &#x3D; %d\n&quot;, MAJOR(dev), MINOR(dev));</span><br><span class="line"></span><br><span class="line">cdev_fail:</span><br><span class="line">    cdev_del(demo_cdev);</span><br><span class="line"></span><br><span class="line">unregister_chrdev:</span><br><span class="line">    unregister_chrdev_region(dev, count);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit simple_char_exit(void)&#123;</span><br><span class="line">    printk(&quot;Removing device\n&quot;);</span><br><span class="line"></span><br><span class="line">    if (demo_cdev)</span><br><span class="line">        cdev_del(demo_cdev);</span><br><span class="line">    </span><br><span class="line">    unregister_chrdev_region(dev, count);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(simple_char_init);</span><br><span class="line">module_exit(simple_char_exit);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(&quot;GPL v2&quot;);</span><br><span class="line">MODULE_AUTHOR(&quot;Kongo&quot;);</span><br><span class="line">MODULE_DESCRIPTION(&quot;Simple charater device!&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>test.c</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">#define DEMO_DEV_NAME &quot;&#x2F;dev&#x2F;demo_drv&quot;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line"></span><br><span class="line">    char buffer[64];</span><br><span class="line">    int fd &#x3D; open(DEMO_DEV_NAME, O_RDONLY);</span><br><span class="line">    if (fd&lt;0)&#123;</span><br><span class="line">        printf(&quot;Open devices failed.&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    read(fd, buffer, 64);</span><br><span class="line">    close(fd);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="第六章-系统调用"><a href="#第六章-系统调用" class="headerlink" title="第六章 系统调用"></a>第六章 系统调用</h3><h4 id="1-在ARM32上新增一个系统调用"><a href="#1-在ARM32上新增一个系统调用" class="headerlink" title="1.在ARM32上新增一个系统调用"></a>1.在ARM32上新增一个系统调用</h4><h5 id="1-添加补丁"><a href="#1-添加补丁" class="headerlink" title="(1)添加补丁"></a>(1)添加补丁</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0&#x2F;</span><br><span class="line">git am rlk_lab&#x2F;rlk_basic&#x2F;chapter_6&#x2F;lab1&#x2F;0001-arm32-add-a-new-syscall-which-called-getpuid.patch</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这里我们新添加的系统调用名称为<code>getpuid</code></li>
+<li><code>getpuid</code>使用的系统调用号为<code>388</code></li>
+</ul>
+<p>此命令在arch/arm/include/uapi/unisid.h头文件中的417行添加了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#define __NR_getpuid (__NR_SYSCALL_BASE+388)</span><br></pre></td></tr></table></figure>
+<p>在arch/arm/include/unistd.h头文件中添加了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#define __NR_syscalls (392)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-编译内核"><a href="#2-编译内核" class="headerlink" title="(2)编译内核"></a>(2)编译内核</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># export ARCH&#x3D;arm</span><br><span class="line"># export CROSS_COMPILE&#x3D;arm-linux-gnueabi-</span><br><span class="line"># make vexpress_defconfig</span><br><span class="line"># make menuconfig</span><br><span class="line"># make bzImage -j4</span><br><span class="line"># make dtbs</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-编写应用程序并编译"><a href="#3-编写应用程序并编译" class="headerlink" title="(3)编写应用程序并编译"></a>(3)编写应用程序并编译</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># cp rlk_lab&#x2F;rlk_basic&#x2F;chapter_6&#x2F;lab1&#x2F;test_getpuid_syscall.c kmodules&#x2F;test_getpuid_syscall.c</span><br><span class="line"># cd kmodules&#x2F;</span><br><span class="line"># arm-linux-gnueabi-gcc --static -o test_getpuid_syscall test_getpuid_syscall.c </span><br><span class="line"># cd ..</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-启动内核"><a href="#4-启动内核" class="headerlink" title="(4)启动内核"></a>(4)启动内核</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># .&#x2F;run.sh arm32</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-编写并运行应用程序"><a href="#5-编写并运行应用程序" class="headerlink" title="(5)编写并运行应用程序"></a>(5)编写并运行应用程序</h5><p>```</p>
+<h1 id="cd-mnt"><a href="#cd-mnt" class="headerlink" title="cd /mnt"></a>cd /mnt</h1><p>/mnt # ./test_getpuid_syscall<br>call getpuid success, return pid = 809, uid = 0<br>/mnt # ./test_getpuid_syscall<br>call getpuid success, return pid = 810, uid = 0<br>/mnt # </p>
+<h3 id="第七章-内存管理"><a href="#第七章-内存管理" class="headerlink" title="第七章 内存管理"></a>第七章 内存管理</h3><ul>
+<li>vmalloc和kmalloc的区别</li>
+<li>slab缓存的创建</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Linux内核</tag>
+      </tags>
+  </entry>
 </search>

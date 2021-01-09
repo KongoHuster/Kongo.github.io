@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="朦胧脸庞    此文为学习北京大学孙艳春 、黄罡 、刘譞哲的软件工程所做的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件工程笔记">
+<meta property="og:url" content="http://yoursite.com/2020/06/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Kongo&#39;s blog">
+<meta property="og:description" content="朦胧脸庞    此文为学习北京大学孙艳春 、黄罡 、刘譞哲的软件工程所做的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/23/Ntg2o6.jpg">
+<meta property="article:published_time" content="2020-06-23T09:12:22.000Z">
+<meta property="article:modified_time" content="2020-06-28T07:52:39.035Z">
+<meta property="article:author" content="Kongo">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/23/Ntg2o6.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>软件工程笔记 | Kongo's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kongo's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/honghong1234" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpeg">
+      <meta itemprop="name" content="Kongo">
+      <meta itemprop="description" content="闳的博客，记录技术、生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kongo's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件工程笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-23 17:12:22" itemprop="dateCreated datePublished" datetime="2020-06-23T17:12:22+08:00">2020-06-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-28 15:52:39" itemprop="dateModified" datetime="2020-06-28T15:52:39+08:00">2020-06-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/23/Ntg2o6.jpg">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">朦胧脸庞</div>
+</center>
+
+<blockquote>
+<p>此文为学习北京大学孙艳春 、黄罡 、刘譞哲的软件工程所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-软件工程简介"><a href="#第一章-软件工程简介" class="headerlink" title="第一章 软件工程简介"></a>第一章 软件工程简介</h3><h4 id="一、软件的定义及特点"><a href="#一、软件的定义及特点" class="headerlink" title="一、软件的定义及特点"></a>一、软件的定义及特点</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>计算机中的程序及其文档</p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>无形的、不可见的逻辑实体</li>
+<li>没有磨损、老化的问题</li>
+<li>是设计开发的，不是生产制造的</li>
+<li>复杂、开发成本高、易于复制</li>
+</ul>
+<h5 id="软件的种类"><a href="#软件的种类" class="headerlink" title="软件的种类"></a>软件的种类</h5><ul>
+<li>系统软件：操作系统、编译器</li>
+<li>支撑软件——支持软件开发、维护和运行的软件：中间件、数据库</li>
+<li>应用软件：财务管理软件、浏览器</li>
+</ul>
+<h4 id="二、软件工程的起源和概念"><a href="#二、软件工程的起源和概念" class="headerlink" title="二、软件工程的起源和概念"></a>二、软件工程的起源和概念</h4><h5 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h5><ul>
+<li>早期计算机程序</li>
+<li>在信息产业中，微电子是基础，计算机是载体，软件是<strong>核心</strong></li>
+</ul>
+<h5 id="软件开发的三个阶段"><a href="#软件开发的三个阶段" class="headerlink" title="软件开发的三个阶段"></a>软件开发的三个阶段</h5><ul>
+<li>个人程序时期</li>
+<li>软件作坊时期</li>
+<li>软件工程时期</li>
+</ul>
+<h5 id="软件工程的定义"><a href="#软件工程的定义" class="headerlink" title="软件工程的定义"></a>软件工程的定义</h5><blockquote>
+<p><em>其目的是倡导使用工程的原理、原则和方法进行软件开发，已解决软件危机</em></p>
+</blockquote>
+<h4 id="三、软件开发的本质和基本手段"><a href="#三、软件开发的本质和基本手段" class="headerlink" title="三、软件开发的本质和基本手段"></a>三、软件开发的本质和基本手段</h4><h5 id="软件开发的含义"><a href="#软件开发的含义" class="headerlink" title="软件开发的含义"></a>软件开发的含义</h5><blockquote>
+<p>实现问题域c中的概念和处理逻辑到运行平台的概念和处理逻辑的映射</p>
+</blockquote>
+<p>问题域-&gt;需求-&gt;设计-&gt;实现-&gt;运行平台</p>
+<h5 id="实现映射的基本手段"><a href="#实现映射的基本手段" class="headerlink" title="实现映射的基本手段"></a>实现映射的基本手段</h5><p>建模</p>
+<ul>
+<li>概念模型</li>
+<li>设计模型</li>
+<li>实现模型</li>
+<li>部署模型</li>
+</ul>
+<h4 id="四、软件工程框架"><a href="#四、软件工程框架" class="headerlink" title="四、软件工程框架"></a>四、软件工程框架</h4><p>软件框架三元组——目标、原则、活动</p>
+<h5 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h5><blockquote>
+<p>生产具有正确性、可用性以及开销合宜的产品</p>
+</blockquote>
+<h5 id="活动"><a href="#活动" class="headerlink" title="活动"></a>活动</h5><blockquote>
+<p>生产一个具有最终满足需求且达到工程目标的软件产品所需的步骤<br>主要包括需求、设计、实现、确认和支持等活动</p>
+</blockquote>
+<h5 id="框架的作用"><a href="#框架的作用" class="headerlink" title="框架的作用"></a>框架的作用</h5><ul>
+<li>给出软件所涉及软件工程的工程要素</li>
+<li>给出各要素之间的关系</li>
+<li>给出软件工程学科所研究的主要内容</li>
+</ul>
+<h4 id="五、软件生存周期"><a href="#五、软件生存周期" class="headerlink" title="五、软件生存周期"></a>五、软件生存周期</h4><h5 id="生存周期概念"><a href="#生存周期概念" class="headerlink" title="生存周期概念"></a>生存周期概念</h5><blockquote>
+<p>软件产品或系统的一系列活动的全周期。从形成的概念开始，经历开发、交付使用、在使用中不断修订和演化，直到最后被淘汰。</p>
+</blockquote>
+<h4 id="软件过程"><a href="#软件过程" class="headerlink" title="软件过程"></a>软件过程</h4><ul>
+<li>软件过程：活动的集合</li>
+<li>活动：任务的集合</li>
+<li>任务：将输入转换为输出的操作</li>
+</ul>
+<h4 id="六、生存周期过程的分类"><a href="#六、生存周期过程的分类" class="headerlink" title="六、生存周期过程的分类"></a>六、生存周期过程的分类</h4><h5 id="过程分类"><a href="#过程分类" class="headerlink" title="过程分类"></a>过程分类</h5><ul>
+<li>基本过程：指那些和软件生产直接相关的活动集<blockquote>
+<p>具体分为获取过程、供应过程、开发过程、运行过程、维护过程</p>
+</blockquote>
+</li>
+<li>支持过程：有关各方按目标所从事的一系列支持活动集<blockquote>
+<p>文档过程、配置管理过程、质量保证、验证过程、确认过程、联合审评、审计过程、问题解决</p>
+</blockquote>
+</li>
+<li>组织过程：那些与软件生产组织有关的活动集<blockquote>
+<p>管理过程、基础设施过程、改进过程、人力资源过程、资产管理过程、复用程序管理过程、领域软件工程过程</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="七、常见的软件生存周期模型"><a href="#七、常见的软件生存周期模型" class="headerlink" title="七、常见的软件生存周期模型"></a>七、常见的软件生存周期模型</h4><h5 id="瀑布模型"><a href="#瀑布模型" class="headerlink" title="瀑布模型"></a>瀑布模型</h5><ul>
+<li>将软件生存周期的各项活动规定为依固定顺序而连接的若干阶段工作</li>
+<li>每个阶段的输入，以及本阶段的工作成果，作为输出传入下一阶段</li>
+</ul>
+<h5 id="增量模型"><a href="#增量模型" class="headerlink" title="增量模型"></a>增量模型</h5><ul>
+<li>是瀑布模型的第一个变体，具有瀑布模型的所有优点</li>
+<li>第一个版本交付版本所需要的成本和时间是很少的</li>
+<li>由于很快发布第一个版本，因此可以减少用户需求的变更</li>
+</ul>
+<h5 id="演化模型"><a href="#演化模型" class="headerlink" title="演化模型"></a>演化模型</h5><ul>
+<li>是一种有弹性的过程模式</li>
+<li>由一些小的开发步组成，每步历经需求分析、设计、实现和验证，产生软件产品的一个增量</li>
+</ul>
+<h5 id="喷泉模型"><a href="#喷泉模型" class="headerlink" title="喷泉模型"></a>喷泉模型</h5><ul>
+<li>迭代、无缝</li>
+<li>与面向对象技术的关系</li>
+</ul>
+<h3 id="第二章-软件需求"><a href="#第二章-软件需求" class="headerlink" title="第二章 软件需求"></a>第二章 软件需求</h3><h4 id="一、需求的作用"><a href="#一、需求的作用" class="headerlink" title="一、需求的作用"></a>一、需求的作用</h4><ul>
+<li>需求分析</li>
+<li>软件体系结构设计</li>
+<li>验证、正确及测试</li>
+</ul>
+<h4 id="二、需求的定义"><a href="#二、需求的定义" class="headerlink" title="二、需求的定义"></a>二、需求的定义</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>一个需求是一个有关“要予构造”的称述，描述了待开发产品/系统功能上的能力、性能参数或者其他性质。</p>
+</blockquote>
+<h5 id="基本性质"><a href="#基本性质" class="headerlink" title="基本性质"></a>基本性质</h5><ul>
+<li>必要的</li>
+<li>无歧义的</li>
+<li>可测量的</li>
+<li>可跟踪的</li>
+</ul>
+<h4 id="三、需求分类"><a href="#三、需求分类" class="headerlink" title="三、需求分类"></a>三、需求分类</h4><ul>
+<li><p>功能</p>
+<blockquote>
+<p>功能需求规约了系统或者系统构建必须执行的功能</p>
+</blockquote>
+</li>
+<li><p>性能</p>
+<blockquote>
+<p>规约了一个系统或系统构建必须具有的性能特性</p>
+</blockquote>
+</li>
+<li><p>外部接口</p>
+<blockquote>
+<p>系统接口、用户接口、硬件接口、软件接口、通讯接口、内存约束、操作、地点需求</p>
+</blockquote>
+</li>
+<li><p>约束设计</p>
+<blockquote>
+<p>设计约束限制了系统或系统构件的设计方案，对项目规划、所需的附加成本和工作生产直接影响</p>
+</blockquote>
+</li>
+<li><p>质量属性</p>
+<blockquote>
+<p>可靠性、存活性、可维护性、用户友好性、安全性、可移植性</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="四、需求发现"><a href="#四、需求发现" class="headerlink" title="四、需求发现"></a>四、需求发现</h4><ul>
+<li>自悟</li>
+<li>交谈</li>
+<li>小组会</li>
+<li>观察</li>
+<li>提炼</li>
+<li>综合运用</li>
+</ul>
+<h4 id="五、需求规约的概念和格式"><a href="#五、需求规约的概念和格式" class="headerlink" title="五、需求规约的概念和格式"></a>五、需求规约的概念和格式</h4><p>需求规约是一个软件产品/系统的概念模型</p>
+<ul>
+<li>引言：目的、范围、定义、参考文献、概述</li>
+<li>总体描述：产品概述、产品功能、约束、假设和依赖</li>
+<li>特定需求</li>
+<li>附录</li>
+<li>索引</li>
+</ul>
+<h3 id="第三章-结构化分析方法"><a href="#第三章-结构化分析方法" class="headerlink" title="第三章 结构化分析方法"></a>第三章 结构化分析方法</h3><h4 id="一、结构化分析方法概念"><a href="#一、结构化分析方法概念" class="headerlink" title="一、结构化分析方法概念"></a>一、结构化分析方法概念</h4><p>软件开发方法：软件卡法过程所遵循的办法和步骤；软件开发活动的目的是有效地得到一个运行的系统及其支持文档，并且满足有关的质量要求；<br>软件开发方法学指的是规则、方法和工具的集成</p>
+<p>结构化方法</p>
+<ul>
+<li>结构化分析方法</li>
+<li>结构化设计方法</li>
+<li>结构化程序设计方法</li>
+</ul>
+<p>结构分析</p>
+<ul>
+<li>提供一组术语</li>
+<li>给出表达模型的工具</li>
+<li>给出指导过程</li>
+</ul>
+<h4 id="二、结构化分析模型"><a href="#二、结构化分析模型" class="headerlink" title="二、结构化分析模型"></a>二、结构化分析模型</h4><p>结构化设计一般又可分为概要设计阶段和详细设计阶段。</p>
+<h5 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h5><ul>
+<li>数据流</li>
+<li>加工 </li>
+<li>数据存储</li>
+<li>数据源</li>
+<li>数据潭<br>其中数据流、数据存储支持数据抽象</li>
+</ul>
+<h5 id="模型表达工具"><a href="#模型表达工具" class="headerlink" title="模型表达工具"></a>模型表达工具</h5><ul>
+<li>DFD图：描述系统功能</li>
+<li>数据字典</li>
+<li>加工小说明</li>
+</ul>
+<h4 id="三、初始化模块结构图精化的启发式规则"><a href="#三、初始化模块结构图精化的启发式规则" class="headerlink" title="三、初始化模块结构图精化的启发式规则"></a>三、初始化模块结构图精化的启发式规则</h4><h5 id="启发式"><a href="#启发式" class="headerlink" title="启发式"></a>启发式</h5><p>根据设计准则，从长期开发实践中，总结出来的设计准则</p>
+<h5 id="常见的六种启发式规则"><a href="#常见的六种启发式规则" class="headerlink" title="常见的六种启发式规则"></a>常见的六种启发式规则</h5><ul>
+<li>改进软件结构，提高模块独立性;</li>
+<li>模块规模适中-每页60行语句;</li>
+<li>深度、宽度、扇入和扇出适中;</li>
+<li>模块的作用域力争在控制域之内;</li>
+<li>降低模块接口的复杂性;</li>
+<li>模块功能应该可以预测。</li>
+</ul>
+<h4 id="四、接口设计"><a href="#四、接口设计" class="headerlink" title="四、接口设计"></a>四、接口设计</h4><h5 id="接口设计的分类"><a href="#接口设计的分类" class="headerlink" title="接口设计的分类"></a>接口设计的分类</h5><ul>
+<li>模块或软件构件间的接口设计</li>
+<li>软件与其他软硬件系统之间的接口设计</li>
+<li>软件与人之间的交互设计</li>
+</ul>
+<h5 id="设计遵循原则"><a href="#设计遵循原则" class="headerlink" title="设计遵循原则"></a>设计遵循原则</h5><ul>
+<li>一致性</li>
+<li>操作步骤少</li>
+<li>不要”哑播放“</li>
+<li>提供Undo功能</li>
+<li>减少人脑的记忆负担</li>
+<li>提高学习效率</li>
+</ul>
+<h4 id="五、数据设计"><a href="#五、数据设计" class="headerlink" title="五、数据设计"></a>五、数据设计</h4><ul>
+<li>文件设计</li>
+<li>数据库设计</li>
+</ul>
+<h4 id="六、详细设计工具"><a href="#六、详细设计工具" class="headerlink" title="六、详细设计工具"></a>六、详细设计工具</h4><ul>
+<li>伪码（PDL）：一种混合语言，外部使用形式语言定义控制结构和数据结构，每部使用自然语言。</li>
+<li>路程图：顺序、选择、循环</li>
+<li>PAD图：支持自顶向下逐步求精的结构化详细设计，PAD图是一种描述程序逻辑结构的工具</li>
+<li>N-S图</li>
+<li>判定表和判定树</li>
+</ul>
+<h4 id="七、软件设计规约"><a href="#七、软件设计规约" class="headerlink" title="七、软件设计规约"></a>七、软件设计规约</h4><h5 id="概念和组成"><a href="#概念和组成" class="headerlink" title="概念和组成"></a>概念和组成</h5><blockquote>
+<p>概念：软件设计规约对软件的组织或其组成部分的内部结构的描述，满足系统需求规约所指定的全部功能及性能要求</p>
+</blockquote>
+<blockquote>
+<p>组成：概要设计规约和详细设计规约</p>
+</blockquote>
+<h5 id="概要设计规约"><a href="#概要设计规约" class="headerlink" title="概要设计规约"></a>概要设计规约</h5><ul>
+<li>系统环境</li>
+<li>设计描述</li>
+<li>对每个模块的描述</li>
+<li>数据结构和全局数据</li>
+</ul>
+<h5 id="详细设计规约"><a href="#详细设计规约" class="headerlink" title="详细设计规约"></a>详细设计规约</h5><p>在概要设计的基础上，增加：各处理过程的算法；算法所设计的全部数据结构的描述</p>
+<h5 id="设计规约的格式"><a href="#设计规约的格式" class="headerlink" title="设计规约的格式"></a>设计规约的格式</h5><ul>
+<li>引言</li>
+<li>总体设计</li>
+</ul>
+<h4 id="八、结构化方法的总结"><a href="#八、结构化方法的总结" class="headerlink" title="八、结构化方法的总结"></a>八、结构化方法的总结</h4><h5 id="世界观"><a href="#世界观" class="headerlink" title="世界观"></a>世界观</h5><blockquote>
+<p>一切系统都是由信息流构成的，每个信息流都有自己的起点——数据源，自己归宿——数据潭，驱动信息流动的加工，因此所谓信息处理主要表现为信息的流动。</p>
+</blockquote>
+<h5 id="基本原理和原则"><a href="#基本原理和原则" class="headerlink" title="基本原理和原则"></a>基本原理和原则</h5><ul>
+<li>自顶向下功能分解</li>
+<li>数据抽象</li>
+<li>功能抽象</li>
+<li>模块化</li>
+</ul>
+<p>结构化方法的抽象层包括</p>
+<ul>
+<li>需求分析层</li>
+<li>设计层</li>
+<li>实现层</li>
+</ul>
+<h3 id="第三章-UML"><a href="#第三章-UML" class="headerlink" title="第三章 UML"></a>第三章 UML</h3><h4 id="一、面向对象方法的概念"><a href="#一、面向对象方法的概念" class="headerlink" title="一、面向对象方法的概念"></a>一、面向对象方法的概念</h4><h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><ul>
+<li>使用面向对象程序设计语言</li>
+<li>使用对象、类、集成、封装、消息等基本概念进行编程</li>
+</ul>
+<h5 id="主要特点"><a href="#主要特点" class="headerlink" title="主要特点"></a>主要特点</h5><ul>
+<li>用对象作为对这些事务的抽象表示，并以此作为系统的基本构成单位</li>
+<li>封装：对象的属性和操作做结合为一体，构成一个独立的实体，对外屏蔽其内部细节</li>
+<li>对事务进行分类，把具有相同属性和相同操作的对象归为一类</li>
+<li>通过不同程度的上运用抽象原则，可以得到较一般和较特殊的类</li>
+<li>复杂的对象可以用简单的对象作为其构成的部分</li>
+<li>对象之间只能通过消息进行通信</li>
+<li>用关联表达类之间的静态关系</li>
+</ul>
+<h5 id="面向对象学习内容"><a href="#面向对象学习内容" class="headerlink" title="面向对象学习内容"></a>面向对象学习内容</h5><ul>
+<li>基本知识</li>
+<li>面向对象的分析（OOA）</li>
+<li>面向对象的设计（OOD）</li>
+<li>面向对象的程序设计（OOP）</li>
+</ul>
+<h4 id="二、UML的概念"><a href="#二、UML的概念" class="headerlink" title="二、UML的概念"></a>二、UML的概念</h4><h5 id="UML概念"><a href="#UML概念" class="headerlink" title="UML概念"></a>UML概念</h5><blockquote>
+<p>UML是系统设计和分析的工具</p>
+</blockquote>
+<ul>
+<li>规约系统的制品</li>
+<li>构造系的制品</li>
+</ul>
+<h5 id="面向对象方法术语"><a href="#面向对象方法术语" class="headerlink" title="面向对象方法术语"></a>面向对象方法术语</h5><ul>
+<li>结构化表达客观事物的术语</li>
+<li>表达客观事物之间关系的术语</li>
+<li>用于组织特定对象结构的包</li>
+<li>注解</li>
+</ul>
+<h4 id="三、类和对象"><a href="#三、类和对象" class="headerlink" title="三、类和对象"></a>三、类和对象</h4><h5 id="定义和表示"><a href="#定义和表示" class="headerlink" title="定义和表示"></a>定义和表示</h5><blockquote>
+<p>类：一组具有相同属性、操作、关系和语义的对象的描述</p>
+</blockquote>
+<blockquote>
+<p>对象：类的一个实例</p>
+</blockquote>
+<h5 id="类名"><a href="#类名" class="headerlink" title="类名"></a>类名</h5><ul>
+<li>使用黑体字。，第一个字母通常大写，位于第一栏的中央</li>
+<li>简单的名词或者名词短语</li>
+</ul>
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><ul>
+<li>一个类可以有多个属性或者没有属性</li>
+<li>可见性：公有的；受保护的（其子类才能使用）；私有的（本类的操作才能使用）；包内的：只有在同一包中声明的类才能使用</li>
+</ul>
+<h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ul>
+<li>操作名除了第一个词之外，其他单词首字母需要大写</li>
+<li>操作可以是抽象操作，此时采用斜体</li>
+<li>可见性：与类相同</li>
+<li>返回值</li>
+<li>参数表</li>
+</ul>
+<h4 id="四、接口"><a href="#四、接口" class="headerlink" title="四、接口"></a>四、接口</h4><h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>接口是一组操作的集合，其中每个操作描述了类或者构件的一个服务</p>
+</blockquote>
+<blockquote>
+<p>基本作用：模型化系统的“接缝”</p>
+</blockquote>
+<h5 id="表示"><a href="#表示" class="headerlink" title="表示"></a>表示</h5><ul>
+<li>可以用带有分栏和关键字的矩阵符号来表示接口</li>
+<li>可以用小圆圈表示接口</li>
+</ul>
+<h5 id="重要说明"><a href="#重要说明" class="headerlink" title="重要说明"></a>重要说明</h5><ul>
+<li>接口只描述类的外不可见操作，不描述内部结构</li>
+<li>接口没有属性，状态或者关联，接口只要操作</li>
+<li>接口形式上等价于一个没有属性、没有方法只有抽象操作的抽象类</li>
+<li>接口之间没有关联、泛化、实现、依赖，但是可以参与泛化、实现和依赖关系</li>
+</ul>
+<h5 id="五、协作"><a href="#五、协作" class="headerlink" title="五、协作"></a>五、协作</h5><blockquote>
+<p>协作：是一组类、接口和其他元素的群体，它们共同工作以提供比个组成部分的总和更强的合作行为</p>
+</blockquote>
+<ul>
+<li>结构部分</li>
+<li>行为部分</li>
+</ul>
+<h5 id="六、其他重要概念"><a href="#六、其他重要概念" class="headerlink" title="六、其他重要概念"></a>六、其他重要概念</h5><p>用况</p>
+<blockquote>
+<p>是对一组动作序列的描述，系统执行这些动作产生对特定的参与者一个有值的、可观察的结果。</p>
+</blockquote>
+<p>主动类</p>
+<blockquote>
+<p>一种至少具有一个进程或者线程的类，因此它能够启动控制活动。</p>
+</blockquote>
+<p>构件</p>
+<blockquote>
+<p>系统逻辑的并且可替换的成分，遵循并提供了一组接口的实现</p>
+</blockquote>
+<p>制品</p>
+<blockquote>
+<p>系统中物理的、可替代的部分</p>
+</blockquote>
+<p>节点</p>
+<blockquote>
+<p>在运行时存在的物理元素，通常它表示一种具有记忆能力和处理能力的计算资源。</p>
+</blockquote>
+<h5 id="七、包"><a href="#七、包" class="headerlink" title="七、包"></a>七、包</h5><blockquote>
+<p>为了组织类目，控制信息组织和文档组织的复杂性，UML引入了术语——包</p>
+</blockquote>
+<ul>
+<li>表示：在大矩形中描述的内容，而把该包的名字放在左上角的小矩形中</li>
+<li>依赖：访问依赖和引用依赖，是的一个包可以访问和引入其他包</li>
+</ul>
+<h5 id="八、表达关系术语"><a href="#八、表达关系术语" class="headerlink" title="八、表达关系术语"></a>八、表达关系术语</h5><p><em>关联</em></p>
+<ul>
+<li>定义：关联是类目之间的结构关系，描述了这一组具有相同结构、相同语义的链</li>
+</ul>
+<p><em>泛化</em></p>
+<ul>
+<li>定义：泛化是一般性事务和它的较为特殊种类之间的关系</li>
+</ul>
+<p>关于泛化需要注意的点</p>
+<ul>
+<li>子类可以继承父类的属性和操作，并且有更多的属性和操作</li>
+<li>子类可以替换父类的声明</li>
+<li>若子类的一个操作的实现覆盖了父类同一个操作的实现，这种情况被称为多态性</li>
+<li>没有父类并且至少有一个子类的类被称为根类或者基类</li>
+</ul>
+<p><em>实现</em></p>
+<ul>
+<li>定义：实现是类目之间的一种语义关系，其中一个类目规约了保证另一个类目执行的契约</li>
+</ul>
+<p><em>依赖</em></p>
+<ul>
+<li>定义：依赖是一种使用关系，用于描述一个事务使用另一个事务的信息和服务</li>
+</ul>
+<h5 id="九、UML模型表达工具概述"><a href="#九、UML模型表达工具概述" class="headerlink" title="九、UML模型表达工具概述"></a>九、UML模型表达工具概述</h5><p>系统静态部分建模工具</p>
+<ul>
+<li>类图：显示类（及接口）、类的内部结构以及与其他类的关系</li>
+<li>构件图</li>
+<li>组合结构图</li>
+<li>对象图</li>
+<li>部署图</li>
+<li>制品图</li>
+</ul>
+<p>系统动态建模工具</p>
+<ul>
+<li>用况图</li>
+<li>状态图</li>
+<li>活动图</li>
+<li>顺序图</li>
+<li>通信图</li>
+<li>交互概观图</li>
+<li>定时图</li>
+</ul>
+<h5 id="十、顺序图"><a href="#十、顺序图" class="headerlink" title="十、顺序图"></a>十、顺序图</h5><ul>
+<li>定义：顺序图是一种交互图，即有一组对象以及这些对象之间的关系组成，其中还包含这些对象之间被发送的消息</li>
+<li>内容：交互各方；交互方式——同步或者异步；交互内容——消息；</li>
+<li>控制类型：选择执行；条件执行；并发执行；迭代执行</li>
+</ul>
+<h5 id="十一、状态图"><a href="#十一、状态图" class="headerlink" title="十一、状态图"></a>十一、状态图</h5><ul>
+<li>定义：状态图示显示一个状态的图，其中强调了从一个状态到另一个状态的控制流</li>
+<li>内容：简单状态和组合状态；事件；转换</li>
+<li>状态分类：初态、终态、正常状态</li>
+</ul>
+<h3 id="第四章-面向对象"><a href="#第四章-面向对象" class="headerlink" title="第四章 面向对象"></a>第四章 面向对象</h3><h4 id="一、面向对象的分析（OOA）"><a href="#一、面向对象的分析（OOA）" class="headerlink" title="一、面向对象的分析（OOA）"></a>一、面向对象的分析（OOA）</h4><h5 id="OOA的基本任务"><a href="#OOA的基本任务" class="headerlink" title="OOA的基本任务"></a>OOA的基本任务</h5><blockquote>
+<p>对问题域和系统责任进行分析和理解，对其中的事务和它们之间的关系产生正确的认识，找出描述问题域和系统责任所需的类和对象。</p>
+</blockquote>
+<h5 id="OOA模型"><a href="#OOA模型" class="headerlink" title="OOA模型"></a>OOA模型</h5><ul>
+<li>需求模型</li>
+<li>OOA模型</li>
+<li>辅助模型</li>
+<li>模型规约</li>
+</ul>
+<h4 id="二、识别类"><a href="#二、识别类" class="headerlink" title="二、识别类"></a>二、识别类</h4><ul>
+<li>研究问题域和用户需求</li>
+<li>策略和启发</li>
+<li>审查和筛选</li>
+<li>识别主动对象</li>
+</ul>
+<h4 id="三、识别属性和操作"><a href="#三、识别属性和操作" class="headerlink" title="三、识别属性和操作"></a>三、识别属性和操作</h4><h5 id="识别属性"><a href="#识别属性" class="headerlink" title="识别属性"></a>识别属性</h5><ul>
+<li>策略和启发</li>
+<li>审查和筛选</li>
+<li>属性的命名：原则与类命名相同</li>
+<li>属性的详细说明</li>
+</ul>
+<h5 id="识别操作"><a href="#识别操作" class="headerlink" title="识别操作"></a>识别操作</h5><ul>
+<li>区分对象行为的类型</li>
+<li>发现操作的策略和启发</li>
+<li>审查和调整</li>
+<li>认识对象的主动行为</li>
+<li>操作的命名和定位</li>
+<li>操作的详细说明</li>
+</ul>
+<h4 id="四、识别对象之间的关系"><a href="#四、识别对象之间的关系" class="headerlink" title="四、识别对象之间的关系"></a>四、识别对象之间的关系</h4><ul>
+<li>识别继承</li>
+<li>识别关联</li>
+<li>识别聚合</li>
+<li>识别依赖</li>
+</ul>
+<h4 id="五、人机交互部分的设计"><a href="#五、人机交互部分的设计" class="headerlink" title="五、人机交互部分的设计"></a>五、人机交互部分的设计</h4><h5 id="什么是人机交互部分"><a href="#什么是人机交互部分" class="headerlink" title="什么是人机交互部分"></a>什么是人机交互部分</h5><blockquote>
+<p>系统中负责人机交互的部分，突出人如何命令系统以及系统如何向用户提交信息。</p>
+</blockquote>
+<h5 id="人机交互部分的需求分析"><a href="#人机交互部分的需求分析" class="headerlink" title="人机交互部分的需求分析"></a>人机交互部分的需求分析</h5><ul>
+<li>分析与系统交互的人</li>
+<li>从use case分析人机交互</li>
+<li>命令的组织</li>
+</ul>
+<h5 id="人机界面的设计准则"><a href="#人机界面的设计准则" class="headerlink" title="人机界面的设计准则"></a>人机界面的设计准则</h5><ul>
+<li>使用简单</li>
+<li>一致性</li>
+<li>启发性</li>
+<li>减少人脑记忆的负担</li>
+<li>减少重复的输入</li>
+<li>容错性</li>
+<li>及时反馈</li>
+<li>防止灾难性地错误</li>
+</ul>
+<h4 id="六、控制驱动部分的设计"><a href="#六、控制驱动部分的设计" class="headerlink" title="六、控制驱动部分的设计"></a>六、控制驱动部分的设计</h4><h5 id="什么是控制驱动部分"><a href="#什么是控制驱动部分" class="headerlink" title="什么是控制驱动部分"></a>什么是控制驱动部分</h5><ul>
+<li>是OOD模型的组成部分之一，该部分由系统中全部主动类构成</li>
+<li>一个控制流就是一个进程或者线程</li>
+</ul>
+<h5 id="需要控制驱动部分的原因"><a href="#需要控制驱动部分的原因" class="headerlink" title="需要控制驱动部分的原因"></a>需要控制驱动部分的原因</h5><ul>
+<li>并发行为是现实中固有的</li>
+<li>当前的大量系统都是并发系统</li>
+<li>多任务的设置</li>
+<li>为了隔离硬件、操作系统、网络的变化对整个系统的影响</li>
+</ul>
+<h5 id="如何设计控制驱动部分"><a href="#如何设计控制驱动部分" class="headerlink" title="如何设计控制驱动部分"></a>如何设计控制驱动部分</h5><ul>
+<li>识别控制流</li>
+<li>审查与筛选</li>
+<li>控制流的表示与分类</li>
+</ul>
+<h4 id="七、数据管理部分的设计"><a href="#七、数据管理部分的设计" class="headerlink" title="七、数据管理部分的设计"></a>七、数据管理部分的设计</h4><h5 id="什么是数据管理部分"><a href="#什么是数据管理部分" class="headerlink" title="什么是数据管理部分"></a>什么是数据管理部分</h5><blockquote>
+<p>数据管理部分OOD模型模型中负责与具体的数据管理系统衔接的外围组成部分，它的系统中需要长久存储的对象提供了在选定的数据管理系统中进行数据存储与恢复的功能</p>
+</blockquote>
+<h5 id="如何设计数据管理部分"><a href="#如何设计数据管理部分" class="headerlink" title="如何设计数据管理部分"></a>如何设计数据管理部分</h5><ul>
+<li>选择数据管理系统</li>
+<li>数据存放设计</li>
+</ul>
+<h4 id="八、面向对象设计概述"><a href="#八、面向对象设计概述" class="headerlink" title="八、面向对象设计概述"></a>八、面向对象设计概述</h4><h5 id="OOD的根本目标"><a href="#OOD的根本目标" class="headerlink" title="OOD的根本目标"></a>OOD的根本目标</h5><ul>
+<li>提高软件生产率</li>
+<li>提高质量</li>
+<li>加强可维护性</li>
+</ul>
+<h5 id="OOP和OOD的关系"><a href="#OOP和OOD的关系" class="headerlink" title="OOP和OOD的关系"></a>OOP和OOD的关系</h5><ul>
+<li>从OOA到OOD不是转化、不是细化，是调整和整补</li>
+<li>OOD运用与OOA部分相同的概念</li>
+<li>OOD采用与OOA一致的表示方法</li>
+</ul>
+<h4 id="九、如何进行问题域部分的设计"><a href="#九、如何进行问题域部分的设计" class="headerlink" title="九、如何进行问题域部分的设计"></a>九、如何进行问题域部分的设计</h4><ul>
+<li>为复用设计与编程的类而增加结构</li>
+<li>增加一般类以建立共同协议</li>
+<li>按编程语言调整继承和多态</li>
+<li>提高性能</li>
+<li>为实现对象永久存储所做的修改</li>
+<li>为编程方便增加底层细节</li>
+</ul>
+<h4 id="十、面向对象的编程和编程语言"><a href="#十、面向对象的编程和编程语言" class="headerlink" title="十、面向对象的编程和编程语言"></a>十、面向对象的编程和编程语言</h4><h5 id="程序设计范型"><a href="#程序设计范型" class="headerlink" title="程序设计范型"></a>程序设计范型</h5><ul>
+<li>过程化编程</li>
+<li>面向对象编程</li>
+<li>指令式编程</li>
+</ul>
+<h5 id="面向对象是一种新的程序设计范型"><a href="#面向对象是一种新的程序设计范型" class="headerlink" title="面向对象是一种新的程序设计范型"></a>面向对象是一种新的程序设计范型</h5><ul>
+<li>思想方法：从客观存在的事务出发构造软件系统，运用人类日常的思维方式</li>
+<li>主要特点：使用对象、类、继承、封装、聚合、关联、消息、多态性等基本概念来进行程序设计</li>
+</ul>
+<h5 id="选择编程语言"><a href="#选择编程语言" class="headerlink" title="选择编程语言"></a>选择编程语言</h5><blockquote>
+<p>C++是一种在C语言基础上扩充OO成分，对封装采取灵活策略的语言，所以属于混合型面向对象语言。</p>
+</blockquote>
+<ul>
+<li>基本原则——主要考虑成本、进度、效率等实际因素</li>
+<li>OOPL是实现OOD的理想语言</li>
+<li>带有类库、编程环境、权限管理的OOPL更好</li>
+</ul>
+<h3 id="第五章-敏捷开发"><a href="#第五章-敏捷开发" class="headerlink" title="第五章 敏捷开发"></a>第五章 敏捷开发</h3><h4 id="一、敏捷开发简介"><a href="#一、敏捷开发简介" class="headerlink" title="一、敏捷开发简介"></a>一、敏捷开发简介</h4><h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><blockquote>
+<p>是一种从1990年代开始逐渐引起广泛关注的一些新型软件开发方法，是一种应对快速需求变化的一种软件开发能力。</p>
+</blockquote>
+<h5 id="原则（部分）"><a href="#原则（部分）" class="headerlink" title="原则（部分）"></a>原则（部分）</h5><ul>
+<li>最优先要做的是：通过尽早地、持续地交付有价值的软件来使客户满意</li>
+<li>及时到了开发后期，也要欢迎需求改变</li>
+<li>经常交互可工作的软件，其时间间隔可以是几周到几个月</li>
+</ul>
+<h4 id="二、极限编程"><a href="#二、极限编程" class="headerlink" title="二、极限编程"></a>二、极限编程</h4><h5 id="实践原则"><a href="#实践原则" class="headerlink" title="实践原则"></a>实践原则</h5><ul>
+<li>客户作为团队的成员</li>
+<li>“用户素材”</li>
+<li>短的交互期</li>
+<li>验收测试</li>
+<li>结对编程</li>
+<li>测试驱动开发</li>
+<li>集体所有权</li>
+<li>持续集成</li>
+</ul>
+<h5 id="极限编程的过程"><a href="#极限编程的过程" class="headerlink" title="极限编程的过程"></a>极限编程的过程</h5><ul>
+<li>策划：用户故事；权值；迭代计划</li>
+<li>设计：Spike解决方案</li>
+<li>编码：重构</li>
+<li>测试：验收测试；单元测试</li>
+<li>发布：软件增量；项目速度估算</li>
+</ul>
+<h4 id="三、敏捷设计"><a href="#三、敏捷设计" class="headerlink" title="三、敏捷设计"></a>三、敏捷设计</h4><h5 id="设计应该避免的问题"><a href="#设计应该避免的问题" class="headerlink" title="设计应该避免的问题"></a>设计应该避免的问题</h5><ul>
+<li>僵化性</li>
+<li>脆弱性</li>
+<li>粘固性——设计难于复用</li>
+<li>粘滞性</li>
+<li>不必要的复杂性</li>
+<li>不必要的复制</li>
+<li>晦涩性</li>
+</ul>
+<h5 id="防止软件腐化的基本途径"><a href="#防止软件腐化的基本途径" class="headerlink" title="防止软件腐化的基本途径"></a>防止软件腐化的基本途径</h5><ul>
+<li>几乎不进行预先设计，不需要成熟的初始设计</li>
+<li>多次使用单元测试和验收测试</li>
+<li>灵活和持续的改进</li>
+</ul>
+<h4 id="四、SCRUM模型"><a href="#四、SCRUM模型" class="headerlink" title="四、SCRUM模型"></a>四、SCRUM模型</h4><h5 id="Scrum的三个阶段"><a href="#Scrum的三个阶段" class="headerlink" title="Scrum的三个阶段"></a>Scrum的三个阶段</h5><ul>
+<li>规划纲要阶段</li>
+<li>一系类冲刺循环</li>
+<li>项目结束阶段总结项目，完善需要的文档</li>
+</ul>
+<h5 id="Scrum过程流"><a href="#Scrum过程流" class="headerlink" title="Scrum过程流"></a>Scrum过程流</h5><ul>
+<li>待定项</li>
+<li>冲刺</li>
+<li>演示</li>
+</ul>
+<h3 id="第六章-软件测试"><a href="#第六章-软件测试" class="headerlink" title="第六章 软件测试"></a>第六章 软件测试</h3><h4 id="一、软件测试的概念"><a href="#一、软件测试的概念" class="headerlink" title="一、软件测试的概念"></a>一、软件测试的概念</h4><h5 id="软件测试的定义和目标"><a href="#软件测试的定义和目标" class="headerlink" title="软件测试的定义和目标"></a>软件测试的定义和目标</h5><blockquote>
+<p>监测和评价软件以确定其质量的过程和方法</p>
+</blockquote>
+<blockquote>
+<p>分类：静态测试；动态测试（黑盒测试，白盒测试）</p>
+</blockquote>
+<h5 id="软件测试的目标"><a href="#软件测试的目标" class="headerlink" title="软件测试的目标"></a>软件测试的目标</h5><ul>
+<li>预防错误</li>
+<li>发现错误</li>
+</ul>
+<h4 id="二、软件测试的过程模型和原则"><a href="#二、软件测试的过程模型和原则" class="headerlink" title="二、软件测试的过程模型和原则"></a>二、软件测试的过程模型和原则</h4><h5 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h5><ul>
+<li>环境</li>
+<li>被测对象模型</li>
+<li>错误模型</li>
+</ul>
+<h5 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h5><ul>
+<li>所有的测试都应当追溯到用户需求</li>
+<li>在测试共走开始前，要进行测试计划的设计</li>
+<li>测试应从小规模开始，逐步转向大规模</li>
+<li>穷举测试是不可能的</li>
+<li>为了尽可能发现错误，应由独立的第三方来测试</li>
+<li>测试只能尽可能多地发现错误，无法保证发现所有的错误</li>
+</ul>
+<h4 id="三、白盒测试"><a href="#三、白盒测试" class="headerlink" title="三、白盒测试"></a>三、白盒测试</h4><h5 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>白盒测试也称结构测试或者逻辑驱动测试，它是知道产品内部工作过程，可通过测试来检测产品内部动作是否按照规格说明书的规定正常运行</p>
+</blockquote>
+<h5 id="各种测试"><a href="#各种测试" class="headerlink" title="各种测试"></a>各种测试</h5><ul>
+<li>路径测试：执行所有额能的穿过程序的控制流程路径，策略是最强的，但是一般不可实现</li>
+<li>语句测试：至少执行程序中所有语句一次</li>
+<li>分支测试：至少执行程序中每一分支一次</li>
+<li>条件组合测试：设计足够多的测试用例，是每个判定中所有可能条件取值至少执行一次</li>
+<li>循环测试：关键路径选取</li>
+</ul>
+<h4 id="四、黑盒测试"><a href="#四、黑盒测试" class="headerlink" title="四、黑盒测试"></a>四、黑盒测试</h4><h5 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>黑盒写实也称功能测试或数据驱动测试，它是在已知产品所有具有的功能，通过测试来检测每个功能是否能正常使用</p>
+</blockquote>
+<h5 id="黑盒测试试图发现以下错误类型"><a href="#黑盒测试试图发现以下错误类型" class="headerlink" title="黑盒测试试图发现以下错误类型"></a>黑盒测试试图发现以下错误类型</h5><ul>
+<li>功能不对或遗漏</li>
+<li>界面错误</li>
+<li>数据结构或者外部数据访问的错误</li>
+<li>性能错误</li>
+<li>初始化和终止错误</li>
+</ul>
+<h5 id="事务流测试"><a href="#事务流测试" class="headerlink" title="事务流测试"></a>事务流测试</h5><blockquote>
+<p>事务：以用户的角度所见的一个工作单元</p>
+</blockquote>
+<p>测试步骤</p>
+<ul>
+<li>获取事务流程图</li>
+<li>浏览和复审</li>
+<li>用例设计</li>
+<li>测试设备开发</li>
+<li>测试执行</li>
+<li>测试结果比较</li>
+</ul>
+<h5 id="等价类"><a href="#等价类" class="headerlink" title="等价类"></a>等价类</h5><blockquote>
+<p>定义：输入域的一个子集，在该子集中，各个输入数据对于揭示程序中的错误都是等效的</p>
+</blockquote>
+<blockquote>
+<p>分类：有效等价类；无效等价类</p>
+</blockquote>
+<h5 id="边界值分析"><a href="#边界值分析" class="headerlink" title="边界值分析"></a>边界值分析</h5><blockquote>
+<p>边界值分析是一种罪常用的黑盒测试技术。通过设计一些测试用例，使程序运行在边界情况附近，这样揭露错误的可能性比较大。</p>
+</blockquote>
+<h4 id="五、软件测试步骤"><a href="#五、软件测试步骤" class="headerlink" title="五、软件测试步骤"></a>五、软件测试步骤</h4><h5 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h5><ul>
+<li>单元测试——往往采用白盒测试，在单元测试中由被测模块调用，用以代替被测模块所调用的子模块被称为桩模块</li>
+<li>集成测试——集中于模块的组装</li>
+<li>确认测试——通常采用黑盒测试</li>
+<li>系统测试——检测整个系统的性能、功能是否达到；功能测试、恢复测试、安全性测试、强度测试、性能测试、可用性测试、部署测试</li>
+</ul>
+<h3 id="第七章-项目管理"><a href="#第七章-项目管理" class="headerlink" title="第七章 项目管理"></a>第七章 项目管理</h3><h4 id="一、软件项目管理简介"><a href="#一、软件项目管理简介" class="headerlink" title="一、软件项目管理简介"></a>一、软件项目管理简介</h4><h5 id="项目定义"><a href="#项目定义" class="headerlink" title="项目定义"></a>项目定义</h5><blockquote>
+<p>为创造一件独特的产品、一项服务或者一种结果而进行的临时性努力</p>
+</blockquote>
+<h5 id="项目管理发展的产物是"><a href="#项目管理发展的产物是" class="headerlink" title="项目管理发展的产物是"></a>项目管理发展的产物是</h5><ul>
+<li>项目管理协会</li>
+<li>项目管理知识体系</li>
+<li>人才认证</li>
+</ul>
+<h4 id="二、项目管理框架和要素"><a href="#二、项目管理框架和要素" class="headerlink" title="二、项目管理框架和要素"></a>二、项目管理框架和要素</h4><h5 id="框架图"><a href="#框架图" class="headerlink" title="框架图"></a>框架图</h5><blockquote>
+<p>关键要素为项目干系人、项目管理知识领域以及项目管理工具和技术</p>
+</blockquote>
+<h4 id="项目干系人"><a href="#项目干系人" class="headerlink" title="项目干系人"></a>项目干系人</h4><ul>
+<li>项目经理</li>
+<li>客户</li>
+<li>项目执行组织</li>
+<li>项目团队及发起人</li>
+<li>项目赞助者、发起人</li>
+<li>项目竞争对手</li>
+</ul>
+<h4 id="九大知识领域"><a href="#九大知识领域" class="headerlink" title="九大知识领域"></a>九大知识领域</h4><ul>
+<li>项目管理的四大核心知识领域是指范围、时间、成本和质量</li>
+<li>四大项目管理辅助知识领域包括人力资源管理、风险管理、沟通管理、采购管理</li>
+</ul>
+<h4 id="项目管理工具和技术"><a href="#项目管理工具和技术" class="headerlink" title="项目管理工具和技术"></a>项目管理工具和技术</h4><ul>
+<li>WBS</li>
+<li>甘特图</li>
+<li>网络图示法</li>
+<li>净值图</li>
+<li>关键路径法</li>
+</ul>
+<h4 id="项目管理要素"><a href="#项目管理要素" class="headerlink" title="项目管理要素"></a>项目管理要素</h4><ul>
+<li>范围</li>
+<li>进度</li>
+<li>成本</li>
+<li>质量</li>
+</ul>
+<h4 id="三、软件项目管理的概念"><a href="#三、软件项目管理的概念" class="headerlink" title="三、软件项目管理的概念"></a>三、软件项目管理的概念</h4><h5 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>软件管理是为了是软件项目能够按照预定的成本、进度、质量顺利完成，而对成本、人员、进度、质量、风险等进行分析和管理的活动。</p>
+</blockquote>
+<h5 id="项目管理过程"><a href="#项目管理过程" class="headerlink" title="项目管理过程"></a>项目管理过程</h5><ul>
+<li>启动过程</li>
+<li>计划过程</li>
+<li>执行过程</li>
+<li>监督和控制过程</li>
+<li>收尾过程</li>
+</ul>
+<h3 id="第八章-CMM"><a href="#第八章-CMM" class="headerlink" title="第八章 CMM"></a>第八章 CMM</h3><p>软件质量三要素：人员、技术、过程</p>
+<h4 id="一、CMM概念及发展"><a href="#一、CMM概念及发展" class="headerlink" title="一、CMM概念及发展"></a>一、CMM概念及发展</h4><h5 id="CMM是什么"><a href="#CMM是什么" class="headerlink" title="CMM是什么"></a>CMM是什么</h5><blockquote>
+<p>一般指软件能力成熟度模型。</p>
+</blockquote>
+<h4 id="CMM族"><a href="#CMM族" class="headerlink" title="CMM族"></a>CMM族</h4><ul>
+<li>SW-CMM</li>
+<li>SE-CMM</li>
+<li>SA-CMM</li>
+<li>IPD-CMM</li>
+<li>P-CMM</li>
+</ul>
+<h4 id="二、CMM的基本内容"><a href="#二、CMM的基本内容" class="headerlink" title="二、CMM的基本内容"></a>二、CMM的基本内容</h4><h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><ul>
+<li>过程和过程能力</li>
+<li>过程性能</li>
+<li>过程成熟度和组织成熟度</li>
+<li>能力成熟度等级</li>
+</ul>
+<h4 id="三、CMM五级标准"><a href="#三、CMM五级标准" class="headerlink" title="三、CMM五级标准"></a>三、CMM五级标准</h4><h5 id="五级框架"><a href="#五级框架" class="headerlink" title="五级框架"></a>五级框架</h5><ul>
+<li>初始级</li>
+<li>可重复级</li>
+<li>已定义级</li>
+<li>已管理级</li>
+<li>持续优化级</li>
+</ul>
+<h4 id="四、ISO-9000"><a href="#四、ISO-9000" class="headerlink" title="四、ISO 9000"></a>四、ISO 9000</h4><h5 id="定义-6"><a href="#定义-6" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>ISO 9000 是一个用于在所有行业建立质量管理体系的国际标准</p>
+</blockquote>
+<h5 id="ISO-9001核心过程"><a href="#ISO-9001核心过程" class="headerlink" title="ISO 9001核心过程"></a>ISO 9001核心过程</h5><ul>
+<li>业务获取</li>
+<li>设计和开发</li>
+<li>测试</li>
+<li>生产和交付</li>
+<li>服务和支持</li>
+<li>业务管理</li>
+<li>供应商管理</li>
+<li>库存管理</li>
+<li>配置管理</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    
+        <div class="reward-container">
+  <div>你的支持就是我前进的动力</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/wechatpay.jpg" alt="Kongo 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/alipay.jpg" alt="Kongo 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag"><i class="fa fa-tags"></i> 软件工程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/23/cJson%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" rel="prev" title="cJson源码阅读">
+      <i class="fa fa-chevron-left"></i> cJson源码阅读
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/25/MyTinySTL%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="next" title="MyTinySTL源码阅读笔记">
+      MyTinySTL源码阅读笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-软件工程简介"><span class="nav-text">第一章 软件工程简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、软件的定义及特点"><span class="nav-text">一、软件的定义及特点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#特点"><span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#软件的种类"><span class="nav-text">软件的种类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、软件工程的起源和概念"><span class="nav-text">二、软件工程的起源和概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#起源"><span class="nav-text">起源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#软件开发的三个阶段"><span class="nav-text">软件开发的三个阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#软件工程的定义"><span class="nav-text">软件工程的定义</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、软件开发的本质和基本手段"><span class="nav-text">三、软件开发的本质和基本手段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#软件开发的含义"><span class="nav-text">软件开发的含义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实现映射的基本手段"><span class="nav-text">实现映射的基本手段</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、软件工程框架"><span class="nav-text">四、软件工程框架</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#目标"><span class="nav-text">目标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#活动"><span class="nav-text">活动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#框架的作用"><span class="nav-text">框架的作用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、软件生存周期"><span class="nav-text">五、软件生存周期</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生存周期概念"><span class="nav-text">生存周期概念</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#软件过程"><span class="nav-text">软件过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、生存周期过程的分类"><span class="nav-text">六、生存周期过程的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#过程分类"><span class="nav-text">过程分类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、常见的软件生存周期模型"><span class="nav-text">七、常见的软件生存周期模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#瀑布模型"><span class="nav-text">瀑布模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#增量模型"><span class="nav-text">增量模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#演化模型"><span class="nav-text">演化模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#喷泉模型"><span class="nav-text">喷泉模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-软件需求"><span class="nav-text">第二章 软件需求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、需求的作用"><span class="nav-text">一、需求的作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、需求的定义"><span class="nav-text">二、需求的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-1"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基本性质"><span class="nav-text">基本性质</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、需求分类"><span class="nav-text">三、需求分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、需求发现"><span class="nav-text">四、需求发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、需求规约的概念和格式"><span class="nav-text">五、需求规约的概念和格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章-结构化分析方法"><span class="nav-text">第三章 结构化分析方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、结构化分析方法概念"><span class="nav-text">一、结构化分析方法概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、结构化分析模型"><span class="nav-text">二、结构化分析模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本术语"><span class="nav-text">基本术语</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#模型表达工具"><span class="nav-text">模型表达工具</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、初始化模块结构图精化的启发式规则"><span class="nav-text">三、初始化模块结构图精化的启发式规则</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#启发式"><span class="nav-text">启发式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#常见的六种启发式规则"><span class="nav-text">常见的六种启发式规则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、接口设计"><span class="nav-text">四、接口设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#接口设计的分类"><span class="nav-text">接口设计的分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设计遵循原则"><span class="nav-text">设计遵循原则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、数据设计"><span class="nav-text">五、数据设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、详细设计工具"><span class="nav-text">六、详细设计工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、软件设计规约"><span class="nav-text">七、软件设计规约</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念和组成"><span class="nav-text">概念和组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#概要设计规约"><span class="nav-text">概要设计规约</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#详细设计规约"><span class="nav-text">详细设计规约</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设计规约的格式"><span class="nav-text">设计规约的格式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八、结构化方法的总结"><span class="nav-text">八、结构化方法的总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#世界观"><span class="nav-text">世界观</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基本原理和原则"><span class="nav-text">基本原理和原则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章-UML"><span class="nav-text">第三章 UML</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、面向对象方法的概念"><span class="nav-text">一、面向对象方法的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是面向对象"><span class="nav-text">什么是面向对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#主要特点"><span class="nav-text">主要特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#面向对象学习内容"><span class="nav-text">面向对象学习内容</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、UML的概念"><span class="nav-text">二、UML的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UML概念"><span class="nav-text">UML概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#面向对象方法术语"><span class="nav-text">面向对象方法术语</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、类和对象"><span class="nav-text">三、类和对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义和表示"><span class="nav-text">定义和表示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类名"><span class="nav-text">类名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性"><span class="nav-text">属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作"><span class="nav-text">操作</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、接口"><span class="nav-text">四、接口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-2"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#表示"><span class="nav-text">表示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重要说明"><span class="nav-text">重要说明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#五、协作"><span class="nav-text">五、协作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#六、其他重要概念"><span class="nav-text">六、其他重要概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#七、包"><span class="nav-text">七、包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#八、表达关系术语"><span class="nav-text">八、表达关系术语</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#九、UML模型表达工具概述"><span class="nav-text">九、UML模型表达工具概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十、顺序图"><span class="nav-text">十、顺序图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十一、状态图"><span class="nav-text">十一、状态图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-面向对象"><span class="nav-text">第四章 面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、面向对象的分析（OOA）"><span class="nav-text">一、面向对象的分析（OOA）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#OOA的基本任务"><span class="nav-text">OOA的基本任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#OOA模型"><span class="nav-text">OOA模型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、识别类"><span class="nav-text">二、识别类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、识别属性和操作"><span class="nav-text">三、识别属性和操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#识别属性"><span class="nav-text">识别属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#识别操作"><span class="nav-text">识别操作</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、识别对象之间的关系"><span class="nav-text">四、识别对象之间的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、人机交互部分的设计"><span class="nav-text">五、人机交互部分的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是人机交互部分"><span class="nav-text">什么是人机交互部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#人机交互部分的需求分析"><span class="nav-text">人机交互部分的需求分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#人机界面的设计准则"><span class="nav-text">人机界面的设计准则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、控制驱动部分的设计"><span class="nav-text">六、控制驱动部分的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是控制驱动部分"><span class="nav-text">什么是控制驱动部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#需要控制驱动部分的原因"><span class="nav-text">需要控制驱动部分的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如何设计控制驱动部分"><span class="nav-text">如何设计控制驱动部分</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、数据管理部分的设计"><span class="nav-text">七、数据管理部分的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是数据管理部分"><span class="nav-text">什么是数据管理部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如何设计数据管理部分"><span class="nav-text">如何设计数据管理部分</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八、面向对象设计概述"><span class="nav-text">八、面向对象设计概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#OOD的根本目标"><span class="nav-text">OOD的根本目标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#OOP和OOD的关系"><span class="nav-text">OOP和OOD的关系</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#九、如何进行问题域部分的设计"><span class="nav-text">九、如何进行问题域部分的设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#十、面向对象的编程和编程语言"><span class="nav-text">十、面向对象的编程和编程语言</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#程序设计范型"><span class="nav-text">程序设计范型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#面向对象是一种新的程序设计范型"><span class="nav-text">面向对象是一种新的程序设计范型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#选择编程语言"><span class="nav-text">选择编程语言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章-敏捷开发"><span class="nav-text">第五章 敏捷开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、敏捷开发简介"><span class="nav-text">一、敏捷开发简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念"><span class="nav-text">概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#原则（部分）"><span class="nav-text">原则（部分）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、极限编程"><span class="nav-text">二、极限编程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#实践原则"><span class="nav-text">实践原则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#极限编程的过程"><span class="nav-text">极限编程的过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、敏捷设计"><span class="nav-text">三、敏捷设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#设计应该避免的问题"><span class="nav-text">设计应该避免的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#防止软件腐化的基本途径"><span class="nav-text">防止软件腐化的基本途径</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、SCRUM模型"><span class="nav-text">四、SCRUM模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Scrum的三个阶段"><span class="nav-text">Scrum的三个阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scrum过程流"><span class="nav-text">Scrum过程流</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六章-软件测试"><span class="nav-text">第六章 软件测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、软件测试的概念"><span class="nav-text">一、软件测试的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#软件测试的定义和目标"><span class="nav-text">软件测试的定义和目标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#软件测试的目标"><span class="nav-text">软件测试的目标</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、软件测试的过程模型和原则"><span class="nav-text">二、软件测试的过程模型和原则</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型"><span class="nav-text">模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#原则"><span class="nav-text">原则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、白盒测试"><span class="nav-text">三、白盒测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-3"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#各种测试"><span class="nav-text">各种测试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、黑盒测试"><span class="nav-text">四、黑盒测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-4"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#黑盒测试试图发现以下错误类型"><span class="nav-text">黑盒测试试图发现以下错误类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事务流测试"><span class="nav-text">事务流测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#等价类"><span class="nav-text">等价类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#边界值分析"><span class="nav-text">边界值分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、软件测试步骤"><span class="nav-text">五、软件测试步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#整体流程"><span class="nav-text">整体流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七章-项目管理"><span class="nav-text">第七章 项目管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、软件项目管理简介"><span class="nav-text">一、软件项目管理简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#项目定义"><span class="nav-text">项目定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#项目管理发展的产物是"><span class="nav-text">项目管理发展的产物是</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、项目管理框架和要素"><span class="nav-text">二、项目管理框架和要素</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#框架图"><span class="nav-text">框架图</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目干系人"><span class="nav-text">项目干系人</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#九大知识领域"><span class="nav-text">九大知识领域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目管理工具和技术"><span class="nav-text">项目管理工具和技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目管理要素"><span class="nav-text">项目管理要素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、软件项目管理的概念"><span class="nav-text">三、软件项目管理的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-5"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#项目管理过程"><span class="nav-text">项目管理过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第八章-CMM"><span class="nav-text">第八章 CMM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、CMM概念及发展"><span class="nav-text">一、CMM概念及发展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CMM是什么"><span class="nav-text">CMM是什么</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CMM族"><span class="nav-text">CMM族</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、CMM的基本内容"><span class="nav-text">二、CMM的基本内容</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本概念"><span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、CMM五级标准"><span class="nav-text">三、CMM五级标准</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#五级框架"><span class="nav-text">五级框架</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、ISO-9000"><span class="nav-text">四、ISO 9000</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-6"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ISO-9001核心过程"><span class="nav-text">ISO 9001核心过程</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kongo"
+      src="/images/header.jpeg">
+  <p class="site-author-name" itemprop="name">Kongo</p>
+  <div class="site-description" itemprop="description">闳的博客，记录技术、生活</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<br>
+Total <span id="busuanzi_value_site_pv"></span> views.
+<br>
+您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴
+<br>
+<span id="busuanzi_value_page_pv"></span> Hits
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'PULSTRKS13DHxoOUR8UQhJPX-gzGzoHsz',
+      appKey     : '7ax6bnBNLWRYJlQ6Qb9rWCIJ',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":true},"react":{"opacityDefault":0.7}});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

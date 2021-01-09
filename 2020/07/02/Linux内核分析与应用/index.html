@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="她    此文为学习Linux内核所做的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux内核分析与应用">
+<meta property="og:url" content="http://yoursite.com/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="Kongo&#39;s blog">
+<meta property="og:description" content="她    此文为学习Linux内核所做的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/02/Nb2m3F.png">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="og:image" content="http://yoursite.com/images/loading/loading.gif">
+<meta property="article:published_time" content="2020-07-02T06:30:27.000Z">
+<meta property="article:modified_time" content="2021-01-09T13:49:34.286Z">
+<meta property="article:author" content="Kongo">
+<meta property="article:tag" content="Linux内核">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/02/Nb2m3F.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux内核分析与应用 | Kongo's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kongo's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/honghong1234" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpeg">
+      <meta itemprop="name" content="Kongo">
+      <meta itemprop="description" content="闳的博客，记录技术、生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kongo's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux内核分析与应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-02 14:30:27" itemprop="dateCreated datePublished" datetime="2020-07-02T14:30:27+08:00">2020-07-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-09 21:49:34" itemprop="dateModified" datetime="2021-01-09T21:49:34+08:00">2021-01-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/07/02/Nb2m3F.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">她</div>
+</center>
+
+<blockquote>
+<p>此文为学习Linux内核所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-概述"><a href="#第一章-概述" class="headerlink" title="第一章 概述"></a>第一章 概述</h3><h4 id="一、Linux操作系统概述"><a href="#一、Linux操作系统概述" class="headerlink" title="一、Linux操作系统概述"></a>一、Linux操作系统概述</h4><h5 id="1-Linux系统整体结构"><a href="#1-Linux系统整体结构" class="headerlink" title="1.Linux系统整体结构"></a>1.Linux系统整体结构</h5><ul>
+<li>应用软件</li>
+<li>系统调用</li>
+<li>内核：进程间通信、进程调度、网络、内存管理、文件系统</li>
+<li>模块</li>
+<li>硬件</li>
+</ul>
+<h5 id="2-机制与策略分离"><a href="#2-机制与策略分离" class="headerlink" title="2.机制与策略分离"></a>2.机制与策略分离</h5><ul>
+<li>机制——提供什么样的功能</li>
+<li>策略——如何使用这些功能</li>
+</ul>
+<h4 id="二、Linux的内核结构及内核模块"><a href="#二、Linux的内核结构及内核模块" class="headerlink" title="二、Linux的内核结构及内核模块"></a>二、Linux的内核结构及内核模块</h4><h5 id="1-Linux内核源码目录"><a href="#1-Linux内核源码目录" class="headerlink" title="1.Linux内核源码目录"></a>1.Linux内核源码目录</h5><p><img src="/images/loading/loading.gif" data-original="././Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200702-152213@2x.png" alt></p>
+<h5 id="2-Linux内核模块编程入门"><a href="#2-Linux内核模块编程入门" class="headerlink" title="2.Linux内核模块编程入门"></a>2.Linux内核模块编程入门</h5><ul>
+<li>任何模块都要包含三个头文件：&lt;linux/module.h&gt;、&lt;linux/kernel.h&gt;、&lt;linux/init.h&gt;</li>
+<li>&lt;linux/module.h&gt;:包含了对模块版本控制</li>
+<li>&lt;linux/kernel.h&gt;:包含了常用的内核函数</li>
+<li>&lt;linux/init.h&gt;:包含了_init和_exit，宏_init告诉编译程序相关的函数和变量仅用于初始化，编译程序将标有_init的所有代码存储到特殊的内存段中，初始化结束就释放这段内存</li>
+<li>入口函数：module_init()</li>
+<li>出口函数：module_cleanup()</li>
+</ul>
+<h5 id="3-相关命令"><a href="#3-相关命令" class="headerlink" title="3.相关命令"></a>3.相关命令</h5><ul>
+<li>插入模块：insmod modele_example.ko</li>
+<li>删除模块：rmmod modele_example.ko</li>
+<li>查看模块信息：dmesg </li>
+<li>调试：kdbug、kdb、kgdb</li>
+</ul>
+<h4 id="三、内核源码入门"><a href="#三、内核源码入门" class="headerlink" title="三、内核源码入门"></a>三、内核源码入门</h4><h5 id="1-链表的演化"><a href="#1-链表的演化" class="headerlink" title="1.链表的演化"></a>1.链表的演化</h5><ul>
+<li>如果减少一个指针域，就退化成单链表</li>
+<li>如果只能对链表的首尾进行插入或删除操作，就演变为队结<br>构</li>
+<li>如果只能对链表的头进行插入或删除操作，就退化为栈结构</li>
+<li>如果前驱和后继表示左右孩子，则演变为一颗二叉树</li>
+</ul>
+<h4 id="2-Linux内核中链表的定义和使用"><a href="#2-Linux内核中链表的定义和使用" class="headerlink" title="2.Linux内核中链表的定义和使用"></a>2.Linux内核中链表的定义和使用</h4><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200702-153709@2x.png" alt></p>
+<h3 id="第二章-内存寻址"><a href="#第二章-内存寻址" class="headerlink" title="第二章 内存寻址"></a>第二章 内存寻址</h3><h4 id="一、内存寻址概述"><a href="#一、内存寻址概述" class="headerlink" title="一、内存寻址概述"></a>一、内存寻址概述</h4><h5 id="1-图灵机和冯-诺依曼体系结构"><a href="#1-图灵机和冯-诺依曼体系结构" class="headerlink" title="1.图灵机和冯.诺依曼体系结构"></a>1.图灵机和冯.诺依曼体系结构</h5><ul>
+<li>冯诺依曼结构——IntelX86，AMD</li>
+<li>哈佛结构——ARM</li>
+</ul>
+<h5 id="2-X86内存寻址的不同时期"><a href="#2-X86内存寻址的不同时期" class="headerlink" title="2.X86内存寻址的不同时期"></a>2.X86内存寻址的不同时期</h5><ul>
+<li>8位：没有段的概念，访问内存都要通过绝对地址，因此程序中的地址必须进行硬编码、（也就是给出具体地址），而且也难以重定位。</li>
+<li>16位：“段”的引入，段描述了一块有限的内存区域，区域的起始位置存在专门的寄存器（也就是段寄存器中）。</li>
+<li>24位：286地址总线位数增加到了24位；从此开始引进了一个全新理念—保护模式；访问内存时不能直接从段寄存器中获得段的起始地址了，而需要经过额外转换和检查 。</li>
+<li>32位或64位：386是一个32位的CPU，其寻址能力达到4GB，把80386以后的处理器统称为x86</li>
+</ul>
+<h5 id="3-为什么引入保护模式？"><a href="#3-为什么引入保护模式？" class="headerlink" title="3.为什么引入保护模式？"></a>3.为什么引入保护模式？</h5><blockquote>
+<p>从物理上来看，应该是保护存储器，从逻辑上来看，保护的是操作系统。正式因为实模式的分段机制可以让内存被随意修改，操作系统得不到保护，所以出现了保护模式。</p>
+</blockquote>
+<h4 id="二、保护模式之段机制"><a href="#二、保护模式之段机制" class="headerlink" title="二、保护模式之段机制"></a>二、保护模式之段机制</h4><h5 id="1-程序的编译过程"><a href="#1-程序的编译过程" class="headerlink" title="1.程序的编译过程"></a>1.程序的编译过程</h5><p>编译（GCC）-&gt;汇编（GAS）-&gt;链接（ld）-&gt;装载并执行</p>
+<h5 id="2-保护模式下的寻址"><a href="#2-保护模式下的寻址" class="headerlink" title="2.保护模式下的寻址"></a>2.保护模式下的寻址</h5><ul>
+<li>CPU把虚地址送给MMU</li>
+<li>MMU把物理地址送给存储器</li>
+</ul>
+<h5 id="3-MMU的地址转换"><a href="#3-MMU的地址转换" class="headerlink" title="3.MMU的地址转换"></a>3.MMU的地址转换</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200702-162916@2x.png" alt></p>
+<h5 id="4-段描述符表——段表"><a href="#4-段描述符表——段表" class="headerlink" title="4.段描述符表——段表"></a>4.段描述符表——段表</h5><ul>
+<li>组成：段号、基地址、界限、属性</li>
+<li>段号描述虚拟地址空间段的编号</li>
+<li>基地址是线性地址空间段的起始地址</li>
+<li>段描述符表中的每一个表项叫做段描述符</li>
+</ul>
+<h5 id="5-保护模式下段寄存器中存放什么"><a href="#5-保护模式下段寄存器中存放什么" class="headerlink" title="5.保护模式下段寄存器中存放什么"></a>5.保护模式下段寄存器中存放什么</h5><ul>
+<li>存放索引或叫段号，因此，这里的段寄存器也叫选择符，即从描述符表中选择某个段。</li>
+<li>RPL表示请求者的特权级（Requestor Privilege Level） </li>
+<li>TI（Table Index）</li>
+</ul>
+<h5 id="6-保护模式下的特权级"><a href="#6-保护模式下的特权级" class="headerlink" title="6.保护模式下的特权级"></a>6.保护模式下的特权级</h5><ul>
+<li>保护模式提供了四个特权级，用0~3四个数字表示</li>
+<li>很多操作系统（包括Linux,Windwos）只使用了其中的最低和最高两个，即0表示最高特权级，对应内核态；3表示最低特权级，对应用户态。</li>
+<li>保护模式规定，高特权级可以访问低特权级，而低特权级不能随便访问高特权级。</li>
+</ul>
+<h5 id="7-保护模式下的描述符"><a href="#7-保护模式下的描述符" class="headerlink" title="7.保护模式下的描述符"></a>7.保护模式下的描述符</h5><ul>
+<li>全局描述符表GDT（Gloabal Descriptor Table） </li>
+<li>中断描述符表IDT（Interrupt Descriptor Table） </li>
+<li>局部描述符表LDT（Local Descriptor Table）</li>
+</ul>
+<h4 id="三、分页机制"><a href="#三、分页机制" class="headerlink" title="三、分页机制"></a>三、分页机制</h4><h5 id="1-分页机制中的页"><a href="#1-分页机制中的页" class="headerlink" title="1.分页机制中的页"></a>1.分页机制中的页</h5><ul>
+<li>所谓分页，就是将虚拟地址空间或线性地址空间划分成若干大小相等的片，称为页（Page） </li>
+<li>对物理地址空间分成与页大小相等的存储块，称为块或页面（Page Frame）</li>
+<li>IA-32页的大小: 4KB, 2MB 和4MB</li>
+<li>IA-64页的大小: 4KB, 8KB, 64KB, 256KB, 1MB, 4MB, 16MB 和256MB.</li>
+</ul>
+<h5 id="2-分页原理是什么"><a href="#2-分页原理是什么" class="headerlink" title="2.分页原理是什么"></a>2.分页原理是什么</h5><ul>
+<li>使得每个进程可以拥有自己独立的虚拟内存空间。为了达到这个目的，CPU在访存的时候就需要进行一次地址变换，也就是把虚地址转换为物理地址，于是我们给出映射函数： Pa=f(va)，这种转换在时间和空间上都要付出代价，因此必须进行优化。</li>
+<li>时间的优化。因为访存很频繁，因此，映射函数f一定要简单，否则会效率很低，所以需要简单查表算法，这也就是页表引入的原因。 </li>
+<li>空间的优化。因为内存空间是按字节编址的，地址一一进行映射的话，效率也很低，于是要按照一定的粒度（也就是页）进行映射，这样，粒度内的相对地址（也就是页内偏移量）在映射时保持不变。</li>
+</ul>
+<h5 id="3-页表"><a href="#3-页表" class="headerlink" title="3.页表"></a>3.页表</h5><ul>
+<li>页表是一种映射机制，存放的是虚拟地址空间与物理空间地址空间的映射关系</li>
+<li>页号对应块号</li>
+</ul>
+<h5 id="4-单级页表结构"><a href="#4-单级页表结构" class="headerlink" title="4.单级页表结构"></a>4.单级页表结构</h5><ul>
+<li>在32位的地址空间，通常页的大小为4KB</li>
+<li>每页起始地址的低12位表示页的属性</li>
+<li>每页的高20位表示页的起始地址</li>
+</ul>
+<h5 id="5-两级页表"><a href="#5-两级页表" class="headerlink" title="5.两级页表"></a>5.两级页表</h5><ul>
+<li>如果只用以及页表，因为每个页表最大可占4MB的空间，而且必须是连续的，这就为内存的分配带来困难</li>
+<li>采用分而治之的原则，将高20位分为两部分，分别占十位，形成两级页表</li>
+</ul>
+<h5 id="6-地址转换过程"><a href="#6-地址转换过程" class="headerlink" title="6.地址转换过程"></a>6.地址转换过程</h5><ul>
+<li>第一步，用最高10位作为页目录项的索引，将它乘以4，与CR3中的页目录的起始地址相加，获得相应目录项在内存的地址。</li>
+<li>第二步，从这个地址开始读取32位页目录项，取出其高20位，再给低12位补0，形成页表在内存的起始地址。</li>
+<li>第三步，用中间的10位作为页表中页表项的索引，将它乘以4，与页表的起始地址相加，获得相应页表项在内存的地址。</li>
+<li>第四步，从这个地址开始读取32位页表项，取出其高20位，再将线性地址的第11~0位放在低12位，形成最终32位页面物理地址。</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-092339@2x.png" alt></p>
+<h5 id="7-页面高速缓存"><a href="#7-页面高速缓存" class="headerlink" title="7.页面高速缓存"></a>7.页面高速缓存</h5><ul>
+<li>页表放在内存中，这使得CPU在每次存取一个数据时，都要至少两次访问，从而大大降低了访问的速度</li>
+<li>引入TLB，在访问某个地址空间时，先访问高速缓存区，如果未命中，再访问内存</li>
+</ul>
+<h4 id="8-Linux中的分页"><a href="#8-Linux中的分页" class="headerlink" title="8.Linux中的分页"></a>8.Linux中的分页</h4><ul>
+<li>Linux主要采用分页机制来实现虚拟存储器管理</li>
+<li>页总目录PGD（Page Global Directory） </li>
+<li>页上级目录PUD（Page Upper Directory） </li>
+<li>页中间目录PMD（Page Middle Derectory） </li>
+<li>页表PT（Page table）</li>
+</ul>
+<h3 id="三、进程管理"><a href="#三、进程管理" class="headerlink" title="三、进程管理"></a>三、进程管理</h3><h4 id="一、进程概述"><a href="#一、进程概述" class="headerlink" title="一、进程概述"></a>一、进程概述</h4><h5 id="1-进程家族"><a href="#1-进程家族" class="headerlink" title="1.进程家族"></a>1.进程家族</h5><ul>
+<li>进程是一个动态的实体，它具有生命周期</li>
+<li>在Linux中，通过调用fork系统调用来创建一个新的进程</li>
+<li>Linux系统启动以后形成了一棵树</li>
+<li>swaspper init_task -&gt; init -&gt; login -&gt; bash -&gt; insmod</li>
+</ul>
+<h5 id="2-进程控制块－信息分类"><a href="#2-进程控制块－信息分类" class="headerlink" title="2.进程控制块－信息分类"></a>2.进程控制块－信息分类</h5><ul>
+<li>状态信息－描述进程动态的变化。</li>
+<li>链接信息－描述进程的父／子关系。</li>
+<li>各种标识符－用简单数字对进程进行标识。</li>
+<li>进程间通信信息－描述多个进程在同一任务上协作工作。</li>
+<li>时间和定时器信息－描述进程在生存周期内使用CPU时间的统计、计费等信息。</li>
+<li>调度信息－描述进程优先级、调度策略等信息。</li>
+<li>文件系统信息－对进程使用文件情况进行记录。</li>
+<li>虚拟内存信息－描述每个进程拥有的地址空间。</li>
+<li>处理器环境信息－描述进程的执行环境(处理器的寄存器及堆栈等)</li>
+</ul>
+<h5 id="3-进程控制块——Linux进程状态及转换"><a href="#3-进程控制块——Linux进程状态及转换" class="headerlink" title="3.进程控制块——Linux进程状态及转换"></a>3.进程控制块——Linux进程状态及转换</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-100956@2x.png" alt></p>
+<h5 id="4-进程控制快——如何存放"><a href="#4-进程控制快——如何存放" class="headerlink" title="4.进程控制快——如何存放"></a>4.进程控制快——如何存放</h5><ul>
+<li>进程的PCB所占的内存是由内核动态分配的，更确切地说，内核根本不给PCB分配内存，而仅仅给内核栈分配8K的内存，并把其中的一部分让给PCB使用。</li>
+<li>随着Linux版本的变化，进程控制块的内容越来越多，因此把部分进程控制块的内容移出这个空间，只保留访问频繁的thread_info。</li>
+</ul>
+<h5 id="5-从进程到容器"><a href="#5-从进程到容器" class="headerlink" title="5.从进程到容器"></a>5.从进程到容器</h5><ul>
+<li>对于进程来说，它的静态表现就是程序，平常都安安静静地待在磁盘上；而一旦运行起来，它就变成了计算机里的数据和状态的总和，这就是它的动态表现。</li>
+<li>容器技术的核心功能，就是通过约束和修改进程的动态表现，从而为其创造出一个“边界”。</li>
+</ul>
+<h4 id="二、进程的调度"><a href="#二、进程的调度" class="headerlink" title="二、进程的调度"></a>二、进程的调度</h4><h5 id="1-进程和线程"><a href="#1-进程和线程" class="headerlink" title="1.进程和线程"></a>1.进程和线程</h5><ul>
+<li>进程是系统资源分配的基本单位，线程是独立运行的基本单位。</li>
+<li>进程和线程几乎共享所有的资源，包括代码，数据，进程空间，打开的文件等</li>
+<li>线程只拥有自己的寄存器和栈。</li>
+</ul>
+<h5 id="2-进程的API实现"><a href="#2-进程的API实现" class="headerlink" title="2.进程的API实现"></a>2.进程的API实现</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-104555@2x.png" alt></p>
+<h5 id="3-fork的实现"><a href="#3-fork的实现" class="headerlink" title="3.fork的实现"></a>3.fork的实现</h5><ul>
+<li>fork调用的do_fork，除了SIGCHLD参数外，有三个参数就是空手而来，有两个参数似乎也没有明确的目标。</li>
+<li>作为子进程，它完全有自己的个性的，根本不想共享父进程的任何资源，而是让父亲把他所有资源给自己复制一份</li>
+<li>老爸没有那么傻，而是假装复制了一下，也就是用一个指针指过去而已</li>
+<li>要写一个页面时，写时复制技术就登场了</li>
+</ul>
+<h5 id="4-vfork的实现"><a href="#4-vfork的实现" class="headerlink" title="4.vfork的实现"></a>4.vfork的实现</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-105539@2x.png" alt></p>
+<h5 id="5-clone的实现"><a href="#5-clone的实现" class="headerlink" title="5.clone的实现"></a>5.clone的实现</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-105716@2x.png" alt></p>
+<h5 id="6-内核线程的创建"><a href="#6-内核线程的创建" class="headerlink" title="6.内核线程的创建"></a>6.内核线程的创建</h5><ul>
+<li>早期内核中创建内核线程是通过kernel_thread()而创建的</li>
+<li>目前内核中调用 kthread_create()创建的，其本质也是向do_fork()提供特定的flags标志而创建的。</li>
+</ul>
+<h5 id="7-copy-process-代码流程图"><a href="#7-copy-process-代码流程图" class="headerlink" title="7.copy_process()代码流程图"></a>7.copy_process()代码流程图</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-110810@2x.png" alt></p>
+<h4 id="三、进程调度"><a href="#三、进程调度" class="headerlink" title="三、进程调度"></a>三、进程调度</h4><h5 id="1-调度模型"><a href="#1-调度模型" class="headerlink" title="1.调度模型"></a>1.调度模型</h5><ul>
+<li>调度就是总就绪队列中选择一个进程投入CPU运行</li>
+<li>调度的主战场是就绪队列，核心是调度算法，实质性的动作是进程切换，对于以时间片调度为主的调度，时钟中断是驱动力，确保每个进程在CPU上运行一定的时间</li>
+</ul>
+<h5 id="2-进程调度-进程的优先级"><a href="#2-进程调度-进程的优先级" class="headerlink" title="2.进程调度-进程的优先级"></a>2.进程调度-进程的优先级</h5><p>用户空间</p>
+<ul>
+<li>普通优先级（nice ）：从-20～19，数字越小，优先级越高，通过修改这个值可以改变普通进程获取cpu资源的比例。</li>
+<li>调度优先级（scheduling priority）。从1（最低）~99（最高），这是实时进程的优先级。当然，普通进程也有调度优先级（scheduling priority），被设定为0。</li>
+</ul>
+<p>内核空间</p>
+<ul>
+<li>动态优先级（prio）</li>
+<li>静态优先级（static_prio）</li>
+<li>归一化优先级（normal_prio）</li>
+<li>实时优先级（rt_priorit）</li>
+</ul>
+<h5 id="3-进程调度-O-1-调度"><a href="#3-进程调度-O-1-调度" class="headerlink" title="3.进程调度-O(1)调度"></a>3.进程调度-O(1)调度</h5><ul>
+<li>基本优化思路就是把原来就绪队列上的单链表变成多个链表，即每一个优先级的进程被挂入不同链表中。</li>
+<li>在O（1）调度器中，实时进程和普通进程被区分开了，普通进程根本不会影响实时进程的调度。</li>
+<li>把CPU资源分成一个个的时间片，分配给每一个就绪的进程。</li>
+<li>主调度器（就是schedule函数）的主要功能是从该CPU的就绪队列中找到一个最合适的进程调度执行。</li>
+</ul>
+<h5 id="4-完全公平调度-CFS"><a href="#4-完全公平调度-CFS" class="headerlink" title="4.完全公平调度-CFS"></a>4.完全公平调度-CFS</h5><ul>
+<li>CFS调度器的目标是保证每一个进程的完全公平调度。</li>
+<li>CFS调度器和以往的调度器不同之处在于没有时间片的概念，而是分配cpu使用时间的比例。</li>
+<li>CFS为了实现公平，必须惩罚当前正在运行的进程，以使那些正在等待的进程下次被调度。</li>
+<li>CFS通过每个进程的虚拟运行时间（vruntime）来衡量哪个进程最值得被调度。</li>
+<li>CFS中的就绪队列是一棵以虚拟时间为键值的红黑树，虚拟时间越小的进程越靠近整个红黑树的最左端。</li>
+</ul>
+<h3 id="第四章-内存管理"><a href="#第四章-内存管理" class="headerlink" title="第四章 内存管理"></a>第四章 内存管理</h3><h4 id="一、内存管理机制"><a href="#一、内存管理机制" class="headerlink" title="一、内存管理机制"></a>一、内存管理机制</h4><h5 id="1-CPU的Cache"><a href="#1-CPU的Cache" class="headerlink" title="1.CPU的Cache"></a>1.CPU的Cache</h5><ul>
+<li>lscpu查看内存的结构层次</li>
+<li>L1d和L1i分别表示一级数据很指令Cache</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-115407@2x.png" alt></p>
+<h5 id="2-虚拟内存实现机制"><a href="#2-虚拟内存实现机制" class="headerlink" title="2.虚拟内存实现机制"></a>2.虚拟内存实现机制</h5><ul>
+<li>地址映射机制</li>
+<li>内存分配机制</li>
+<li>缓存和刷新机制</li>
+<li>交换机制</li>
+<li>请页机制</li>
+</ul>
+<h5 id="3-虚拟内存实现机制关系图"><a href="#3-虚拟内存实现机制关系图" class="headerlink" title="3.虚拟内存实现机制关系图"></a>3.虚拟内存实现机制关系图</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-152646@2x.png" alt></p>
+<blockquote>
+<p>首先内核通过映射机制把进程从磁盘映射到虚拟地址空间，当进程执行时，如果发现要访问的页没有在物理<br>内存时，就发出了页请求如图①；如果有空闲的内存可<br>供分配，就请求分配内存如图②（于是用到了内存的分<br>配和回收机制），并把正在使用的页记录在页缓存中如 图③（于是就使用了缓存机制）。如果没有足够的内存<br>可供分配，那么就调用交换机制，腾出一部分内存如图<br>④⑤。另外在地址映射中要通过TLB来加速物理页的寻找<br>如图⑧；交换机制中也要用到交换缓存如图⑥，并且把<br>物理页内容交换到交换文件中后也要通过修改页表来映<br>射文件地址如图⑦。</p>
+</blockquote>
+<h5 id="4-进程虚拟地址空间"><a href="#4-进程虚拟地址空间" class="headerlink" title="4.进程虚拟地址空间"></a>4.进程虚拟地址空间</h5><ul>
+<li>每个进程通过系统调用进入内核，Linux内核空间由系统内的所有进程共享</li>
+<li>每个进程拥有4G的虚拟地址空间，每个进程有各自的私有用户空间</li>
+<li>进程地址空间：kernel space -&gt; Stack -&gt; Memory Mapping Region -&gt; Heap -&gt; Bss  -&gt; Data -&gt; Text</li>
+</ul>
+<h5 id="5-用数据结构描述进程的用户空间"><a href="#5-用数据结构描述进程的用户空间" class="headerlink" title="5.用数据结构描述进程的用户空间"></a>5.用数据结构描述进程的用户空间</h5><ul>
+<li>mm_struct结构对金成整个用户空间进行描述</li>
+<li>vm_area_structs结构对用户空间中各个内存区进行描述</li>
+</ul>
+<h5 id="6-mm-struct如何描述地址空间"><a href="#6-mm-struct如何描述地址空间" class="headerlink" title="6.mm_struct如何描述地址空间"></a>6.mm_struct如何描述地址空间</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-154202@2x.png" alt></p>
+<h4 id="二、用户空间的创建"><a href="#二、用户空间的创建" class="headerlink" title="二、用户空间的创建"></a>二、用户空间的创建</h4><h5 id="1-创建进程用户空间"><a href="#1-创建进程用户空间" class="headerlink" title="1.创建进程用户空间"></a>1.创建进程用户空间</h5><ul>
+<li>当fork()系统调用在创建新进程时也为该进程创建完整的用户空间</li>
+<li>通过拷贝或共享父进程的用户空间来实现的，即内核调用copy_mm()函数，为新进程建立所有页表和mm_struct结构（通常，每个进程都有自己的用户空间，但是调用clone()函数创建的内核线程时共享父进程的用户空间）</li>
+</ul>
+<h5 id="2-虚存映射"><a href="#2-虚存映射" class="headerlink" title="2.虚存映射"></a>2.虚存映射</h5><ul>
+<li>当调用exec()系统调用开始执行一个进程时，进程的可执行映像（包括代码段、数据段，堆和栈等）必须装入到进程的用户地址空间。</li>
+<li>如果该进程用到了任何一个共享库，则共享库也必须装入到进程的用户空间。</li>
+<li>Linux并不将映像装入到物理内存，相反，可执行文件只是被映射到进程的用户空间中。这种将可以执行文件映像映射到进程用户空间的方法被称为“虚存映射”。</li>
+<li>分类：共享的、私有的、匿名的</li>
+</ul>
+<h5 id="3-VMA的创建方式"><a href="#3-VMA的创建方式" class="headerlink" title="3.VMA的创建方式"></a>3.VMA的创建方式</h5><ul>
+<li>在用户空间通过mmap()系统调用获取do_mmap()的功能</li>
+<li>在内核空间，可以直接调用do_mmap()创建一个新的虚拟内存</li>
+</ul>
+<h5 id="4-请页机制"><a href="#4-请页机制" class="headerlink" title="4.请页机制"></a>4.请页机制</h5><ul>
+<li>进程运行时，CPU访问的是用户空间的虚地址。</li>
+<li>Linux仅把当前要使用的少量页面装入内存，需要时再通过请页机制将特定的页面调入内存。</li>
+<li>当要访问的页不在内存时，产生一个页故障并报告故障原因。</li>
+</ul>
+<h5 id="5-缺页异常处理"><a href="#5-缺页异常处理" class="headerlink" title="5.缺页异常处理"></a>5.缺页异常处理</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-161335@2x.png" alt></p>
+<h4 id="三、内存分配与回收机制"><a href="#三、内存分配与回收机制" class="headerlink" title="三、内存分配与回收机制"></a>三、内存分配与回收机制</h4><h5 id="1-程序的装载过程"><a href="#1-程序的装载过程" class="headerlink" title="1.程序的装载过程"></a>1.程序的装载过程</h5><ul>
+<li>程序在装载时，并没有把指令和数据加载进物理内存，知识通过ELF文件头部信息建立起可执行文件与虚拟地址空间的映射关系而已</li>
+<li>真正的加载过程发生在缺页异常处理时</li>
+<li>内核根据建立的映射关系，在可执行文件中找到所需的内容</li>
+<li>分配一个物理内存页面，并将可执行文件内容加载到改内存中</li>
+<li>建立该物理内存和虚拟地址空间的映射关系，即填充页表，然后把控制权移交给进程</li>
+</ul>
+<h5 id="2-内核空间的划分"><a href="#2-内核空间的划分" class="headerlink" title="2.内核空间的划分"></a>2.内核空间的划分</h5><ul>
+<li>0M到high_memory的物理内存称为地段内存，大于high_memory的物理内存称为高端内存</li>
+<li>高端内存映射到内核空间的方式：永久映射、固定映射、vmalloc机制</li>
+</ul>
+<h5 id="3-物理内存管理机制"><a href="#3-物理内存管理机制" class="headerlink" title="3.物理内存管理机制"></a>3.物理内存管理机制</h5><ul>
+<li>伙伴算法：负责大块连续物理内存的分配和释放，以页框为基本单位。可以避免外部碎片</li>
+<li>per-CPU页框高速缓存：内核经常请求和释放单个页框，该缓存包含预先分配的页框，用于满足本地CPU发出的单一页框请求</li>
+<li>slab缓存：负责小块内存的分配，并且它也作为高速缓存，主要针对内核中经常分配并释放的对象</li>
+<li>vmalloc机制：vmalloc机制使得内核通过连续的线性地址来访问非连续的物理页框，这样可以最大限度的使用高端物理内存。</li>
+</ul>
+<h5 id="4-Slab分配机制"><a href="#4-Slab分配机制" class="headerlink" title="4.Slab分配机制"></a>4.Slab分配机制</h5><ul>
+<li>slab通用缓存：通用缓存针对一般情况，使用分配任意大小的物理内存，其接口为kmalloc()</li>
+<li>slab专用缓存：专用缓存是对特定的对象，比如为进程控制块创建高速缓存task_struct_cachep</li>
+</ul>
+<h5 id="5-vmalloc和kmalloc之间的区别"><a href="#5-vmalloc和kmalloc之间的区别" class="headerlink" title="5.vmalloc和kmalloc之间的区别"></a>5.vmalloc和kmalloc之间的区别</h5><ul>
+<li>vmalloc分配的物理地址无需连续，分配在VMALLOC_START~VMALLOC_END之间</li>
+<li>kmacloc确保页在物理上是连续的，分配的内存处于3GB~high_memory之间，这段内核空间与物理空间一一对应</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-201653@2x.png" alt></p>
+<h5 id="6-伙伴算法概述"><a href="#6-伙伴算法概述" class="headerlink" title="6.伙伴算法概述"></a>6.伙伴算法概述</h5><ul>
+<li>大小相同、物理地址连续的两个页块被称为伙伴。</li>
+<li>Linux的伙伴算法把所有的空闲页面分为多个块链表（该默认大小为11）个，每个链表中的一个块含有2的幂次个页面，即页块或简称块。</li>
+<li>伙伴算法的分配原理是，如果分配阶为n的页框块，那么先从第n条页框块链表中查找是否存在这么大小的空闲页块。如果有则分配，否则在第n+1条链表中继续查找，直到找到为止。</li>
+</ul>
+<h5 id="7-物理内存分配器"><a href="#7-物理内存分配器" class="headerlink" title="7.物理内存分配器"></a>7.物理内存分配器</h5><blockquote>
+<p>基于伙伴算法、每CPU高速缓存和slab高速缓存形成两种<br>内存分配器。</p>
+</blockquote>
+<ul>
+<li>第一种是分区页框分配器（zoned page frame allocator），处理对连续页框的内存分配请求。</li>
+<li>第二种是slab分配器，它将各种分配对象分组放进高速缓存，即每个高速缓存都对同类型分配对象的一种“储备”。</li>
+</ul>
+<h5 id="8-从用户态到内核态的内存分配"><a href="#8-从用户态到内核态的内存分配" class="headerlink" title="8.从用户态到内核态的内存分配"></a>8.从用户态到内核态的内存分配</h5><ul>
+<li>首先进入内核，建立虚拟地址空间的映射，获得一块虚拟内存区VMA。</li>
+<li>当进程对这块虚存区进行访问时，如果物理内存尚未分配，那么此时发生一个缺页异常，通过get_free_pages 申请一个或多个物理页面</li>
+<li>再将此物理内存和虚拟内存的映射关系写入页表。</li>
+</ul>
+<h3 id="第五章-中断"><a href="#第五章-中断" class="headerlink" title="第五章 中断"></a>第五章 中断</h3><h4 id="一、中断概述"><a href="#一、中断概述" class="headerlink" title="一、中断概述"></a>一、中断概述</h4><h5 id="1-中断简介"><a href="#1-中断简介" class="headerlink" title="1.中断简介"></a>1.中断简介</h5><ul>
+<li>中断是CPU对系统发生的某个事件做出的一种反应</li>
+<li>引入中断，是为了支持CPU和设备之间的并行操作</li>
+<li>CPU接收到中断信号，并不会立即响应，而是在执行每条指令周期的最后一个时钟周期，一旦检测到中断信号有效，cpu才在当前指令执行完后转入中断响应周期</li>
+</ul>
+<h5 id="2-高级可编程中断控制器（APIC）"><a href="#2-高级可编程中断控制器（APIC）" class="headerlink" title="2.高级可编程中断控制器（APIC）"></a>2.高级可编程中断控制器（APIC）</h5><ul>
+<li>每个x86的核有一个本地APIC，这些本地APIC通过中断控制器通信总线连接到IO APIC上</li>
+<li>IO APIC手机各个外设的中断，并翻译成总线上的信息，传递给某个CPU上的本地APIC</li>
+</ul>
+<h5 id="3-中断子系统分成4个部分"><a href="#3-中断子系统分成4个部分" class="headerlink" title="3.中断子系统分成4个部分"></a>3.中断子系统分成4个部分</h5><ul>
+<li>硬件无关的代码，称之为Linux内核通用中断处理模块</li>
+<li>CPU体系结构相关的中断处理。</li>
+<li>中断控制器的驱动代码，和系统使用的中断控制器相关</li>
+<li>普通外设的驱动。这些驱动使用Linux内核通用中断处理模块的API来实现自己的驱动逻辑</li>
+</ul>
+<h5 id="4-中断向量——中断源"><a href="#4-中断向量——中断源" class="headerlink" title="4.中断向量——中断源"></a>4.中断向量——中断源</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200703-231850@2x.png" alt></p>
+<h5 id="5-中断描述符表中门"><a href="#5-中断描述符表中门" class="headerlink" title="5.中断描述符表中门"></a>5.中断描述符表中门</h5><blockquote>
+<p>“门”的含义是当中断发生时必须先通过这些门，然后才<br>能进入相应的处理程序。</p>
+</blockquote>
+<ul>
+<li>中断门：用户态的进程不能访问Intel的中断门。所有的中断处理程序<br>都由中断门激活，并全部限制在内核态。</li>
+<li>陷阱门：控制权通过陷阱门进入处理程序时维持中断标志位（IF）不变，也就是说，不关中断。</li>
+<li>系统门：这是Linux内核特别设置的，用来让用户态的进程访问Intel的陷阱门，因此，门描述符的DPL为3。系统调用就是通过系统门进入内核的。</li>
+</ul>
+<h4 id="一、中断处理机制"><a href="#一、中断处理机制" class="headerlink" title="一、中断处理机制"></a>一、中断处理机制</h4><h5 id="1-初始化中断描述符"><a href="#1-初始化中断描述符" class="headerlink" title="1.初始化中断描述符"></a>1.初始化中断描述符</h5><ul>
+<li>Linux内核在系统的初始化阶段要初始化可编程控制器</li>
+<li>将中断描述符表的起始地址装入中段描述符表寄存器，并初始化表中的每一项，当计算机运行在实模式时，中断秒适度表被初始化，并由BIOS使用</li>
+<li>真正进入了Linux内核，中断描述符就被移到内存的另一个区域，并为进入保护模式进行初始化</li>
+</ul>
+<h5 id="2-中断门的设置"><a href="#2-中断门的设置" class="headerlink" title="2.中断门的设置"></a>2.中断门的设置</h5><ul>
+<li>中断门的设置是由init_IRQ()函数中的一段代码完成的</li>
+<li>设置时必须跳过用于系统调用的向量0x80 </li>
+<li>中断处理程序的入口地址是一个数组interrupt[]，数组中的每个元素是指向中断处理例程（ISR）的指针。 </li>
+<li>每个中断处理例程属于内核中的代码段，其段基地址存放于全局描述表（GDT）中</li>
+</ul>
+<h5 id="3-中断处理过程"><a href="#3-中断处理过程" class="headerlink" title="3.中断处理过程"></a>3.中断处理过程</h5><ul>
+<li>中断和异常的硬件处理</li>
+<li>中断请求队列的建立</li>
+<li>中断处理程序的执行</li>
+<li>从中断返回</li>
+</ul>
+<h5 id="4-X86的中断处理"><a href="#4-X86的中断处理" class="headerlink" title="4.X86的中断处理"></a>4.X86的中断处理</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-101105@2x.png" alt></p>
+<h5 id="5-中断描述符——IRQ数据结构"><a href="#5-中断描述符——IRQ数据结构" class="headerlink" title="5.中断描述符——IRQ数据结构"></a>5.中断描述符——IRQ数据结构</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-104955@2x.png" alt></p>
+<h5 id="6-从中断-异常-系统调用返回"><a href="#6-从中断-异常-系统调用返回" class="headerlink" title="6.从中断/异常/系统调用返回"></a>6.从中断/异常/系统调用返回</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-105552@2x.png" alt></p>
+<h4 id="三、中断的下半部"><a href="#三、中断的下半部" class="headerlink" title="三、中断的下半部"></a>三、中断的下半部</h4><h5 id="1-中断的下半部"><a href="#1-中断的下半部" class="headerlink" title="1.中断的下半部"></a>1.中断的下半部</h5><ul>
+<li>随着系统的不断复杂，中断处理函数要做的事情也越来越多，多到都来不及接收新的中断了，于是发生了中断丢失</li>
+<li>内核把中断处理分为两部分：上半部（top half）不可中断和下半部（bottom half）可中断，上半部（也就是中断服务程序）内核立即执行，而下半部（就是一些内核函数）留着稍后处理</li>
+</ul>
+<h5 id="2-软中断机制"><a href="#2-软中断机制" class="headerlink" title="2.软中断机制"></a>2.软中断机制</h5><ul>
+<li>中断的上半部、下半部是一种概念，实际上是内核中的一个函数，这些函数写好后，什么时候执行，如何执行，必须由内核管理</li>
+<li>中断注册函数request_irq()把中断服务历程添加到中断请求队列中</li>
+<li>执行由do_IRQ完成</li>
+</ul>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-122047@2x.png" alt></p>
+<h5 id="3-软中断类型"><a href="#3-软中断类型" class="headerlink" title="3.软中断类型"></a>3.软中断类型</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-122146@2x.png" alt></p>
+<h5 id="4-何时使用哪种中断机制"><a href="#4-何时使用哪种中断机制" class="headerlink" title="4.何时使用哪种中断机制"></a>4.何时使用哪种中断机制</h5><ul>
+<li>软中断的使用原则很简单，最好不用。它甚至都不算是一种真正的中断处理机制，只是tasklet的实现基础。</li>
+<li>工作队列也要少用，如果不是必须要用到线程才能用的某些机制，就不要使用工作队列</li>
+<li>对于中断来说，只是对中断进行简单的处理，大部分工作是在驱动程序中完成的</li>
+<li>除了上述情况，一般都使用小任务tasklet。</li>
+</ul>
+<h4 id="三、Linux的时间系统"><a href="#三、Linux的时间系统" class="headerlink" title="三、Linux的时间系统"></a>三、Linux的时间系统</h4><h5 id="1-时钟中断的作用"><a href="#1-时钟中断的作用" class="headerlink" title="1.时钟中断的作用"></a>1.时钟中断的作用</h5><ul>
+<li>维持系统时间</li>
+<li>促进进程的转换</li>
+<li>保证所有进程共享CPU</li>
+<li>利用时钟中断进行记账、系统监督工作以及确定未来的调度优先级等工作</li>
+</ul>
+<h5 id="2-基本时钟硬件"><a href="#2-基本时钟硬件" class="headerlink" title="2.基本时钟硬件"></a>2.基本时钟硬件</h5><ul>
+<li>编程定时/计数器产生脉冲，由此引发中断请求信号</li>
+<li>从本质上说，时钟中断知识一个周期性地信号，完全是硬件行为</li>
+</ul>
+<h5 id="3-与时钟有关的硬件"><a href="#3-与时钟有关的硬件" class="headerlink" title="3.与时钟有关的硬件"></a>3.与时钟有关的硬件</h5><ul>
+<li>实时时钟RTC</li>
+<li>可编程间隔器PIT</li>
+<li>时间戳计数器</li>
+<li>高精度计时器</li>
+<li>CPU本地定时器</li>
+<li>高精度定时器</li>
+</ul>
+<h5 id="4-基本时钟运行机制"><a href="#4-基本时钟运行机制" class="headerlink" title="4.基本时钟运行机制"></a>4.基本时钟运行机制</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-161459@2x.png" alt></p>
+<h5 id="5-Linux时钟框架"><a href="#5-Linux时钟框架" class="headerlink" title="5.Linux时钟框架"></a>5.Linux时钟框架</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-162129@2x.png" alt></p>
+<ul>
+<li>在软件架构上看，时钟事件设备（clock_event_device）被分为了两层，与硬件相关的被放在了machine层，而与硬件无关的通用代码则被集中到了通用时间框架层</li>
+<li>tick_device起什么作用？它是基于时钟事件设备的进一步封装，用于代替原有的时钟滴答中断，给内核提供节拍事件，以完成进程的调度和进程信息统计，负载平衡和时间更新等操作。</li>
+<li>高分辨率定时器的代码实现时，内核的开发者考察了多种数据结构，例如基数树、哈希表等等，最终选择了红黑树（rbtree）来组织hrtimer。hrtimer不停地被创建和销毁，新的hrtimer按顺序被插入到红黑树中，树的最左边的节点就是最快到期的定时器。</li>
+</ul>
+<h5 id="6-定时器的使用"><a href="#6-定时器的使用" class="headerlink" title="6.定时器的使用"></a>6.定时器的使用</h5><ul>
+<li>定义定时器</li>
+<li>struct timer_list my_timer; </li>
+<li>初始化定时器，填充定时器的结构</li>
+<li>init_timer(&amp;my_timer); </li>
+<li>激活定时器：add_timer(&amp;my_timer);</li>
+<li>如果需要修改修改定时器，则调用 mod_timer(&amp;my_timer) </li>
+<li>如果需要在定时器到期前停止定时器，可以使用</li>
+<li>del_timer(&amp;my_timer)函数：</li>
+</ul>
+<h3 id="第六章-系统调用"><a href="#第六章-系统调用" class="headerlink" title="第六章 系统调用"></a>第六章 系统调用</h3><h4 id="一、Linux中各种接口"><a href="#一、Linux中各种接口" class="headerlink" title="一、Linux中各种接口"></a>一、Linux中各种接口</h4><h5 id="1-Linux-API"><a href="#1-Linux-API" class="headerlink" title="1. Linux API"></a>1. Linux API</h5><ul>
+<li>Linux内核的系统调用接口和GNU C库（glibc）中的例程。</li>
+<li>Linux内核系统调用接口系统调用接口是内核中所有已实现和可用系统调用的集合</li>
+<li>GNU C标准库是Linux内核系统调用接口的封装</li>
+</ul>
+<h5 id="2-POSIX标准"><a href="#2-POSIX标准" class="headerlink" title="2.POSIX标准"></a>2.POSIX标准</h5><ul>
+<li>POSIX表示可移植操作系统接口（Portable Operating System Interface of UNIX，缩写为 POSIX ）</li>
+<li>POSIX标准定义了操作系统应该为程序提供的标准接口</li>
+</ul>
+<h5 id="3-Linux-ABI内容"><a href="#3-Linux-ABI内容" class="headerlink" title="3.Linux ABI内容"></a>3.Linux ABI内容</h5><ul>
+<li>一个特定的处理器指令集</li>
+<li>函数调用惯例</li>
+<li>系统调用方式 </li>
+<li>可执行文件的格式(ELF,PE)</li>
+</ul>
+<h4 id="二、系统调用机制"><a href="#二、系统调用机制" class="headerlink" title="二、系统调用机制"></a>二、系统调用机制</h4><h5 id="1-跟踪进程所调用的系统调用"><a href="#1-跟踪进程所调用的系统调用" class="headerlink" title="1.跟踪进程所调用的系统调用"></a>1.跟踪进程所调用的系统调用</h5><blockquote>
+<p>strace ls</p>
+</blockquote>
+<h5 id="2-中断、异常和系统调用比较"><a href="#2-中断、异常和系统调用比较" class="headerlink" title="2.中断、异常和系统调用比较"></a>2.中断、异常和系统调用比较</h5><ul>
+<li>中断：外设发出的请求</li>
+<li>异常：应用程序意想不到的行为</li>
+<li>系统调用：应用程序请求OS提供服务 </li>
+<li>响应方式<blockquote>
+<p>中断是异步的，异常是同步的，而系统调用既可以是异步，也可以是同步。</p>
+</blockquote>
+</li>
+<li>处理机制<blockquote>
+<p>中断服务程序在内核态下运行，对用户是透明的。异常出现时，或者杀死进程，或者重新执行引起异常的指令。系统调用，用户发出请求后等待OS的服务。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="3-系统调用的基本概念"><a href="#3-系统调用的基本概念" class="headerlink" title="3.系统调用的基本概念"></a>3.系统调用的基本概念</h5><ul>
+<li>系统调用标识号：用来唯一标识每个系统调用</li>
+<li>系统调用表：是用来把系统调用号和相应的服务例程关联起来。该表存放在sys_call_table数组中</li>
+</ul>
+<h3 id="第七章-内核同步"><a href="#第七章-内核同步" class="headerlink" title="第七章 内核同步"></a>第七章 内核同步</h3><h4 id="一、内核同步机制概述"><a href="#一、内核同步机制概述" class="headerlink" title="一、内核同步机制概述"></a>一、内核同步机制概述</h4><h5 id="1-并发执行的原因"><a href="#1-并发执行的原因" class="headerlink" title="1.并发执行的原因"></a>1.并发执行的原因</h5><ul>
+<li>中断</li>
+<li>睡眠</li>
+<li>内核抢占</li>
+<li>对称多处理</li>
+</ul>
+<h5 id="2-竞争条件"><a href="#2-竞争条件" class="headerlink" title="2.竞争条件"></a>2.竞争条件</h5><ul>
+<li>至少有两个可执行上下文“并行执行”</li>
+<li>可执行上下文对共享内训变量执行“读写”访问</li>
+</ul>
+<h5 id="3-临界区"><a href="#3-临界区" class="headerlink" title="3.临界区"></a>3.临界区</h5><ul>
+<li>访问和操作共享数据的代码段叫做临界区</li>
+<li>多个内核任务并发访问同一个资源通常是不安全的。为了避免对临界区进行并发访问，编程者必须保证临界区代码被原子地执行。</li>
+</ul>
+<h5 id="4-保护临界区的措施"><a href="#4-保护临界区的措施" class="headerlink" title="4.保护临界区的措施"></a>4.保护临界区的措施</h5><ul>
+<li>使临界区的操作原子进行</li>
+<li>进入临界区后禁止抢占</li>
+<li>串行地访问临界区</li>
+</ul>
+<h5 id="5-原子操作"><a href="#5-原子操作" class="headerlink" title="5.原子操作"></a>5.原子操作</h5><blockquote>
+<p>对于由多个内核任务进行共享的变量，其load-modify-store必须是原子地进行的，不能分割</p>
+</blockquote>
+<h5 id="6-共享队列和加锁"><a href="#6-共享队列和加锁" class="headerlink" title="6.共享队列和加锁"></a>6.共享队列和加锁</h5><ul>
+<li>当共享资源是一个复杂的数据结构时，竞争状态往往会使该数据结构遭到破坏。</li>
+<li>访问队列必须加锁</li>
+</ul>
+<h5 id="7-死锁的避免"><a href="#7-死锁的避免" class="headerlink" title="7.死锁的避免"></a>7.死锁的避免</h5><blockquote>
+<p>所有任务都在相互等待，但它们永远不会释放已经占有的资源，于是任何任务都无法继续，这种情况就是死锁。</p>
+</blockquote>
+<ul>
+<li>加锁的顺序是关键。</li>
+<li>防止发生饥饿</li>
+<li>不要重复请求同一个锁</li>
+<li>越复杂的加锁方案越有可能造成死锁</li>
+</ul>
+<h4 id="二、内核同步措施"><a href="#二、内核同步措施" class="headerlink" title="二、内核同步措施"></a>二、内核同步措施</h4><blockquote>
+<p>内核同步措施主要有中断屏蔽、原子操作、自旋锁、信号量</p>
+</blockquote>
+<h5 id="1-中断屏蔽"><a href="#1-中断屏蔽" class="headerlink" title="1.中断屏蔽"></a>1.中断屏蔽</h5><ul>
+<li>在进入临界区之前屏蔽系统的中断，从而保证正在执行的内核任务不被中断处理程序锁抢断，防止某些静态条件的发生，在退出临界区后，重新打开中断</li>
+<li>中断屏蔽的缺点：1.不能解决多处理器引发的竞态；2.在屏蔽器件所有的中断无法得到处理</li>
+</ul>
+<h5 id="2-自旋锁"><a href="#2-自旋锁" class="headerlink" title="2.自旋锁"></a>2.自旋锁</h5><ul>
+<li>设计自旋锁的初衷是在短期间内进行轻量级的锁定，所以自旋锁不应该被持有时间过长。</li>
+<li>自旋锁在内核中主要用来防止多处理器中并发访问临界区，防止内核抢占造成的竞争</li>
+<li>自旋锁不允许任务睡眠，持有自旋锁的任务睡眠会造成自死锁，因此自旋锁能够在中断上下文中使用。</li>
+</ul>
+<h5 id="3-信号量"><a href="#3-信号量" class="headerlink" title="3.信号量"></a>3.信号量</h5><ul>
+<li>Linux中的信号量是一种睡眠锁</li>
+<li>若有一个任务试图获得一个已被持有的信号量时，信号量会将其推入等待队列，然后让其睡眠。</li>
+<li>信号量具有睡眠特性，适用于锁会被长时间持有的情况，只能在进程上下文中使用。</li>
+</ul>
+<h5 id="4-信号量与自旋锁的比较"><a href="#4-信号量与自旋锁的比较" class="headerlink" title="4.信号量与自旋锁的比较"></a>4.信号量与自旋锁的比较</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-231325@2x.png" alt></p>
+<h5 id="5-内核其他的同步措施"><a href="#5-内核其他的同步措施" class="headerlink" title="5.内核其他的同步措施"></a>5.内核其他的同步措施</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200705-231439@2x.png" alt></p>
+<h3 id="第八章-文件系统"><a href="#第八章-文件系统" class="headerlink" title="第八章 文件系统"></a>第八章 文件系统</h3><h4 id="一、虚拟文件系统的引入"><a href="#一、虚拟文件系统的引入" class="headerlink" title="一、虚拟文件系统的引入"></a>一、虚拟文件系统的引入</h4><h5 id="1-Linux文件系统"><a href="#1-Linux文件系统" class="headerlink" title="1.Linux文件系统"></a>1.Linux文件系统</h5><ul>
+<li>文件系统是操作系统用于明确存储设备或分区上的文件的方法和数据结构</li>
+<li>操作系统文件信息的软件机构称为文件管理系统</li>
+<li>Linux常见的文件系统有ext2,3,4,NTFS,JFS,XFS等</li>
+</ul>
+<h5 id="2-Linux的文件结构"><a href="#2-Linux的文件结构" class="headerlink" title="2.Linux的文件结构"></a>2.Linux的文件结构</h5><blockquote>
+<p>Linux采用标准的目录结构—树型结构，无论操作系统管理几个磁盘分区，这样的目录树只有一个。</p>
+</blockquote>
+<h5 id="3-Linux文件系统之索引点"><a href="#3-Linux文件系统之索引点" class="headerlink" title="3.Linux文件系统之索引点"></a>3.Linux文件系统之索引点</h5><ul>
+<li>Linux文件系统使用索引节点来记录文件信息</li>
+<li>系统给每个索引节点分配一个号码，称为索引节点</li>
+<li>文件系统就是靠这个索引节点号识别一个文件</li>
+</ul>
+<h5 id="4-文件系统类型"><a href="#4-文件系统类型" class="headerlink" title="4.文件系统类型"></a>4.文件系统类型</h5><ul>
+<li>ext2具有极快的速度和极小的CPU占用率，可用于硬盘和移动存储设备</li>
+<li>ext3增加日志功能，可回溯追踪</li>
+<li>ext4日志式文件系统，支持1EB（1024*1024TB），最大单文件16TB，支持连续写入可减少文件碎片。</li>
+<li>xfs可以管理500T的硬盘，</li>
+<li>brtfs文件系统针对固态盘做优化等等</li>
+</ul>
+<h5 id="5-文件系统的安装"><a href="#5-文件系统的安装" class="headerlink" title="5.文件系统的安装"></a>5.文件系统的安装</h5><blockquote>
+<p>将一个文件系统的顶层目录挂到另一个文件系统的子目录上，使他们成为一个整体，称为“安装（mount）”。把该子目录称为“安装点（mount point）”</p>
+</blockquote>
+<h5 id="6-虚拟文件系统（VFS）框架"><a href="#6-虚拟文件系统（VFS）框架" class="headerlink" title="6.虚拟文件系统（VFS）框架"></a>6.虚拟文件系统（VFS）框架</h5><blockquote>
+<p>虚拟文件系统所提供的抽象界面主要由一组标准的、抽象的操作构成，例如open(),read()、write()等，这些函数以系统调用的形式供用户程序调用。</p>
+</blockquote>
+<p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-110931@2x.png" alt></p>
+<ul>
+<li>Linux内核采用VFS框架来组织文件系统，每个文件系统用一个超级块数据结构来描述</li>
+<li>一个文件系统如果想加入VFS，就得先在VFS进行注册</li>
+</ul>
+<h4 id="二、VFS的数据结构"><a href="#二、VFS的数据结构" class="headerlink" title="二、VFS的数据结构"></a>二、VFS的数据结构</h4><h5 id="1-VFS共性对象的抽象"><a href="#1-VFS共性对象的抽象" class="headerlink" title="1.VFS共性对象的抽象"></a>1.VFS共性对象的抽象</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-112514@2x.png" alt></p>
+<h5 id="2-索引节点对象-描述文件属性"><a href="#2-索引节点对象-描述文件属性" class="headerlink" title="2.索引节点对象-描述文件属性"></a>2.索引节点对象-描述文件属性</h5><blockquote>
+<p>索引节点对象存储了文件的相关信息，代表了存储设备上的一个实际的物理文件。当一个 文件首次被访问时，内核会在内存中组装相应的索引节点对象，以便向内核提供对一个文件进行操 作时所必需的全部信息；这些信息一部分存储在磁盘特定位置，另外一部分是在加载时动态填充的。</p>
+</blockquote>
+<h5 id="3-目录项对象——描述文件的路径"><a href="#3-目录项对象——描述文件的路径" class="headerlink" title="3.目录项对象——描述文件的路径"></a>3.目录项对象——描述文件的路径</h5><ul>
+<li>引入目录项的概念主要是出于方便查找文件的目的。</li>
+<li>一个路径的各个组成部分，不管是目录还是普通的文件，都是一个目录项对象。</li>
+<li>不同于前面的两个对象，目录项对象没有对应的磁盘数据结构，VFS在遍历路径名的过程中现场将它们逐个地解析成目录项对象。</li>
+</ul>
+<h5 id="4-文件对象"><a href="#4-文件对象" class="headerlink" title="4.文件对象"></a>4.文件对象</h5><blockquote>
+<p>文件对象是已打开的文件在内存中的表示，主要用于建立进程和磁盘上的文件的对应关系。它由sys_open()现场创建，由sys_close()销毁。</p>
+</blockquote>
+<h5 id="5-与进程相关的文件结构"><a href="#5-与进程相关的文件结构" class="headerlink" title="5.与进程相关的文件结构"></a>5.与进程相关的文件结构</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-114147@2x.png" alt></p>
+<h4 id="三、文件系统的缓冲区"><a href="#三、文件系统的缓冲区" class="headerlink" title="三、文件系统的缓冲区"></a>三、文件系统的缓冲区</h4><h5 id="1-文件系统中的缓冲区"><a href="#1-文件系统中的缓冲区" class="headerlink" title="1.文件系统中的缓冲区"></a>1.文件系统中的缓冲区</h5><blockquote>
+<p>缓冲区(buffer)，它是内存空间的一部分。也就是说，在内存空间中预留了一定的存储空间，这些存储空间用来缓冲输入或输出的数据，这部分预留的空间就叫做缓冲区。</p>
+</blockquote>
+<h5 id="2-buffer和cache有何不同"><a href="#2-buffer和cache有何不同" class="headerlink" title="2.buffer和cache有何不同"></a>2.buffer和cache有何不同</h5><blockquote>
+<p>buffer，内存缓冲区，是各进程产生的文件临时存放区，一定时间段内统一写入磁盘，减少磁盘碎片和 硬盘的反复寻道，从而提高系统性能；简单来说，buffer就是存放要写入磁盘的数据。</p>
+</blockquote>
+<blockquote>
+<p>cache，内存缓存区，经常被用在磁盘的I/O请求上，如果有文件频繁被访问到，系统会将文件缓存在cache区，供CPU、进程等访问；简单来说cache中的数据就是存放磁盘中读出来的数据。</p>
+</blockquote>
+<h5 id="3-Buffer-Cache和-Page-Cache有何不同？"><a href="#3-Buffer-Cache和-Page-Cache有何不同？" class="headerlink" title="3.Buffer Cache和 Page Cache有何不同？"></a>3.Buffer Cache和 Page Cache有何不同？</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-120555@2x.png" alt></p>
+<h4 id="四、页高速缓存以及读写"><a href="#四、页高速缓存以及读写" class="headerlink" title="四、页高速缓存以及读写"></a>四、页高速缓存以及读写</h4><h5 id="1-文件系统的读写单位"><a href="#1-文件系统的读写单位" class="headerlink" title="1.文件系统的读写单位"></a>1.文件系统的读写单位</h5><blockquote>
+<p>文件系统的读写单位是块，一个块的大小是2的n次方个扇区，比如1k，2k, 4k, 4M 等</p>
+</blockquote>
+<h5 id="2-从Buffer-Cache到Page-Cache"><a href="#2-从Buffer-Cache到Page-Cache" class="headerlink" title="2.从Buffer Cache到Page Cache"></a>2.从Buffer Cache到Page Cache</h5><ul>
+<li>buffer cache是面向底层块设备的，所以它的粒度是文件系统的块，块设备和系统采用块进行交互。</li>
+<li>块再转换成磁盘的基本物理结构扇区。</li>
+<li>内核的内存管理组件采用了比文件系统的块更高级别的抽象-页(page)，页的大小一般从4KB到2MB,粒度更大，处理的性能更高。</li>
+</ul>
+<h5 id="3-索引节点、页和页缓存之间的关系"><a href="#3-索引节点、页和页缓存之间的关系" class="headerlink" title="3.索引节点、页和页缓存之间的关系"></a>3.索引节点、页和页缓存之间的关系</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-142807@2x.png" alt></p>
+<h5 id="4-如何读取一个文件"><a href="#4-如何读取一个文件" class="headerlink" title="4.如何读取一个文件"></a>4.如何读取一个文件</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-143501@2x.png" alt></p>
+<h5 id="5-如何写入文件"><a href="#5-如何写入文件" class="headerlink" title="5.如何写入文件"></a>5.如何写入文件</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-143926@2x.png" alt></p>
+<h3 id="第九章-设备驱动"><a href="#第九章-设备驱动" class="headerlink" title="第九章 设备驱动"></a>第九章 设备驱动</h3><h4 id="一、设备驱动概述"><a href="#一、设备驱动概述" class="headerlink" title="一、设备驱动概述"></a>一、设备驱动概述</h4><h5 id="1-如何表示设备"><a href="#1-如何表示设备" class="headerlink" title="1.如何表示设备"></a>1.如何表示设备</h5><ul>
+<li>索引节点</li>
+<li>主设备号</li>
+<li>次设备号</li>
+</ul>
+<h5 id="2-设备的分类"><a href="#2-设备的分类" class="headerlink" title="2.设备的分类"></a>2.设备的分类</h5><ul>
+<li>块设备</li>
+<li>字符设备</li>
+<li>网络设备</li>
+</ul>
+<h5 id="3-不同设备的类型的差异性"><a href="#3-不同设备的类型的差异性" class="headerlink" title="3.不同设备的类型的差异性"></a>3.不同设备的类型的差异性</h5><ul>
+<li>字符设备和块设备对应/dev下的一个设备文件。而网络设备不存在这样的设备文件。网络设备使用套接字socket访问，虽然也使用read,write系统调用，但这些调用只作用于软件对象。</li>
+<li>块设备只响应来自内核的请求，而网络驱动程序异步接收来自外部世界的数据包，并发送到内核。</li>
+<li>文件系统通常都建立在块设备上，也有很多文件系统放在内存，比如/proc，不需要驱动程序。</li>
+</ul>
+<h5 id="4-设备驱动程序在应用开发中的位置"><a href="#4-设备驱动程序在应用开发中的位置" class="headerlink" title="4.设备驱动程序在应用开发中的位置"></a>4.设备驱动程序在应用开发中的位置</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-150652@2x.png" alt></p>
+<h5 id="5-内核配置选项及驱动程序编译"><a href="#5-内核配置选项及驱动程序编译" class="headerlink" title="5.内核配置选项及驱动程序编译"></a>5.内核配置选项及驱动程序编译</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-150948@2x.png" alt></p>
+<h4 id="二、IO空间的管理"><a href="#二、IO空间的管理" class="headerlink" title="二、IO空间的管理"></a>二、IO空间的管理</h4><h5 id="1-I-O端口"><a href="#1-I-O端口" class="headerlink" title="1.I/O端口"></a>1.I/O端口</h5><ul>
+<li>设备驱动程序要直接访问外设或其接口卡上的物理电路，通常以寄存器的形式出现访问；</li>
+<li>外设寄存器也称为I/O端口，通常包括控制寄存器、状态寄存器和数据寄存器三类。</li>
+</ul>
+<h5 id="2-I-O资源管理"><a href="#2-I-O资源管理" class="headerlink" title="2.I/O资源管理"></a>2.I/O资源管理</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-152040@2x.png" alt></p>
+<h4 id="三、设备驱动模型"><a href="#三、设备驱动模型" class="headerlink" title="三、设备驱动模型"></a>三、设备驱动模型</h4><h5 id="1-Linux设备驱动模型引入的目的"><a href="#1-Linux设备驱动模型引入的目的" class="headerlink" title="1.Linux设备驱动模型引入的目的"></a>1.Linux设备驱动模型引入的目的</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-153901@2x.png" alt></p>
+<h5 id="2-核心对象之kobject"><a href="#2-核心对象之kobject" class="headerlink" title="2.核心对象之kobject"></a>2.核心对象之kobject</h5><ul>
+<li>kobject结构体是设备驱动模型底层的一个结构体，这个结构体是设备驱动模型下的所有对象的一个基本单元，它是对设备驱动模型下所有对象抽象出来的共有的部分；</li>
+<li>kobject结构体提供了一些公共型的服务：对象引用计数、维护对象链表、对象上锁、对用户空间的表示。</li>
+<li>设备驱动模型中的各种对象其内部都会包含一个kobject，地位相当于面向对象思想中的总基类。</li>
+</ul>
+<h4 id="三、字符设备驱动程序"><a href="#三、字符设备驱动程序" class="headerlink" title="三、字符设备驱动程序"></a>三、字符设备驱动程序</h4><h5 id="1-字符设备基础"><a href="#1-字符设备基础" class="headerlink" title="1.字符设备基础"></a>1.字符设备基础</h5><ul>
+<li>字符设备是指只能一个字节一个字节进行读写操作的设备，不能随机读取设备中的某一数据，读取数据要按照先后顺序</li>
+<li>字符设备是面向流的设备，常见的字符设备有鼠标、键盘、串口、控制台和LED等</li>
+<li>一般每个字符设备或者块设备会在/dev目录下对应一个设备文件</li>
+</ul>
+<h5 id="2-编写字符设备驱动的步骤"><a href="#2-编写字符设备驱动的步骤" class="headerlink" title="2.编写字符设备驱动的步骤"></a>2.编写字符设备驱动的步骤</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-155434@2x.png" alt></p>
+<h5 id="3-设备号的申请和释放"><a href="#3-设备号的申请和释放" class="headerlink" title="3.设备号的申请和释放"></a>3.设备号的申请和释放</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-155651@2x.png" alt></p>
+<h4 id="五、块设备驱动程序"><a href="#五、块设备驱动程序" class="headerlink" title="五、块设备驱动程序"></a>五、块设备驱动程序</h4><h5 id="1-块设备和字符设备的区别"><a href="#1-块设备和字符设备的区别" class="headerlink" title="1.块设备和字符设备的区别"></a>1.块设备和字符设备的区别</h5><ul>
+<li>块设备上可以mount文件系统，而字符设备是不可以的；</li>
+<li>数据经过块设备相比操作字符设备需要多经历一个数据缓冲层（buffer cache）机制。</li>
+</ul>
+<h5 id="2-I-O调度算法"><a href="#2-I-O调度算法" class="headerlink" title="2.I/O调度算法"></a>2.I/O调度算法</h5><p><img src="/images/loading/loading.gif" data-original="./Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/QQ20200706-160058@2x.png" alt></p>
+
+    </div>
+
+    
+    
+    
+
+    
+        <div class="reward-container">
+  <div>你的支持就是我前进的动力</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/wechatpay.jpg" alt="Kongo 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/alipay.jpg" alt="Kongo 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux%E5%86%85%E6%A0%B8/" rel="tag"><i class="fa fa-tags"></i> Linux内核</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/29/Mac%E4%B8%8Anasm%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="prev" title="Mac上汇编环境搭建">
+      <i class="fa fa-chevron-left"></i> Mac上汇编环境搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/" rel="next" title="Linux实验">
+      Linux实验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-概述"><span class="nav-text">第一章 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Linux操作系统概述"><span class="nav-text">一、Linux操作系统概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Linux系统整体结构"><span class="nav-text">1.Linux系统整体结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-机制与策略分离"><span class="nav-text">2.机制与策略分离</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Linux的内核结构及内核模块"><span class="nav-text">二、Linux的内核结构及内核模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Linux内核源码目录"><span class="nav-text">1.Linux内核源码目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Linux内核模块编程入门"><span class="nav-text">2.Linux内核模块编程入门</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-相关命令"><span class="nav-text">3.相关命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、内核源码入门"><span class="nav-text">三、内核源码入门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-链表的演化"><span class="nav-text">1.链表的演化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Linux内核中链表的定义和使用"><span class="nav-text">2.Linux内核中链表的定义和使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-内存寻址"><span class="nav-text">第二章 内存寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、内存寻址概述"><span class="nav-text">一、内存寻址概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-图灵机和冯-诺依曼体系结构"><span class="nav-text">1.图灵机和冯.诺依曼体系结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-X86内存寻址的不同时期"><span class="nav-text">2.X86内存寻址的不同时期</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-为什么引入保护模式？"><span class="nav-text">3.为什么引入保护模式？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、保护模式之段机制"><span class="nav-text">二、保护模式之段机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-程序的编译过程"><span class="nav-text">1.程序的编译过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-保护模式下的寻址"><span class="nav-text">2.保护模式下的寻址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-MMU的地址转换"><span class="nav-text">3.MMU的地址转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-段描述符表——段表"><span class="nav-text">4.段描述符表——段表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-保护模式下段寄存器中存放什么"><span class="nav-text">5.保护模式下段寄存器中存放什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-保护模式下的特权级"><span class="nav-text">6.保护模式下的特权级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-保护模式下的描述符"><span class="nav-text">7.保护模式下的描述符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、分页机制"><span class="nav-text">三、分页机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-分页机制中的页"><span class="nav-text">1.分页机制中的页</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-分页原理是什么"><span class="nav-text">2.分页原理是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-页表"><span class="nav-text">3.页表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-单级页表结构"><span class="nav-text">4.单级页表结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-两级页表"><span class="nav-text">5.两级页表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-地址转换过程"><span class="nav-text">6.地址转换过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-页面高速缓存"><span class="nav-text">7.页面高速缓存</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Linux中的分页"><span class="nav-text">8.Linux中的分页</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、进程管理"><span class="nav-text">三、进程管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、进程概述"><span class="nav-text">一、进程概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-进程家族"><span class="nav-text">1.进程家族</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-进程控制块－信息分类"><span class="nav-text">2.进程控制块－信息分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-进程控制块——Linux进程状态及转换"><span class="nav-text">3.进程控制块——Linux进程状态及转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-进程控制快——如何存放"><span class="nav-text">4.进程控制快——如何存放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-从进程到容器"><span class="nav-text">5.从进程到容器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、进程的调度"><span class="nav-text">二、进程的调度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-进程和线程"><span class="nav-text">1.进程和线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-进程的API实现"><span class="nav-text">2.进程的API实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-fork的实现"><span class="nav-text">3.fork的实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-vfork的实现"><span class="nav-text">4.vfork的实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-clone的实现"><span class="nav-text">5.clone的实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-内核线程的创建"><span class="nav-text">6.内核线程的创建</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-copy-process-代码流程图"><span class="nav-text">7.copy_process()代码流程图</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、进程调度"><span class="nav-text">三、进程调度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-调度模型"><span class="nav-text">1.调度模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-进程调度-进程的优先级"><span class="nav-text">2.进程调度-进程的优先级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-进程调度-O-1-调度"><span class="nav-text">3.进程调度-O(1)调度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-完全公平调度-CFS"><span class="nav-text">4.完全公平调度-CFS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-内存管理"><span class="nav-text">第四章 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、内存管理机制"><span class="nav-text">一、内存管理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-CPU的Cache"><span class="nav-text">1.CPU的Cache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-虚拟内存实现机制"><span class="nav-text">2.虚拟内存实现机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-虚拟内存实现机制关系图"><span class="nav-text">3.虚拟内存实现机制关系图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-进程虚拟地址空间"><span class="nav-text">4.进程虚拟地址空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-用数据结构描述进程的用户空间"><span class="nav-text">5.用数据结构描述进程的用户空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-mm-struct如何描述地址空间"><span class="nav-text">6.mm_struct如何描述地址空间</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、用户空间的创建"><span class="nav-text">二、用户空间的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-创建进程用户空间"><span class="nav-text">1.创建进程用户空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-虚存映射"><span class="nav-text">2.虚存映射</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-VMA的创建方式"><span class="nav-text">3.VMA的创建方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-请页机制"><span class="nav-text">4.请页机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-缺页异常处理"><span class="nav-text">5.缺页异常处理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、内存分配与回收机制"><span class="nav-text">三、内存分配与回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-程序的装载过程"><span class="nav-text">1.程序的装载过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-内核空间的划分"><span class="nav-text">2.内核空间的划分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-物理内存管理机制"><span class="nav-text">3.物理内存管理机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-Slab分配机制"><span class="nav-text">4.Slab分配机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-vmalloc和kmalloc之间的区别"><span class="nav-text">5.vmalloc和kmalloc之间的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-伙伴算法概述"><span class="nav-text">6.伙伴算法概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-物理内存分配器"><span class="nav-text">7.物理内存分配器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-从用户态到内核态的内存分配"><span class="nav-text">8.从用户态到内核态的内存分配</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章-中断"><span class="nav-text">第五章 中断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、中断概述"><span class="nav-text">一、中断概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-中断简介"><span class="nav-text">1.中断简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-高级可编程中断控制器（APIC）"><span class="nav-text">2.高级可编程中断控制器（APIC）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-中断子系统分成4个部分"><span class="nav-text">3.中断子系统分成4个部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-中断向量——中断源"><span class="nav-text">4.中断向量——中断源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-中断描述符表中门"><span class="nav-text">5.中断描述符表中门</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一、中断处理机制"><span class="nav-text">一、中断处理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-初始化中断描述符"><span class="nav-text">1.初始化中断描述符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-中断门的设置"><span class="nav-text">2.中断门的设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-中断处理过程"><span class="nav-text">3.中断处理过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-X86的中断处理"><span class="nav-text">4.X86的中断处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-中断描述符——IRQ数据结构"><span class="nav-text">5.中断描述符——IRQ数据结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-从中断-异常-系统调用返回"><span class="nav-text">6.从中断&#x2F;异常&#x2F;系统调用返回</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、中断的下半部"><span class="nav-text">三、中断的下半部</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-中断的下半部"><span class="nav-text">1.中断的下半部</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-软中断机制"><span class="nav-text">2.软中断机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-软中断类型"><span class="nav-text">3.软中断类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-何时使用哪种中断机制"><span class="nav-text">4.何时使用哪种中断机制</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、Linux的时间系统"><span class="nav-text">三、Linux的时间系统</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-时钟中断的作用"><span class="nav-text">1.时钟中断的作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-基本时钟硬件"><span class="nav-text">2.基本时钟硬件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-与时钟有关的硬件"><span class="nav-text">3.与时钟有关的硬件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-基本时钟运行机制"><span class="nav-text">4.基本时钟运行机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-Linux时钟框架"><span class="nav-text">5.Linux时钟框架</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-定时器的使用"><span class="nav-text">6.定时器的使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六章-系统调用"><span class="nav-text">第六章 系统调用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Linux中各种接口"><span class="nav-text">一、Linux中各种接口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Linux-API"><span class="nav-text">1. Linux API</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-POSIX标准"><span class="nav-text">2.POSIX标准</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Linux-ABI内容"><span class="nav-text">3.Linux ABI内容</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、系统调用机制"><span class="nav-text">二、系统调用机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-跟踪进程所调用的系统调用"><span class="nav-text">1.跟踪进程所调用的系统调用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-中断、异常和系统调用比较"><span class="nav-text">2.中断、异常和系统调用比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-系统调用的基本概念"><span class="nav-text">3.系统调用的基本概念</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七章-内核同步"><span class="nav-text">第七章 内核同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、内核同步机制概述"><span class="nav-text">一、内核同步机制概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-并发执行的原因"><span class="nav-text">1.并发执行的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-竞争条件"><span class="nav-text">2.竞争条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-临界区"><span class="nav-text">3.临界区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-保护临界区的措施"><span class="nav-text">4.保护临界区的措施</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-原子操作"><span class="nav-text">5.原子操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-共享队列和加锁"><span class="nav-text">6.共享队列和加锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-死锁的避免"><span class="nav-text">7.死锁的避免</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、内核同步措施"><span class="nav-text">二、内核同步措施</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-中断屏蔽"><span class="nav-text">1.中断屏蔽</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-自旋锁"><span class="nav-text">2.自旋锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-信号量"><span class="nav-text">3.信号量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-信号量与自旋锁的比较"><span class="nav-text">4.信号量与自旋锁的比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-内核其他的同步措施"><span class="nav-text">5.内核其他的同步措施</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第八章-文件系统"><span class="nav-text">第八章 文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、虚拟文件系统的引入"><span class="nav-text">一、虚拟文件系统的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Linux文件系统"><span class="nav-text">1.Linux文件系统</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Linux的文件结构"><span class="nav-text">2.Linux的文件结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Linux文件系统之索引点"><span class="nav-text">3.Linux文件系统之索引点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-文件系统类型"><span class="nav-text">4.文件系统类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-文件系统的安装"><span class="nav-text">5.文件系统的安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-虚拟文件系统（VFS）框架"><span class="nav-text">6.虚拟文件系统（VFS）框架</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、VFS的数据结构"><span class="nav-text">二、VFS的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-VFS共性对象的抽象"><span class="nav-text">1.VFS共性对象的抽象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-索引节点对象-描述文件属性"><span class="nav-text">2.索引节点对象-描述文件属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-目录项对象——描述文件的路径"><span class="nav-text">3.目录项对象——描述文件的路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-文件对象"><span class="nav-text">4.文件对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-与进程相关的文件结构"><span class="nav-text">5.与进程相关的文件结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、文件系统的缓冲区"><span class="nav-text">三、文件系统的缓冲区</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-文件系统中的缓冲区"><span class="nav-text">1.文件系统中的缓冲区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-buffer和cache有何不同"><span class="nav-text">2.buffer和cache有何不同</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Buffer-Cache和-Page-Cache有何不同？"><span class="nav-text">3.Buffer Cache和 Page Cache有何不同？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、页高速缓存以及读写"><span class="nav-text">四、页高速缓存以及读写</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-文件系统的读写单位"><span class="nav-text">1.文件系统的读写单位</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-从Buffer-Cache到Page-Cache"><span class="nav-text">2.从Buffer Cache到Page Cache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-索引节点、页和页缓存之间的关系"><span class="nav-text">3.索引节点、页和页缓存之间的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-如何读取一个文件"><span class="nav-text">4.如何读取一个文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-如何写入文件"><span class="nav-text">5.如何写入文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第九章-设备驱动"><span class="nav-text">第九章 设备驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、设备驱动概述"><span class="nav-text">一、设备驱动概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-如何表示设备"><span class="nav-text">1.如何表示设备</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-设备的分类"><span class="nav-text">2.设备的分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-不同设备的类型的差异性"><span class="nav-text">3.不同设备的类型的差异性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-设备驱动程序在应用开发中的位置"><span class="nav-text">4.设备驱动程序在应用开发中的位置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-内核配置选项及驱动程序编译"><span class="nav-text">5.内核配置选项及驱动程序编译</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、IO空间的管理"><span class="nav-text">二、IO空间的管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-I-O端口"><span class="nav-text">1.I&#x2F;O端口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-I-O资源管理"><span class="nav-text">2.I&#x2F;O资源管理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、设备驱动模型"><span class="nav-text">三、设备驱动模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Linux设备驱动模型引入的目的"><span class="nav-text">1.Linux设备驱动模型引入的目的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-核心对象之kobject"><span class="nav-text">2.核心对象之kobject</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、字符设备驱动程序"><span class="nav-text">三、字符设备驱动程序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-字符设备基础"><span class="nav-text">1.字符设备基础</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-编写字符设备驱动的步骤"><span class="nav-text">2.编写字符设备驱动的步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-设备号的申请和释放"><span class="nav-text">3.设备号的申请和释放</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、块设备驱动程序"><span class="nav-text">五、块设备驱动程序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-块设备和字符设备的区别"><span class="nav-text">1.块设备和字符设备的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-I-O调度算法"><span class="nav-text">2.I&#x2F;O调度算法</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kongo"
+      src="/images/header.jpeg">
+  <p class="site-author-name" itemprop="name">Kongo</p>
+  <div class="site-description" itemprop="description">闳的博客，记录技术、生活</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<br>
+Total <span id="busuanzi_value_site_pv"></span> views.
+<br>
+您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴
+<br>
+<span id="busuanzi_value_page_pv"></span> Hits
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'PULSTRKS13DHxoOUR8UQhJPX-gzGzoHsz',
+      appKey     : '7ax6bnBNLWRYJlQ6Qb9rWCIJ',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":true},"react":{"opacityDefault":0.7}});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

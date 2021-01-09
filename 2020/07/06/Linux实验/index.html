@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="白发少女     此文为学习《奔跑吧Linux内核》所做实验做的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux实验">
+<meta property="og:url" content="http://yoursite.com/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:site_name" content="Kongo&#39;s blog">
+<meta property="og:description" content="白发少女     此文为学习《奔跑吧Linux内核》所做实验做的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/06/UPgae1.md.png">
+<meta property="article:published_time" content="2020-07-06T08:53:11.000Z">
+<meta property="article:modified_time" content="2021-01-09T13:49:34.622Z">
+<meta property="article:author" content="Kongo">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Linux内核">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/06/UPgae1.md.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux实验 | Kongo's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kongo's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/honghong1234" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpeg">
+      <meta itemprop="name" content="Kongo">
+      <meta itemprop="description" content="闳的博客，记录技术、生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kongo's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux实验
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-06 16:53:11" itemprop="dateCreated datePublished" datetime="2020-07-06T16:53:11+08:00">2020-07-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-09 21:49:34" itemprop="dateModified" datetime="2021-01-09T21:49:34+08:00">2021-01-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/06/Linux%E5%AE%9E%E9%AA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/07/06/UPgae1.md.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">白发少女</div>
+</center>
+
+
+<blockquote>
+<p>此文为学习《奔跑吧Linux内核》所做实验做的笔记</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="第一章-Linux系统入门"><a href="#第一章-Linux系统入门" class="headerlink" title="第一章 Linux系统入门"></a>第一章 Linux系统入门</h3><h4 id="1-阅读服务器系统信息"><a href="#1-阅读服务器系统信息" class="headerlink" title="1.阅读服务器系统信息"></a>1.阅读服务器系统信息</h4><p>cat /proc/cpuinfo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vendor_id　：CPU制造商     </span><br><span class="line">cpu family　：CPU产品系列代号</span><br><span class="line">model　　　：CPU属于其系列中的哪一代的代号</span><br><span class="line">model name：CPU属于的名字及其编号、标称主频</span><br><span class="line">stepping　  ：CPU属于制作更新版本</span><br><span class="line">cpu MHz　  ：CPU的实际使用主频</span><br><span class="line">cache size   ：CPU二级缓存大小</span><br><span class="line">physical id   ：单个CPU的标号</span><br><span class="line">siblings       ：单个CPU逻辑物理核数</span><br><span class="line">core id        ：当前物理核在其所处CPU中的编号，这个编号不一定连续</span><br><span class="line">cpu cores    ：该逻辑核所处CPU的物理核数</span><br><span class="line">apicid          ：用来区分不同逻辑核的编号，系统中每个逻辑核的此编号必然不同，此编号不一定连续</span><br><span class="line">fpu             ：是否具有浮点运算单元（Floating Point Unit）</span><br><span class="line">fpu_exception  ：是否支持浮点计算异常</span><br><span class="line">cpuid level   ：执行cpuid指令前，eax寄存器中的值，根据不同的值cpuid指令会返回不同的内容</span><br><span class="line">wp             ：表明当前CPU是否在内核态支持对用户空间的写保护（Write Protection）</span><br><span class="line">flags          ：当前CPU支持的功能</span><br><span class="line">bogomips   ：在系统内核启动时粗略测算的CPU速度（Million Instructions Per Second）</span><br><span class="line">clflush size  ：每次刷新缓存的大小单位</span><br><span class="line">cache_alignment ：缓存地址对齐单位</span><br><span class="line">address sizes     ：可访问地址空间位数</span><br><span class="line">power management ：对能源管理的支持，有以下几个可选支持功能</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二章-Linux内核基础知识"><a href="#第二章-Linux内核基础知识" class="headerlink" title="第二章 Linux内核基础知识"></a>第二章 Linux内核基础知识</h3><h4 id="一、C文件编译"><a href="#一、C文件编译" class="headerlink" title="一、C文件编译"></a>一、C文件编译</h4><p>vi test.c添加一下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#define PAGE_SIZE 4096</span><br><span class="line">#define MAX_SIZE 100*PAGE_SIZE</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">        char *buf &#x3D; (char *)malloc(MAX_SIZE);</span><br><span class="line">        memset(buf, 0, MAX_SIZE);</span><br><span class="line">        printf(&quot;buffer adress &#x3D; 0x%p\n&quot;, buf);</span><br><span class="line">        free(buf);</span><br><span class="line">        return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>预处理 GCC的“-E”选项可以让预处理阶段就结束，-o指定输出文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc -E test.c -o test.i</span><br></pre></td></tr></table></figure>
+<p>编译 “-S”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc test.i -o test.s</span><br></pre></td></tr></table></figure>
+<p>汇编 “-c”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc -c test.s -o test.o</span><br></pre></td></tr></table></figure>
+<p>链接 “–static”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc  test.o -o test --static</span><br></pre></td></tr></table></figure>
+<p>写个Makefile来编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cc &#x3D; arm-linux-gnueabi-gcc</span><br><span class="line">prom &#x3D; test </span><br><span class="line">obj &#x3D; test.o</span><br><span class="line">CFLAGS &#x3D; -static</span><br><span class="line"></span><br><span class="line">$(prom) : $(obj)</span><br><span class="line">        $(cc) -o $(prom) $(obj) $(CFLAGS)</span><br><span class="line"></span><br><span class="line">%.o: %.c</span><br><span class="line">        $(cc) -c $&lt; -o $@</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">        rm -rf $(obj) $(prom)</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、把Vim打造成一个强大的IDE编辑器"><a href="#二、把Vim打造成一个强大的IDE编辑器" class="headerlink" title="二、把Vim打造成一个强大的IDE编辑器"></a>二、把Vim打造成一个强大的IDE编辑器</h4><h5 id="下载Vundle"><a href="#下载Vundle" class="headerlink" title="下载Vundle"></a>下载Vundle</h5><p>（1）下载插件管理器Vundle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;VundleVim&#x2F;Vundle.vim.git ~&#x2F;.vim&#x2F;bundle&#x2F;Vundle.vim</span><br></pre></td></tr></table></figure>
+<p>（2）配置Vundle，编辑Vim的配置文件vimrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim .vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">set nocompatible              &quot; be iMproved, required</span><br><span class="line">filetype off                  &quot; required</span><br><span class="line"></span><br><span class="line">&quot; 启用vundle来管理vim插件</span><br><span class="line">set rtp+&#x3D;~&#x2F;.vim&#x2F;bundle&#x2F;Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">&quot; 安装插件写在这之后</span><br><span class="line"></span><br><span class="line">&quot; let Vundle manage Vundle, required</span><br><span class="line">Plugin &#39;VundleVim&#x2F;Vundle.vim&#39;</span><br><span class="line"></span><br><span class="line">&quot; 安装插件写在这之前</span><br><span class="line">call vundle#end()            &quot; required</span><br><span class="line">filetype plugin on    &quot; required</span><br><span class="line"></span><br><span class="line">&quot; 常用命令</span><br><span class="line">&quot; :PluginList       - 查看已经安装的插件</span><br><span class="line">&quot; :PluginInstall    - 安装插件</span><br><span class="line">&quot; :PluginUpdate     - 更新插件</span><br><span class="line">&quot; :PluginSearch     - 搜索插件，例如 :PluginSearch xml就能搜到xml相关的插件</span><br><span class="line">&quot; :PluginClean      - 删除插件，把安装插件对应行删除，然后执行这个命令即可</span><br></pre></td></tr></table></figure>
+<p>（3）安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+
+<h5 id="ctags工具"><a href="#ctags工具" class="headerlink" title="ctags工具"></a>ctags工具</h5><blockquote>
+<p>ctags的功能：扫描指定的源文件，找出其中所包含的语法元素，并将找到的相关内容记录下来</p>
+</blockquote>
+<p>下载ctags</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ctags</span><br></pre></td></tr></table></figure>
+<p>递归扫描源代码根目录和子目录的文件并且生成索引文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctags -R</span><br></pre></td></tr></table></figure>
+<p>进入vim加载这个tags文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set tags&#x3D;tags</span><br></pre></td></tr></table></figure>
+
+<h5 id="Tagbar插件"><a href="#Tagbar插件" class="headerlink" title="Tagbar插件"></a>Tagbar插件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#39;majutsushi&#x2F;tagbar&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+
+<h5 id="NerdTree插件"><a href="#NerdTree插件" class="headerlink" title="NerdTree插件"></a>NerdTree插件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#39;scrooloose&#x2F;nerdtree&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+
+<h5 id="YouCompleteMe插件"><a href="#YouCompleteMe插件" class="headerlink" title="YouCompleteMe插件"></a>YouCompleteMe插件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#39;valloric&#x2F;YouCompleteMe&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure>
+<p>插件安装完成以后需要重新编译它，编译之前需要下载如下软件包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential cmake python-dev python3-dev</span><br></pre></td></tr></table></figure>
+<p>进入 YouCompleteMe进行编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;.vim&#x2F;bundle&#x2F;YouCompleteMe</span><br><span class="line">.&#x2F;install.py --clang-comleter</span><br></pre></td></tr></table></figure>
+<p>拷贝配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ~&#x2F;.vim&#x2F;bundle&#x2F;YouCompleteMe&#x2F;third_party&#x2F;ycmd&#x2F;examples&#x2F;.ycm_extra_conf.py ~&#x2F;.vim</span><br></pre></td></tr></table></figure>
+<p>再在.vimrc配置文件中还需要添加如下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let g:ycm_server_python_interpreter&#x3D;&#39;&#x2F;usr&#x2F;bin&#x2F;python&#39;</span><br><span class="line">let g:ycm_global_ycm_extra_conf&#x3D;&#39;~&#x2F;.vim&#x2F;.ycm_extra_conf.py&#39;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、在服务器上建立git仓库"><a href="#三、在服务器上建立git仓库" class="headerlink" title="三、在服务器上建立git仓库"></a>三、在服务器上建立git仓库</h4><p>服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir KongoBlog.git</span><br><span class="line">cd KongoBlog.git</span><br><span class="line">git --bare init</span><br></pre></td></tr></table></figure>
+<p>客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir KongoBlog</span><br><span class="line">cd KongBlog</span><br><span class="line">git init </span><br><span class="line">git remote add origin ssh:&#x2F;&#x2F;root@ip:&#x2F;root&#x2F;KongoBlog.git</span><br></pre></td></tr></table></figure>
+<p>推送方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --set-upstream origin master</span><br></pre></td></tr></table></figure>
+<p>拉取方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone ssh:&#x2F;&#x2F;root@ip:&#x2F;root&#x2F;KongoBlog.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三章-内核编译和调试"><a href="#第三章-内核编译和调试" class="headerlink" title="第三章 内核编译和调试"></a>第三章 内核编译和调试</h3><h4 id="一、通过QEMU调试ARM-Linux内核"><a href="#一、通过QEMU调试ARM-Linux内核" class="headerlink" title="一、通过QEMU调试ARM Linux内核"></a>一、通过QEMU调试ARM Linux内核</h4><h5 id="1-下载软件"><a href="#1-下载软件" class="headerlink" title="1.下载软件"></a>1.下载软件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gdb-multiarch</span><br></pre></td></tr></table></figure>
+<h5 id="2-内核配置"><a href="#2-内核配置" class="headerlink" title="2.内核配置"></a>2.内核配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">export ARCH&#x3D;arm</span><br><span class="line">export CROSS_COMPILE&#x3D;arm-linux-gnueabi-</span><br><span class="line">make vexpress_defconfig</span><br><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+<p>记得保证编译的内核包含调试信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Kernel Hacking  ---&gt;</span><br><span class="line">Compile-time checks and compiler options ---&gt;</span><br><span class="line">  [*] Compile the kernel with debug info</span><br></pre></td></tr></table></figure>
+<p>重新编译内核</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make bzImage -j4 </span><br><span class="line">make dtbs</span><br></pre></td></tr></table></figure>
+<p>在终端输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-arm -nographic -M vexpress-a9 -m 100M -kernel arch&#x2F;arm&#x2F;boot&#x2F;zImage -append &quot;rdinit&#x3D;&#x2F;linuxrc console&#x3D;ttyAMA0 loglevel&#x3D;8&quot; -dtb arch&#x2F;arm&#x2F;boot&#x2F;dts&#x2F;vexpress-v2p-ca9.dtb -S -s</span><br></pre></td></tr></table></figure>
+<p>-S 表示QEMU虚拟机会冻结CPU，直到远程GDB输入相应的控制指令为止<br>-s 表示在1234端口接受GDB的调试连接</p>
+<p>在另一中断输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">.&#x2F;run.sh arm32 debug</span><br></pre></td></tr></table></figure>
+<p>再在另一中断输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">gdb-multiarch --tui vmlinux</span><br><span class="line">(gdb) set architecture arm </span><br><span class="line">(gdb) target remote localhost:1234</span><br><span class="line">(gdb) b start_kernel</span><br><span class="line">(gdb) c</span><br></pre></td></tr></table></figure>
+
+<h3 id="第四章-内核模块"><a href="#第四章-内核模块" class="headerlink" title="第四章 内核模块"></a>第四章 内核模块</h3><h4 id="1-编写一个简单的内核模块"><a href="#1-编写一个简单的内核模块" class="headerlink" title="1.编写一个简单的内核模块"></a>1.编写一个简单的内核模块</h4><p>编译内核</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0</span><br><span class="line">export ARCH&#x3D;arm</span><br><span class="line">export CROSS_COMPILE&#x3D;arm-linux-gnueabi-</span><br><span class="line">make vexpress_defconfig</span><br><span class="line">make </span><br><span class="line">make bzImage -j4</span><br><span class="line">make dtbs</span><br></pre></td></tr></table></figure>
+<p>建立文件夹，写好Makefile和my_test.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir simple_module</span><br><span class="line">export BASEINCLUDE&#x3D;&#x2F;root&#x2F;runninglinuxkernel_4.0</span><br><span class="line">vi Makefile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BASEINCLUDE ?&#x3D; &#x2F;root&#x2F;runninglinuxkernel_4.0</span><br><span class="line"></span><br><span class="line">mytest-objs :&#x3D; my_test.o</span><br><span class="line">obj-m :&#x3D;  my_test.o</span><br><span class="line">path :&#x3D; &#x2F;root&#x2F;simple_module</span><br><span class="line"></span><br><span class="line">all : </span><br><span class="line">	$(MAKE) -C $(BASEINCLUDE) M&#x3D;$(path) modules;</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	$(MAKE) -C $(BASEINCLUDE) SUBDIR&#x3D;$(PWD) clean;</span><br><span class="line">	rm -f *.ko;</span><br></pre></td></tr></table></figure>
+<p>my_test.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;linux&#x2F;module.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;init.h&gt;</span><br><span class="line"></span><br><span class="line">static int __init my_test_init(void)&#123;</span><br><span class="line">    printk(&quot;My first kernel module init.\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit my_test_exit(void)&#123;</span><br><span class="line">    printk(&quot;Goodbye!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(my_test_init);</span><br><span class="line">module_exit(my_test_exit);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(&quot;GPL&quot;);</span><br><span class="line">MODULE_AUTHOR(&quot;Kongo&quot;);</span><br><span class="line">MODULE_DESCRIPTION(&quot;Kongo&#39;s first kernel module!&quot;);</span><br><span class="line">MODULE_ALIAS(&quot;mytest&quot;);</span><br></pre></td></tr></table></figure>
+<p>编译拷贝ko文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make </span><br><span class="line">cp my_test.ko ..&#x2F;runninglinuxkernel_4.0&#x2F;kmodule</span><br></pre></td></tr></table></figure>
+<p>启动qemu</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;run.sh arm32</span><br></pre></td></tr></table></figure>
+<p>装载ko</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insmod &#x2F;mnt&#x2F;my_test.ko</span><br></pre></td></tr></table></figure>
+<p>卸载ko</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmmod my_test.ko</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-向内核模块传递参数"><a href="#2-向内核模块传递参数" class="headerlink" title="2.向内核模块传递参数"></a>2.向内核模块传递参数</h4><p>实验步骤和实验1相同，源代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;linux&#x2F;module.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;init.h&gt;</span><br><span class="line"></span><br><span class="line">static int debug &#x3D; 1;</span><br><span class="line">module_param(debug, int, 0644);</span><br><span class="line">MODULE_PARM_DESC(debug, &quot;enable debugging information!&quot;);</span><br><span class="line"></span><br><span class="line">#define dprintk(args...) \</span><br><span class="line">    if(debug)&#123; \</span><br><span class="line">        printk(KERN_DEBUG args); \</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">static int mytest &#x3D; 100;</span><br><span class="line">module_param(mytest, int, 0644);</span><br><span class="line">MODULE_PARM_DESC(mytest, &quot;test for module paramter&quot;);</span><br><span class="line"></span><br><span class="line">static int __init my_test_init(void)&#123;</span><br><span class="line">    dprintk(&quot;My first kernel module init.\n&quot;);</span><br><span class="line">    dprintk(&quot;moduel parameter&#x3D;%d\n&quot;,mytest);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit my_test_exit(void)&#123;</span><br><span class="line">    printk(&quot;Goodbye!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(my_test_init);</span><br><span class="line">module_exit(my_test_exit);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(&quot;GPL&quot;);</span><br><span class="line">MODULE_AUTHOR(&quot;Kongo&quot;);</span><br><span class="line">MODULE_DESCRIPTION(&quot;Kongo&#39;s first kernel module!&quot;);</span><br><span class="line">MODULE_ALIAS(&quot;mytest&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h3><h4 id="1-简单的字符设备"><a href="#1-简单的字符设备" class="headerlink" title="1.简单的字符设备"></a>1.简单的字符设备</h4><p>my_demodev.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;linux&#x2F;module.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;init.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;fs.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;uaccess.h&gt;</span><br><span class="line">#include &lt;linux&#x2F;cdev.h&gt;</span><br><span class="line"></span><br><span class="line">#define DEMO_NAME &quot;my_demo_dev&quot;</span><br><span class="line">static dev_t dev;</span><br><span class="line">static struct cdev *demo_cdev;</span><br><span class="line">static signed count &#x3D; 1;</span><br><span class="line"></span><br><span class="line">static int demodrv_open(struct inode *inode, struct file *file)&#123;</span><br><span class="line"></span><br><span class="line">    int major &#x3D; MAJOR(inode-&gt;i_rdev);</span><br><span class="line">    int minor &#x3D; MINOR(inode-&gt;i_rdev);</span><br><span class="line">    printk(&quot;%s: major&#x3D;%%d, minor&#x3D;%d\n&quot;, __func__, major, minor);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int demodrv_release(struct inode *inode, struct file *file)&#123;</span><br><span class="line">    printk(&quot;Release the dev.\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">static int demodrv_read(struct file *file, char __user *buf, size_t lbuf, loff_t *ppos)&#123;</span><br><span class="line">    printk(&quot;%s enter\n&quot;, __func__);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int demodrv_write(struct file *file, char __user *buf, size_t count, loff_t *f_pos)&#123;</span><br><span class="line">    printk(&quot;%s enter\n&quot;, __func__);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static const struct file_operations demodrv_fops &#x3D; &#123;</span><br><span class="line">    .owner &#x3D; THIS_MODULE,</span><br><span class="line">    .open &#x3D; demodrv_open,</span><br><span class="line">    .release &#x3D; demodrv_release,</span><br><span class="line">    .read &#x3D; demodrv_read,</span><br><span class="line">    .write &#x3D; demodrv_write</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static int __init simple_char_init(void)&#123;</span><br><span class="line">    int ret;</span><br><span class="line">    ret &#x3D; alloc_chrdev_region(&amp;dev, 0, count, DEMO_NAME);</span><br><span class="line">    if (ret)&#123;</span><br><span class="line">        printk(&quot;Failed to allocate cha device region.\n&quot;);</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    demo_cdev &#x3D; cdev_alloc();</span><br><span class="line">    if (!demo_cdev)&#123;</span><br><span class="line">        printk(&quot;Cdev_alloc failed.\n&quot;);</span><br><span class="line">        goto unregister_chrdev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cdev_init(demo_cdev, &amp;demodrv_fops);</span><br><span class="line">    ret &#x3D; cdev_add(demo_cdev, dev, count);</span><br><span class="line">    if(ret)&#123;</span><br><span class="line">        printk(&quot;Cdev_add failed\n&quot;);</span><br><span class="line">        goto cdev_fail;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    printk(&quot;Succeeed register char device: %s\n&quot;, DEMO_NAME);</span><br><span class="line">    printk(&quot;Major number &#x3D; %d, minor number &#x3D; %d\n&quot;, MAJOR(dev), MINOR(dev));</span><br><span class="line"></span><br><span class="line">cdev_fail:</span><br><span class="line">    cdev_del(demo_cdev);</span><br><span class="line"></span><br><span class="line">unregister_chrdev:</span><br><span class="line">    unregister_chrdev_region(dev, count);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit simple_char_exit(void)&#123;</span><br><span class="line">    printk(&quot;Removing device\n&quot;);</span><br><span class="line"></span><br><span class="line">    if (demo_cdev)</span><br><span class="line">        cdev_del(demo_cdev);</span><br><span class="line">    </span><br><span class="line">    unregister_chrdev_region(dev, count);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(simple_char_init);</span><br><span class="line">module_exit(simple_char_exit);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(&quot;GPL v2&quot;);</span><br><span class="line">MODULE_AUTHOR(&quot;Kongo&quot;);</span><br><span class="line">MODULE_DESCRIPTION(&quot;Simple charater device!&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>test.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">#define DEMO_DEV_NAME &quot;&#x2F;dev&#x2F;demo_drv&quot;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line"></span><br><span class="line">    char buffer[64];</span><br><span class="line">    int fd &#x3D; open(DEMO_DEV_NAME, O_RDONLY);</span><br><span class="line">    if (fd&lt;0)&#123;</span><br><span class="line">        printf(&quot;Open devices failed.&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    read(fd, buffer, 64);</span><br><span class="line">    close(fd);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="第六章-系统调用"><a href="#第六章-系统调用" class="headerlink" title="第六章 系统调用"></a>第六章 系统调用</h3><h4 id="1-在ARM32上新增一个系统调用"><a href="#1-在ARM32上新增一个系统调用" class="headerlink" title="1.在ARM32上新增一个系统调用"></a>1.在ARM32上新增一个系统调用</h4><h5 id="1-添加补丁"><a href="#1-添加补丁" class="headerlink" title="(1)添加补丁"></a>(1)添加补丁</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd runninglinuxkernel_4.0&#x2F;</span><br><span class="line">git am rlk_lab&#x2F;rlk_basic&#x2F;chapter_6&#x2F;lab1&#x2F;0001-arm32-add-a-new-syscall-which-called-getpuid.patch</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这里我们新添加的系统调用名称为<code>getpuid</code></li>
+<li><code>getpuid</code>使用的系统调用号为<code>388</code></li>
+</ul>
+<p>此命令在arch/arm/include/uapi/unisid.h头文件中的417行添加了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define __NR_getpuid (__NR_SYSCALL_BASE+388)</span><br></pre></td></tr></table></figure>
+<p>在arch/arm/include/unistd.h头文件中添加了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define __NR_syscalls (392)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-编译内核"><a href="#2-编译内核" class="headerlink" title="(2)编译内核"></a>(2)编译内核</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># export ARCH&#x3D;arm</span><br><span class="line"># export CROSS_COMPILE&#x3D;arm-linux-gnueabi-</span><br><span class="line"># make vexpress_defconfig</span><br><span class="line"># make menuconfig</span><br><span class="line"># make bzImage -j4</span><br><span class="line"># make dtbs</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-编写应用程序并编译"><a href="#3-编写应用程序并编译" class="headerlink" title="(3)编写应用程序并编译"></a>(3)编写应用程序并编译</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># cp rlk_lab&#x2F;rlk_basic&#x2F;chapter_6&#x2F;lab1&#x2F;test_getpuid_syscall.c kmodules&#x2F;test_getpuid_syscall.c</span><br><span class="line"># cd kmodules&#x2F;</span><br><span class="line"># arm-linux-gnueabi-gcc --static -o test_getpuid_syscall test_getpuid_syscall.c </span><br><span class="line"># cd ..</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-启动内核"><a href="#4-启动内核" class="headerlink" title="(4)启动内核"></a>(4)启动内核</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># .&#x2F;run.sh arm32</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-编写并运行应用程序"><a href="#5-编写并运行应用程序" class="headerlink" title="(5)编写并运行应用程序"></a>(5)编写并运行应用程序</h5><p>```</p>
+<h1 id="cd-mnt"><a href="#cd-mnt" class="headerlink" title="cd /mnt"></a>cd /mnt</h1><p>/mnt # ./test_getpuid_syscall<br>call getpuid success, return pid = 809, uid = 0<br>/mnt # ./test_getpuid_syscall<br>call getpuid success, return pid = 810, uid = 0<br>/mnt # </p>
+<h3 id="第七章-内存管理"><a href="#第七章-内存管理" class="headerlink" title="第七章 内存管理"></a>第七章 内存管理</h3><ul>
+<li>vmalloc和kmalloc的区别</li>
+<li>slab缓存的创建</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    
+        <div class="reward-container">
+  <div>你的支持就是我前进的动力</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/wechatpay.jpg" alt="Kongo 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/alipay.jpg" alt="Kongo 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tags"></i> Linux</a>
+              <a href="/tags/Linux%E5%86%85%E6%A0%B8/" rel="tag"><i class="fa fa-tags"></i> Linux内核</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/02/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="prev" title="Linux内核分析与应用">
+      <i class="fa fa-chevron-left"></i> Linux内核分析与应用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/15/Linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/" rel="next" title="Linux内核完全注释">
+      Linux内核完全注释 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-Linux系统入门"><span class="nav-text">第一章 Linux系统入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-阅读服务器系统信息"><span class="nav-text">1.阅读服务器系统信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-Linux内核基础知识"><span class="nav-text">第二章 Linux内核基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、C文件编译"><span class="nav-text">一、C文件编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、把Vim打造成一个强大的IDE编辑器"><span class="nav-text">二、把Vim打造成一个强大的IDE编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#下载Vundle"><span class="nav-text">下载Vundle</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ctags工具"><span class="nav-text">ctags工具</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Tagbar插件"><span class="nav-text">Tagbar插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NerdTree插件"><span class="nav-text">NerdTree插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#YouCompleteMe插件"><span class="nav-text">YouCompleteMe插件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、在服务器上建立git仓库"><span class="nav-text">三、在服务器上建立git仓库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章-内核编译和调试"><span class="nav-text">第三章 内核编译和调试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、通过QEMU调试ARM-Linux内核"><span class="nav-text">一、通过QEMU调试ARM Linux内核</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-下载软件"><span class="nav-text">1.下载软件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-内核配置"><span class="nav-text">2.内核配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-内核模块"><span class="nav-text">第四章 内核模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-编写一个简单的内核模块"><span class="nav-text">1.编写一个简单的内核模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-向内核模块传递参数"><span class="nav-text">2.向内核模块传递参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章"><span class="nav-text">第五章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-简单的字符设备"><span class="nav-text">1.简单的字符设备</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六章-系统调用"><span class="nav-text">第六章 系统调用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在ARM32上新增一个系统调用"><span class="nav-text">1.在ARM32上新增一个系统调用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-添加补丁"><span class="nav-text">(1)添加补丁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-编译内核"><span class="nav-text">(2)编译内核</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-编写应用程序并编译"><span class="nav-text">(3)编写应用程序并编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-启动内核"><span class="nav-text">(4)启动内核</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-编写并运行应用程序"><span class="nav-text">(5)编写并运行应用程序</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cd-mnt"><span class="nav-text">cd &#x2F;mnt</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第七章-内存管理"><span class="nav-text">第七章 内存管理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kongo"
+      src="/images/header.jpeg">
+  <p class="site-author-name" itemprop="name">Kongo</p>
+  <div class="site-description" itemprop="description">闳的博客，记录技术、生活</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<br>
+Total <span id="busuanzi_value_site_pv"></span> views.
+<br>
+您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴
+<br>
+<span id="busuanzi_value_page_pv"></span> Hits
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'PULSTRKS13DHxoOUR8UQhJPX-gzGzoHsz',
+      appKey     : '7ax6bnBNLWRYJlQ6Qb9rWCIJ',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":true},"react":{"opacityDefault":0.7}});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

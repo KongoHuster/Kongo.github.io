@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="眼神    此文为学习汇编语言程序设计所做的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言程序设计">
+<meta property="og:url" content="http://yoursite.com/2020/06/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Kongo&#39;s blog">
+<meta property="og:description" content="眼神    此文为学习汇编语言程序设计所做的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/28/N2R1Bj.md.png">
+<meta property="article:published_time" content="2020-06-28T08:29:28.000Z">
+<meta property="article:modified_time" content="2020-07-01T06:52:43.790Z">
+<meta property="article:author" content="Kongo">
+<meta property="article:tag" content="汇编语言程序设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/28/N2R1Bj.md.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>汇编语言程序设计 | Kongo's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kongo's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/honghong1234" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpeg">
+      <meta itemprop="name" content="Kongo">
+      <meta itemprop="description" content="闳的博客，记录技术、生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kongo's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          汇编语言程序设计
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-28 16:29:28" itemprop="dateCreated datePublished" datetime="2020-06-28T16:29:28+08:00">2020-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-01 14:52:43" itemprop="dateModified" datetime="2020-07-01T14:52:43+08:00">2020-07-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">汇编语言程序设计</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/28/N2R1Bj.md.png">
+    <br>
+    <div style="color:orange;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">眼神</div>
+</center>
+
+<blockquote>
+<p>此文为学习汇编语言程序设计所做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="第一章-汇编语言基础"><a href="#第一章-汇编语言基础" class="headerlink" title="第一章 汇编语言基础"></a>第一章 汇编语言基础</h3><h4 id="一、硬件组成"><a href="#一、硬件组成" class="headerlink" title="一、硬件组成"></a>一、硬件组成</h4><p>从应用角度看，汇编语言程序员可以将计算机抽象为：寄存器、存储器地址、输入输出地址</p>
+<h5 id="1-寄存器"><a href="#1-寄存器" class="headerlink" title="1.寄存器"></a>1.寄存器</h5><ul>
+<li>处理器内部的高速存储单元</li>
+<li>用于暂时存放程序执行过程中的代码和数据</li>
+<li>透明寄存器：对应用人员不可见、不能编程直接控制</li>
+<li>可编程寄存器：通用寄存器、专用寄存器</li>
+</ul>
+<h5 id="2-通用寄存器"><a href="#2-通用寄存器" class="headerlink" title="2.通用寄存器"></a>2.通用寄存器</h5><ul>
+<li>32位通用寄存器：EAX、EBX、ECX、EDX；ESI、EDI；EBP、ESP</li>
+<li>16位通用寄存器：AX、BX、CX、DX、SI、DI、BP、SP</li>
+<li>8位通用寄存器：AH、AL、BH、BL、CH、CL、DH、DL</li>
+</ul>
+<h5 id="3-专用寄存器"><a href="#3-专用寄存器" class="headerlink" title="3.专用寄存器"></a>3.专用寄存器</h5><ul>
+<li>标志寄存器：EFLAGS</li>
+<li>指令指针寄存器：EIP</li>
+<li>段寄存器：CS、DS、SS、ES、FS、GS</li>
+</ul>
+<h5 id="4-通用寄存器名称"><a href="#4-通用寄存器名称" class="headerlink" title="4.通用寄存器名称"></a>4.通用寄存器名称</h5><ul>
+<li>EAX：累加器</li>
+<li>EBX：基址寄存器</li>
+<li>ECX：计数器</li>
+<li>EDX：数据寄存器</li>
+<li>ESI：源变址寄存器</li>
+<li>EDI：目的编制寄存器</li>
+<li>EBP：基址指针</li>
+<li>ESP：堆栈指针</li>
+</ul>
+<h4 id="二、存储器组织"><a href="#二、存储器组织" class="headerlink" title="二、存储器组织"></a>二、存储器组织</h4><h5 id="1-存储器地址"><a href="#1-存储器地址" class="headerlink" title="1.存储器地址"></a>1.存储器地址</h5><ul>
+<li>主存储器容量很大，被划分成许多存储单元</li>
+<li>每个存储单元被编排一个号码、即存储单元地址</li>
+<li>每个存储单元一字节为基本存储单位，即按字节编址，一个字节等于8bit</li>
+</ul>
+<h5 id="2-位、字节、字、双字"><a href="#2-位、字节、字、双字" class="headerlink" title="2.位、字节、字、双字"></a>2.位、字节、字、双字</h5><p>双字 = 2 字 = 4字节 = 32 位</p>
+<h5 id="3-存储模型"><a href="#3-存储模型" class="headerlink" title="3.存储模型"></a>3.存储模型</h5><ul>
+<li>高性能处理器集成存储管理单元MMU</li>
+<li>操作系统利用MMU进行主存进行管理</li>
+<li>IA-32处理处理器提供3种存储模型：平展存储模型、段式存储模型、实地址存储模型</li>
+</ul>
+<h5 id="4-存储空间分段管理"><a href="#4-存储空间分段管理" class="headerlink" title="4.存储空间分段管理"></a>4.存储空间分段管理</h5><p>“段”是保存相关代码或数据的一个主存区域</p>
+<ul>
+<li>代码段：存放程序的可执行代码</li>
+<li>数据段：存放程序所有的数据，例如全局变量</li>
+<li>堆栈段：程序需要的特殊区域，存放放回地址、临时变量等</li>
+</ul>
+<h5 id="5-逻辑地址"><a href="#5-逻辑地址" class="headerlink" title="5.逻辑地址"></a>5.逻辑地址</h5><ul>
+<li>存储器空间可以分段管理，采用逻辑地址指示</li>
+<li>逻辑地址 = 段地址 ： 偏移地址</li>
+<li>处理器内部以及程序员编程时采用逻辑地址</li>
+</ul>
+<h5 id="6-物理地址和逻辑地址的转换"><a href="#6-物理地址和逻辑地址的转换" class="headerlink" title="6.物理地址和逻辑地址的转换"></a>6.物理地址和逻辑地址的转换</h5><ul>
+<li>程序员编程时采用逻辑地址</li>
+<li>操作系统利用存储管理单元MMU将逻辑地址映射为线性地址（虚拟地址）</li>
+<li>处理器使用物理地址访问存储器芯片</li>
+</ul>
+<h5 id="7-Win32的虚拟地址分配"><a href="#7-Win32的虚拟地址分配" class="headerlink" title="7.Win32的虚拟地址分配"></a>7.Win32的虚拟地址分配</h5><ul>
+<li>系统区（2GB）：操作系统代码、系统DLL等</li>
+<li>用户区（2GB）：用户DLL、进程堆栈、DOS/Win16兼容区、空指针区、</li>
+</ul>
+<h5 id="8-标志寄存器"><a href="#8-标志寄存器" class="headerlink" title="8.标志寄存器"></a>8.标志寄存器</h5><ul>
+<li>状态寄存器：记录指令执行结果的辅助信息</li>
+<li>控制标志：方向DF，仅用于串操作指令</li>
+<li>系统标志：控制操作系统或核心管理程序的操作方式</li>
+</ul>
+<h5 id="9-指令指针寄存器EIP"><a href="#9-指令指针寄存器EIP" class="headerlink" title="9.指令指针寄存器EIP"></a>9.指令指针寄存器EIP</h5><ul>
+<li>顺序执行时自动增量</li>
+<li>分支、调用等操作时执行控制转移指令修改</li>
+<li>出现中断或异常时被处理器赋值二相应改变</li>
+</ul>
+<h5 id="10-段寄存器"><a href="#10-段寄存器" class="headerlink" title="10.段寄存器"></a>10.段寄存器</h5><p>段寄存器表明某个段在主存中的位置</p>
+<ul>
+<li>代码段（CS）——基地址由代码段CS指示、偏移地址由指令指针寄存器EIP保存</li>
+<li>堆栈段（SS）——基地址由SS指示、偏移地址由ESP指示</li>
+<li>数据段（DS、ES、FS、GS）——段基地址由DS指示，有时也由ES、FS、GS指示，偏移地址由有效地址EA指示</li>
+</ul>
+<h4 id="三、处理器指令格式"><a href="#三、处理器指令格式" class="headerlink" title="三、处理器指令格式"></a>三、处理器指令格式</h4><h5 id="1-处理器指令"><a href="#1-处理器指令" class="headerlink" title="1.处理器指令"></a>1.处理器指令</h5><ul>
+<li>程序用程序设计语言编写，有指令构成</li>
+<li>指令由操作码和操作数组成</li>
+<li>操作码在汇编语言使用指令助记符表示</li>
+<li>操作数在汇编语言中使用寄存器、变量、常量等形式表示</li>
+</ul>
+<h5 id="2-IA-32处理器的代码格式"><a href="#2-IA-32处理器的代码格式" class="headerlink" title="2.IA-32处理器的代码格式"></a>2.IA-32处理器的代码格式</h5><ul>
+<li>IA-32处理器采用可变长的指令格式</li>
+<li>操作码——可选的指令前缀；1~3字节的主要操作吗</li>
+<li>操作数——可选的地址域、可选的的位移量、可选的立即数</li>
+</ul>
+<h5 id="3-汇编语言语句"><a href="#3-汇编语言语句" class="headerlink" title="3.汇编语言语句"></a>3.汇编语言语句</h5><ul>
+<li>源程序由语句组成</li>
+<li>通常一个语句占一行</li>
+<li>一个语句不操作132个字符，4个部分</li>
+<li>执行性语句：表达处理器指令、实行功能</li>
+<li>说明性语句：表达伪指令，控制编程方式</li>
+</ul>
+<h5 id="4-标号和名字"><a href="#4-标号和名字" class="headerlink" title="4.标号和名字"></a>4.标号和名字</h5><ul>
+<li>标号和名字是用户定义的标识符</li>
+<li>标号在执行性语句中</li>
+<li>名字在说明性语句中</li>
+</ul>
+<h5 id="5-标识符"><a href="#5-标识符" class="headerlink" title="5.标识符"></a>5.标识符</h5><ul>
+<li>取名原则类似于高级语言，但是默认不区别大小写字母</li>
+<li>不能以数字开头</li>
+<li>在一个源程序中，用户定义的每个标识符必须唯一</li>
+<li>不能是保留字</li>
+</ul>
+<h5 id="6-助记符"><a href="#6-助记符" class="headerlink" title="6.助记符"></a>6.助记符</h5><ul>
+<li>帮助记忆指令功能的符号</li>
+<li>硬指令助记符表示处理器指令</li>
+<li>伪指令助记符表达一个汇编命令</li>
+</ul>
+<h5 id="7-包含伪指令INCLUDE"><a href="#7-包含伪指令INCLUDE" class="headerlink" title="7.包含伪指令INCLUDE"></a>7.包含伪指令INCLUDE</h5><ul>
+<li>用于声明常用的常量定义、过程说明、共享的子程序库等</li>
+<li>相当于C和C++语言中，包含头文件的作用</li>
+</ul>
+<h5 id="8-程序的开始和结束"><a href="#8-程序的开始和结束" class="headerlink" title="8.程序的开始和结束"></a>8.程序的开始和结束</h5><ul>
+<li>程序开始执行的位置（使用一个标号，作为汇编结束END伪指令的参数）</li>
+<li>应用程序执行终止（语句“EXIT 0”终止程序执行，返回操作系统，提供一个返回代码0）</li>
+<li>源程序汇编结束——使用END伪指令语句</li>
+</ul>
+<h3 id="第二章-数据表示"><a href="#第二章-数据表示" class="headerlink" title="第二章 数据表示"></a>第二章 数据表示</h3><h4 id="一、常量表达"><a href="#一、常量表达" class="headerlink" title="一、常量表达"></a>一、常量表达</h4><h5 id="1-常量"><a href="#1-常量" class="headerlink" title="1.常量"></a>1.常量</h5><ul>
+<li>常量是程序中使用的一个确定数值</li>
+<li>表达形式：常数、字符和字符串、符号常量、数值表达式</li>
+</ul>
+<h4 id="二、变量定义"><a href="#二、变量定义" class="headerlink" title="二、变量定义"></a>二、变量定义</h4><h5 id="1-什么是变量"><a href="#1-什么是变量" class="headerlink" title="1.什么是变量"></a>1.什么是变量</h5><ul>
+<li>变量是随程序运行会变化的数据，保存在刻度可写的主存空间</li>
+<li>变量表达主存数据，即存储操作数</li>
+</ul>
+<h5 id="2-变量的定义"><a href="#2-变量的定义" class="headerlink" title="2.变量的定义"></a>2.变量的定义</h5><ul>
+<li>变量名：用户标识符，表示首元素逻辑地址；</li>
+<li>变量定义伪指令：为指令助记符，表示变量类型</li>
+<li>初值表：用逗号分隔的一个或多个参数，表示变量初值</li>
+</ul>
+<h5 id="3-主要的变量定义伪指令"><a href="#3-主要的变量定义伪指令" class="headerlink" title="3.主要的变量定义伪指令"></a>3.主要的变量定义伪指令</h5><ul>
+<li>BYTE：每个数据8位</li>
+<li>WORD：每个数据16位</li>
+<li>DWORD：每个数据32位</li>
+</ul>
+<h5 id="4-变量定义的初值表"><a href="#4-变量定义的初值表" class="headerlink" title="4.变量定义的初值表"></a>4.变量定义的初值表</h5><ul>
+<li>使用“？”表示初值不确定，即未赋初值</li>
+<li>使用赋值操作符DUP表示多个同样的数值，形式：重复次数 DUP（重复参数）</li>
+</ul>
+<h4 id="三、变量运用"><a href="#三、变量运用" class="headerlink" title="三、变量运用"></a>三、变量运用</h4><h5 id="1-字节数据的存储顺序"><a href="#1-字节数据的存储顺序" class="headerlink" title="1.字节数据的存储顺序"></a>1.字节数据的存储顺序</h5><ul>
+<li>大端方式：高对低，低对高</li>
+<li>小端方式：高对高、低对低</li>
+</ul>
+<h5 id="2-变量属性"><a href="#2-变量属性" class="headerlink" title="2.变量属性"></a>2.变量属性</h5><ul>
+<li>地址属性：首个变量所在存储单元的逻辑地址</li>
+<li>类型属性：变量定义的数据单位</li>
+</ul>
+<h5 id="3-变量的地址属性及地址操作符"><a href="#3-变量的地址属性及地址操作符" class="headerlink" title="3.变量的地址属性及地址操作符"></a>3.变量的地址属性及地址操作符</h5><ul>
+<li>[]:括起来的表达式作为存储器地址指针</li>
+<li>$:返回当前偏移的地址</li>
+<li>OFFSET 变量名:返回变量名所在段的偏移地址</li>
+<li>SEG 变量名:返回段基地址</li>
+</ul>
+<h5 id="4-类型操作符"><a href="#4-类型操作符" class="headerlink" title="4.类型操作符"></a>4.类型操作符</h5><ul>
+<li>类型名 PTR 变量名：将变量名按照指定的类型使用</li>
+<li>TYPE 变量名：返回占用字节空间的数字量数值</li>
+<li>LENGTHOF 变量名：返回整个变量的数据项</li>
+<li>SIZEOF 变量名：返回整个变量占用的字节数</li>
+</ul>
+<h3 id="第三章-数据寻址"><a href="#第三章-数据寻址" class="headerlink" title="第三章 数据寻址"></a>第三章 数据寻址</h3><h4 id="一、立即数寻址"><a href="#一、立即数寻址" class="headerlink" title="一、立即数寻址"></a>一、立即数寻址</h4><h5 id="1-寻址方式"><a href="#1-寻址方式" class="headerlink" title="1.寻址方式"></a>1.寻址方式</h5><ul>
+<li>数据寻址：指令执行过程中，访问所需要操作的数据</li>
+<li>指令寻址：一条指令执行后，确定执行的下一条指令的位置</li>
+</ul>
+<h5 id="2-数据寻址"><a href="#2-数据寻址" class="headerlink" title="2.数据寻址"></a>2.数据寻址</h5><ul>
+<li>立即数寻址：数据保存在指令代码中</li>
+<li>寄存器寻址：数据在寄存器中，用寄存器名表示</li>
+<li>存储器寻址：数据来自主存储器，变量指向存储单元，所以访问变量就是存储器寻址。</li>
+<li>IO寻址：数据在外设中，用IO地址表示，可分为直接寻址和间接寻址</li>
+</ul>
+<h4 id="二、寄存器寻址"><a href="#二、寄存器寻址" class="headerlink" title="二、寄存器寻址"></a>二、寄存器寻址</h4><ul>
+<li>操作数存放在处理器的内部</li>
+<li>用寄存器名表示它的内容</li>
+</ul>
+<h4 id="三、存储器寻址"><a href="#三、存储器寻址" class="headerlink" title="三、存储器寻址"></a>三、存储器寻址</h4><h5 id="1-原理"><a href="#1-原理" class="headerlink" title="1.原理"></a>1.原理</h5><ul>
+<li>指令代码表达形式地址</li>
+<li>由形式地址结合规则经过计算得到有效地址EA</li>
+<li>处理器将有效地址转换为物理地址访问存储单元</li>
+<li>逻辑地址 = 段基地址 ： 偏移地址</li>
+</ul>
+<h5 id="2-段寄存器指示段基地址"><a href="#2-段寄存器指示段基地址" class="headerlink" title="2.段寄存器指示段基地址"></a>2.段寄存器指示段基地址</h5><ul>
+<li>读取指令，一定是代码段CS</li>
+<li>堆栈操作，针对堆栈段SS</li>
+<li>读取数据，默认在数据段DS</li>
+</ul>
+<h5 id="3-32位有效地址的组成"><a href="#3-32位有效地址的组成" class="headerlink" title="3.32位有效地址的组成"></a>3.32位有效地址的组成</h5><p>基址寄存器 + 变址寄存器 * 比例 + 位移量</p>
+<ul>
+<li>基址寄存器 ：任何8个32位通用寄存器之一</li>
+<li>变址寄存器：除ESP外的任何32位通用寄存器之一</li>
+<li>比例：1，2，4或8</li>
+<li>位移量：8或32位有符号位</li>
+</ul>
+<h5 id="4-16位有效地址的组成"><a href="#4-16位有效地址的组成" class="headerlink" title="4.16位有效地址的组成"></a>4.16位有效地址的组成</h5><p>基地址寄存器 + 变址寄存器 + 位移量</p>
+<ul>
+<li>基地址寄存器：BX或BP</li>
+<li>变址寄存器：SI或DI</li>
+<li>位移量：8或16位有符号值</li>
+</ul>
+<h5 id="5-直接寻址常用于存取变量"><a href="#5-直接寻址常用于存取变量" class="headerlink" title="5.直接寻址常用于存取变量"></a>5.直接寻址常用于存取变量</h5><ul>
+<li>直接使用变量名</li>
+<li>变量名加或减一个常量</li>
+<li>使用中括号括起的变量名</li>
+</ul>
+<h5 id="6-寄存器间接寻址和相对寻址"><a href="#6-寄存器间接寻址和相对寻址" class="headerlink" title="6.寄存器间接寻址和相对寻址"></a>6.寄存器间接寻址和相对寻址</h5><ul>
+<li>间接寻址其有效地址存放在寄存器中，用中括号括起寄存器表达</li>
+<li>相对寻址其有效地址是寄存器内容与位移量之和，寄存器要用中括号括起来</li>
+</ul>
+<h3 id="第四章-通用数据处理指令"><a href="#第四章-通用数据处理指令" class="headerlink" title="第四章 通用数据处理指令"></a>第四章 通用数据处理指令</h3><h4 id="一、数据传送类指令"><a href="#一、数据传送类指令" class="headerlink" title="一、数据传送类指令"></a>一、数据传送类指令</h4><ul>
+<li>MOV：把一个字节、字或双字的操作数从源位置传送至目的位置</li>
+<li>LEA：地址传送指令获取存储器操作数的地址</li>
+<li>PUSH：数据压进堆栈</li>
+<li>POP：数据弹出堆栈</li>
+</ul>
+<h4 id="二、算术运算类指令"><a href="#二、算术运算类指令" class="headerlink" title="二、算术运算类指令"></a>二、算术运算类指令</h4><h5 id="1-进位标志位CF和溢出标志位"><a href="#1-进位标志位CF和溢出标志位" class="headerlink" title="1.进位标志位CF和溢出标志位"></a>1.进位标志位CF和溢出标志位</h5><ul>
+<li>当加减法运算结果的最高有效位（加法）或借位（减法）时，进位标志位置1</li>
+<li>针对无符号整数，判断加减结果是否超出表达范围</li>
+<li>有溢出，运算结果已经不正确</li>
+<li>无符号数，关心进位；有符号数，注意溢出</li>
+</ul>
+<h5 id="2-零标志、符号标志和奇偶标志"><a href="#2-零标志、符号标志和奇偶标志" class="headerlink" title="2.零标志、符号标志和奇偶标志"></a>2.零标志、符号标志和奇偶标志</h5><ul>
+<li>运行结果为0，则零标志ZF置1</li>
+<li>运算结果最高位为1，则符号标志位SF=1，即最高位=符号位</li>
+<li>当运算结果最低字节中“1”的个数为零或偶数时，奇偶标志位PF=1；否则PF=0</li>
+</ul>
+<h5 id="3-运算指令"><a href="#3-运算指令" class="headerlink" title="3.运算指令"></a>3.运算指令</h5><ul>
+<li>ADD：目的操作数加上源操作数，和送到目的操作数</li>
+<li>SUB：目的操作数减去源操作数，差送到目的操作数</li>
+<li>INC：只有一个操作数，将寄存器中的操作数加一返回原处</li>
+<li>DEC：只有一个操作数，将寄存器中的操作数减一返回原处</li>
+<li><ul>
+<li>NEG：只有一个操作数，将寄存器中的操作数进行求补运算，即用零减去操所数</li>
+</ul>
+</li>
+</ul>
+<h4 id="三、位操作类指令"><a href="#三、位操作类指令" class="headerlink" title="三、位操作类指令"></a>三、位操作类指令</h4><h5 id="1-逻辑运算指令"><a href="#1-逻辑运算指令" class="headerlink" title="1.逻辑运算指令"></a>1.逻辑运算指令</h5><ul>
+<li>AND：逻辑与</li>
+<li>OR：逻辑或</li>
+<li>NOT：逻辑非</li>
+<li>XOR：逻辑异或</li>
+<li>TEST：测试指令</li>
+</ul>
+<h5 id="2-移位指令"><a href="#2-移位指令" class="headerlink" title="2.移位指令"></a>2.移位指令</h5><ul>
+<li>逻辑左移指令 SHL：各位同时左移</li>
+<li>逻辑右移指令 SHR：各位同时右移</li>
+<li>算术左移指令 SAL：各位同时左移，最高位不变</li>
+<li>算术右移指令 SAR：各位同时右移，最高位不变</li>
+</ul>
+<h5 id="3-循环移位指令"><a href="#3-循环移位指令" class="headerlink" title="3.循环移位指令"></a>3.循环移位指令</h5><ul>
+<li>不带进位循环左移指令 ROL</li>
+<li>不带进位循环右移指令 ROR</li>
+<li>带进位循环左移指令 RCL</li>
+<li>带进位循环右移指令 RCR</li>
+</ul>
+<h3 id="第五章-顺序程序结构"><a href="#第五章-顺序程序结构" class="headerlink" title="第五章 顺序程序结构"></a>第五章 顺序程序结构</h3><p>程序的顺序结构是不含分支、循环和调用的一条语句（指令）、一条语句（指令）逐个顺序执行的程序结构。</p>
+<ul>
+<li>移位可以实现乘法（10 = 2^3 + 2）</li>
+<li>自然数求和程序</li>
+</ul>
+<h3 id="第六章-分支程序结构"><a href="#第六章-分支程序结构" class="headerlink" title="第六章 分支程序结构"></a>第六章 分支程序结构</h3><h4 id="一、指令寻址方式"><a href="#一、指令寻址方式" class="headerlink" title="一、指令寻址方式"></a>一、指令寻址方式</h4><h5 id="1-指令寻址"><a href="#1-指令寻址" class="headerlink" title="1.指令寻址"></a>1.指令寻址</h5><ul>
+<li>顺序寻址</li>
+<li>跳转寻址——直接寻址、相对寻址、间接寻址（寄存器间接寻址、存储器间接寻址）</li>
+</ul>
+<h5 id="2-指令的直接寻址"><a href="#2-指令的直接寻址" class="headerlink" title="2.指令的直接寻址"></a>2.指令的直接寻址</h5><ul>
+<li>直接提供目的地址</li>
+<li>目标地址 = 指令操作数</li>
+</ul>
+<h5 id="3-指令的间接寻址"><a href="#3-指令的间接寻址" class="headerlink" title="3.指令的间接寻址"></a>3.指令的间接寻址</h5><ul>
+<li>目标地址来自寄存器或存储单元、间接获得</li>
+<li>可分为寄存器间接寻址和存储器间接寻址</li>
+</ul>
+<h5 id="4-程序流程的控制转移"><a href="#4-程序流程的控制转移" class="headerlink" title="4.程序流程的控制转移"></a>4.程序流程的控制转移</h5><ul>
+<li>程序代码在代码段，CS指明代码段在主存中的段基地址，EIP给出将要执行的偏移地址</li>
+<li>指令调转寻址，程序控制转移，EIP（CS）随之改变</li>
+<li>通过改变EIP（和CS）控制程序流程，实现程序分支、循环、调用等结构</li>
+</ul>
+<h5 id="5-无条件转移指令（JMP）"><a href="#5-无条件转移指令（JMP）" class="headerlink" title="5.无条件转移指令（JMP）"></a>5.无条件转移指令（JMP）</h5><ul>
+<li>JMP lable 程序转向lable标号指定的地址</li>
+<li>JMP reg32/reg16 程序转向寄存器指定的地址</li>
+<li>JMP mem48/mem32/mem16 程序转向存储单元指定的地址</li>
+</ul>
+<h5 id="6-条件转移指令（Jcc）"><a href="#6-条件转移指令（Jcc）" class="headerlink" title="6.条件转移指令（Jcc）"></a>6.条件转移指令（Jcc）</h5><ul>
+<li>单个标志状态位作为条件；两数大小关系作为条件</li>
+<li>ZF：JZ，JE；JNZ，JNE</li>
+<li>CF：JC，JNC</li>
+<li>OF：JO，JNO</li>
+<li>SF：JS，JNS</li>
+<li>PF：JP，JPE，JNP，JPO</li>
+</ul>
+<h4 id="二、单分支结构"><a href="#二、单分支结构" class="headerlink" title="二、单分支结构"></a>二、单分支结构</h4><ul>
+<li>注意和if-then语句相反，当瞒住条件，就发生转移，跳过分支体</li>
+<li>条件不满足，顺序向下执行分支体</li>
+</ul>
+<h4 id="三、双分支结构"><a href="#三、双分支结构" class="headerlink" title="三、双分支结构"></a>三、双分支结构</h4><ul>
+<li>相当于高级语言的if-then-else语句</li>
+<li>条件为真执行一个分支，条件为假执行另一个分支</li>
+</ul>
+<h3 id="第七章-循环指令结构"><a href="#第七章-循环指令结构" class="headerlink" title="第七章 循环指令结构"></a>第七章 循环指令结构</h3><h4 id="一、循环指令"><a href="#一、循环指令" class="headerlink" title="一、循环指令"></a>一、循环指令</h4><h5 id="1-LOOP指令"><a href="#1-LOOP指令" class="headerlink" title="1.LOOP指令"></a>1.LOOP指令</h5><ul>
+<li>LOOP是循环指令，用于实现减量计数多的循环控制</li>
+<li>初值为0时循环次数为2^32次</li>
+<li>LOOP指令是先减1后做判断</li>
+</ul>
+<h5 id="2-JECXZ指令"><a href="#2-JECXZ指令" class="headerlink" title="2.JECXZ指令"></a>2.JECXZ指令</h5><ul>
+<li>为避免计数初值为0可能导致的程序错误</li>
+<li>用于跳过ECX=0的情况</li>
+</ul>
+<h4 id="二、计数控制循环"><a href="#二、计数控制循环" class="headerlink" title="二、计数控制循环"></a>二、计数控制循环</h4><ul>
+<li>计数可以减量进行，即减到0结束</li>
+<li>计数可以增量进行，即达到规定值结束</li>
+</ul>
+<h4 id="三、条件控制循环"><a href="#三、条件控制循环" class="headerlink" title="三、条件控制循环"></a>三、条件控制循环</h4><ul>
+<li>根据条件决定是否进行循环</li>
+<li>所见的是“先判断、后循环”结构</li>
+</ul>
+<h3 id="第八章-子程序结构"><a href="#第八章-子程序结构" class="headerlink" title="第八章 子程序结构"></a>第八章 子程序结构</h3><h4 id="一、子程序设计"><a href="#一、子程序设计" class="headerlink" title="一、子程序设计"></a>一、子程序设计</h4><h5 id="1-子程序指令"><a href="#1-子程序指令" class="headerlink" title="1.子程序指令"></a>1.子程序指令</h5><ul>
+<li>主程序：执行调用指令CALL调用子程序</li>
+<li>子程序：执行返回指令RET返回主程序</li>
+</ul>
+<h4 id="二、参数传递"><a href="#二、参数传递" class="headerlink" title="二、参数传递"></a>二、参数传递</h4><h5 id="1-参数传递"><a href="#1-参数传递" class="headerlink" title="1.参数传递"></a>1.参数传递</h5><ul>
+<li>参数分类：入口参数、出口参数</li>
+<li>参数具体内容：数据本身、数据的存储地址</li>
+<li>参数传递方式：通用寄存器、共享变量、堆栈</li>
+</ul>
+<h5 id="2-寄存器传参"><a href="#2-寄存器传参" class="headerlink" title="2.寄存器传参"></a>2.寄存器传参</h5><ul>
+<li>把参数存于约定的寄存器</li>
+<li>少量数据直接传递数值</li>
+<li>大量数据只能传递地址</li>
+<li>带有出口参数的寄存器不能保护和恢复</li>
+</ul>
+<h5 id="3-共享变量传参"><a href="#3-共享变量传参" class="headerlink" title="3.共享变量传参"></a>3.共享变量传参</h5><ul>
+<li>子程序和主程序使用同一个变量名存取数据</li>
+<li>如果变量定义和使用不在同一个程序模块中，需要使用PUBLIC、EXTERN声明</li>
+<li>特别适合在多个程序段间、尤其在不同程序模块间传递数据</li>
+<li>对应高级语言中的全局变量</li>
+</ul>
+<h5 id="4-堆栈传递参数"><a href="#4-堆栈传递参数" class="headerlink" title="4.堆栈传递参数"></a>4.堆栈传递参数</h5><ul>
+<li>主程序将入口参数压入堆栈</li>
+<li>子程序从堆栈中取出参数</li>
+<li>出口参数通常不适用堆栈传递</li>
+</ul>
+<h4 id="三、程序模块"><a href="#三、程序模块" class="headerlink" title="三、程序模块"></a>三、程序模块</h4><h5 id="1-MASM支持的多模块方法"><a href="#1-MASM支持的多模块方法" class="headerlink" title="1.MASM支持的多模块方法"></a>1.MASM支持的多模块方法</h5><ul>
+<li>源文件包含</li>
+<li>模块连接</li>
+<li>子程序库</li>
+<li>库文件包含</li>
+</ul>
+<h5 id="2-源文件包含"><a href="#2-源文件包含" class="headerlink" title="2.源文件包含"></a>2.源文件包含</h5><ul>
+<li>INC：各种常量、声明语句等组织在包含文件</li>
+<li>MAC：常用的或有价值的宏定义存放宏定义文件</li>
+<li>ASM：常用的子程序形成汇编语言源文件</li>
+</ul>
+<h5 id="3-模块连接"><a href="#3-模块连接" class="headerlink" title="3.模块连接"></a>3.模块连接</h5><p>子程序单独编写一个源程序文件</p>
+<ul>
+<li>使用共用伪指令PUBLIC和外部伪指令EXTERN声明</li>
+<li>子程序在代码段，与主程序文件采用相同的存储模型</li>
+<li>没有开始执行和结束执行点，但有汇编结束语句</li>
+<li>处理好子程序与主程序之间的参数传递问题</li>
+</ul>
+<h5 id="4-子程序库的使用"><a href="#4-子程序库的使用" class="headerlink" title="4.子程序库的使用"></a>4.子程序库的使用</h5><ul>
+<li>子程序单独编写一个源程序文件</li>
+<li>子程序源文件汇编形成目标模块OBJ文件</li>
+<li>利用库管理工具把子程序模块加入到子程序库</li>
+<li>在连接主程序时提供子程序库文件名</li>
+</ul>
+<h5 id="5-库文件包含"><a href="#5-库文件包含" class="headerlink" title="5.库文件包含"></a>5.库文件包含</h5><ul>
+<li>要使用已存入库文件中的子程序</li>
+<li>在主程序源文件中用库文件包含伪指令INCLUDELIB声明</li>
+</ul>
+<h5 id="6-宏汇编"><a href="#6-宏汇编" class="headerlink" title="6.宏汇编"></a>6.宏汇编</h5><ul>
+<li>宏（Macro）是具有宏名的一段汇编语句序列</li>
+<li>宏需要先使用MACRO/ENDM伪指令进行定义</li>
+<li>然后在程序中使用宏名（带参数）进行宏调用</li>
+<li>源程序进行汇编时，宏名被汇编程序用宏定义的，代码序列替代，实现宏展开</li>
+<li>这个过程就是“宏汇编”</li>
+</ul>
+<h5 id="7-宏与子程序"><a href="#7-宏与子程序" class="headerlink" title="7.宏与子程序"></a>7.宏与子程序</h5><ul>
+<li>宏仅是源程序级的简化</li>
+<li>子程序不仅简化源程序，还是目标程序级的简化</li>
+<li>当程序段较短或要求较快执行时，选用宏</li>
+<li>当程序段较长或为减小目标代码时，选用子程序</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    
+        <div class="reward-container">
+  <div>你的支持就是我前进的动力</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/wechatpay.jpg" alt="Kongo 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/alipay.jpg" alt="Kongo 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag"><i class="fa fa-tags"></i> 汇编语言程序设计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/25/MyTinySTL%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="prev" title="MyTinySTL源码阅读笔记">
+      <i class="fa fa-chevron-left"></i> MyTinySTL源码阅读笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/29/Mac%E4%B8%8Anasm%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="next" title="Mac上汇编环境搭建">
+      Mac上汇编环境搭建 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-汇编语言基础"><span class="nav-text">第一章 汇编语言基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、硬件组成"><span class="nav-text">一、硬件组成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-寄存器"><span class="nav-text">1.寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-通用寄存器"><span class="nav-text">2.通用寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-专用寄存器"><span class="nav-text">3.专用寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-通用寄存器名称"><span class="nav-text">4.通用寄存器名称</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、存储器组织"><span class="nav-text">二、存储器组织</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-存储器地址"><span class="nav-text">1.存储器地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-位、字节、字、双字"><span class="nav-text">2.位、字节、字、双字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-存储模型"><span class="nav-text">3.存储模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-存储空间分段管理"><span class="nav-text">4.存储空间分段管理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-逻辑地址"><span class="nav-text">5.逻辑地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-物理地址和逻辑地址的转换"><span class="nav-text">6.物理地址和逻辑地址的转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-Win32的虚拟地址分配"><span class="nav-text">7.Win32的虚拟地址分配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-标志寄存器"><span class="nav-text">8.标志寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-指令指针寄存器EIP"><span class="nav-text">9.指令指针寄存器EIP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#10-段寄存器"><span class="nav-text">10.段寄存器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、处理器指令格式"><span class="nav-text">三、处理器指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-处理器指令"><span class="nav-text">1.处理器指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-IA-32处理器的代码格式"><span class="nav-text">2.IA-32处理器的代码格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-汇编语言语句"><span class="nav-text">3.汇编语言语句</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-标号和名字"><span class="nav-text">4.标号和名字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-标识符"><span class="nav-text">5.标识符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-助记符"><span class="nav-text">6.助记符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-包含伪指令INCLUDE"><span class="nav-text">7.包含伪指令INCLUDE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-程序的开始和结束"><span class="nav-text">8.程序的开始和结束</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-数据表示"><span class="nav-text">第二章 数据表示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、常量表达"><span class="nav-text">一、常量表达</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-常量"><span class="nav-text">1.常量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、变量定义"><span class="nav-text">二、变量定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-什么是变量"><span class="nav-text">1.什么是变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-变量的定义"><span class="nav-text">2.变量的定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-主要的变量定义伪指令"><span class="nav-text">3.主要的变量定义伪指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-变量定义的初值表"><span class="nav-text">4.变量定义的初值表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、变量运用"><span class="nav-text">三、变量运用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-字节数据的存储顺序"><span class="nav-text">1.字节数据的存储顺序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-变量属性"><span class="nav-text">2.变量属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-变量的地址属性及地址操作符"><span class="nav-text">3.变量的地址属性及地址操作符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-类型操作符"><span class="nav-text">4.类型操作符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章-数据寻址"><span class="nav-text">第三章 数据寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、立即数寻址"><span class="nav-text">一、立即数寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-寻址方式"><span class="nav-text">1.寻址方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-数据寻址"><span class="nav-text">2.数据寻址</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、寄存器寻址"><span class="nav-text">二、寄存器寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、存储器寻址"><span class="nav-text">三、存储器寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-原理"><span class="nav-text">1.原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-段寄存器指示段基地址"><span class="nav-text">2.段寄存器指示段基地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-32位有效地址的组成"><span class="nav-text">3.32位有效地址的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-16位有效地址的组成"><span class="nav-text">4.16位有效地址的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-直接寻址常用于存取变量"><span class="nav-text">5.直接寻址常用于存取变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-寄存器间接寻址和相对寻址"><span class="nav-text">6.寄存器间接寻址和相对寻址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-通用数据处理指令"><span class="nav-text">第四章 通用数据处理指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、数据传送类指令"><span class="nav-text">一、数据传送类指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、算术运算类指令"><span class="nav-text">二、算术运算类指令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-进位标志位CF和溢出标志位"><span class="nav-text">1.进位标志位CF和溢出标志位</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-零标志、符号标志和奇偶标志"><span class="nav-text">2.零标志、符号标志和奇偶标志</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-运算指令"><span class="nav-text">3.运算指令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、位操作类指令"><span class="nav-text">三、位操作类指令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-逻辑运算指令"><span class="nav-text">1.逻辑运算指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-移位指令"><span class="nav-text">2.移位指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-循环移位指令"><span class="nav-text">3.循环移位指令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章-顺序程序结构"><span class="nav-text">第五章 顺序程序结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六章-分支程序结构"><span class="nav-text">第六章 分支程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、指令寻址方式"><span class="nav-text">一、指令寻址方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-指令寻址"><span class="nav-text">1.指令寻址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-指令的直接寻址"><span class="nav-text">2.指令的直接寻址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-指令的间接寻址"><span class="nav-text">3.指令的间接寻址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-程序流程的控制转移"><span class="nav-text">4.程序流程的控制转移</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-无条件转移指令（JMP）"><span class="nav-text">5.无条件转移指令（JMP）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-条件转移指令（Jcc）"><span class="nav-text">6.条件转移指令（Jcc）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、单分支结构"><span class="nav-text">二、单分支结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、双分支结构"><span class="nav-text">三、双分支结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七章-循环指令结构"><span class="nav-text">第七章 循环指令结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、循环指令"><span class="nav-text">一、循环指令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-LOOP指令"><span class="nav-text">1.LOOP指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-JECXZ指令"><span class="nav-text">2.JECXZ指令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、计数控制循环"><span class="nav-text">二、计数控制循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、条件控制循环"><span class="nav-text">三、条件控制循环</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第八章-子程序结构"><span class="nav-text">第八章 子程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、子程序设计"><span class="nav-text">一、子程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-子程序指令"><span class="nav-text">1.子程序指令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、参数传递"><span class="nav-text">二、参数传递</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-参数传递"><span class="nav-text">1.参数传递</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-寄存器传参"><span class="nav-text">2.寄存器传参</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-共享变量传参"><span class="nav-text">3.共享变量传参</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-堆栈传递参数"><span class="nav-text">4.堆栈传递参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、程序模块"><span class="nav-text">三、程序模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-MASM支持的多模块方法"><span class="nav-text">1.MASM支持的多模块方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-源文件包含"><span class="nav-text">2.源文件包含</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-模块连接"><span class="nav-text">3.模块连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-子程序库的使用"><span class="nav-text">4.子程序库的使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-库文件包含"><span class="nav-text">5.库文件包含</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-宏汇编"><span class="nav-text">6.宏汇编</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-宏与子程序"><span class="nav-text">7.宏与子程序</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kongo"
+      src="/images/header.jpeg">
+  <p class="site-author-name" itemprop="name">Kongo</p>
+  <div class="site-description" itemprop="description">闳的博客，记录技术、生活</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<br>
+Total <span id="busuanzi_value_site_pv"></span> views.
+<br>
+您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴
+<br>
+<span id="busuanzi_value_page_pv"></span> Hits
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'PULSTRKS13DHxoOUR8UQhJPX-gzGzoHsz',
+      appKey     : '7ax6bnBNLWRYJlQ6Qb9rWCIJ',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":true},"react":{"opacityDefault":0.7}});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

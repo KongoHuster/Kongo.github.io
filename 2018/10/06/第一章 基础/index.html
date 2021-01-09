@@ -1,4 +1,498 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 4.2.1"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css"><script src="/lib/pace/pace.min.js"></script><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"yoursite.com",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!0,show_result:!0,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!1},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!0,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:null,storage:!0,lazyload:!1,nav:null},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!0,trigger:"auto",top_n_per_article:-1,unescape:!1,preload:!0},motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="第一章 基础一、什么是网络"><meta property="og:type" content="article"><meta property="og:title" content="第一章 基础"><meta property="og:url" content="http://yoursite.com/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/index.html"><meta property="og:site_name" content="Kongo&#39;s blog"><meta property="og:description" content="第一章 基础一、什么是网络"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://s1.ax1x.com/2020/06/21/N8NUtf.jpg"><meta property="article:published_time" content="2018-10-06T08:07:10.000Z"><meta property="article:modified_time" content="2020-06-21T14:40:17.705Z"><meta property="article:author" content="Kongo"><meta property="article:tag" content="计算机网络"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://s1.ax1x.com/2020/06/21/N8NUtf.jpg"><link rel="canonical" href="http://yoursite.com/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>第一章 基础 | Kongo's blog</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">Kongo's blog</h1><span class="logo-line-after"><i></i></span></a></div><div class="site-nav-right"><div class="toggle popup-trigger"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i> 搜索</a></li></ul></nav><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"> <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span></div><div id="search-result"><div id="no-result"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div></div></div></div></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div> <a href="https://github.com/honghong1234" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path><path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path><path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path></svg></a><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/header.jpeg"><meta itemprop="name" content="Kongo"><meta itemprop="description" content="闳的博客，记录技术、生活"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="Kongo's blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 第一章 基础</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2018-10-06 16:07:10" itemprop="dateCreated datePublished" datetime="2018-10-06T16:07:10+08:00">2018-10-06</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2020-06-21 22:40:17" itemprop="dateModified" datetime="2020-06-21T22:40:17+08:00">2020-06-21</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span></a></span><span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="far fa-file-word"></i></span> <span class="post-meta-item-text">本文字数：</span> <span>3.1k</span></span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="far fa-clock"></i></span> <span class="post-meta-item-text">阅读时长 &asymp;</span> <span>3 分钟</span></span></div></header><div class="post-body" itemprop="articleBody"><center> <img style="border-radius:.3125em;box-shadow:0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08)" src="https://s1.ax1x.com/2020/06/21/N8NUtf.jpg"><br></center><h1 id="第一章-基础"><a href="#第一章-基础" class="headerlink" title="第一章 基础"></a>第一章 基础</h1><h2 id="一、什么是网络"><a href="#一、什么是网络" class="headerlink" title="一、什么是网络"></a>一、什么是网络</h2><a id="more"></a><h3 id="（1）-什么是网络"><a href="#（1）-什么是网络" class="headerlink" title="（1） 什么是网络"></a>（1） 什么是网络</h3><ul><li>将两个或多个实体连接为在一起的系统；</li></ul><h3 id="（2）计算机网络"><a href="#（2）计算机网络" class="headerlink" title="（2）计算机网络"></a>（2）计算机网络</h3><ul><li>自主计算机的互联集合</li><li>互联网是一个典型的计算机网络</li></ul><h3 id="（3）协议"><a href="#（3）协议" class="headerlink" title="（3）协议"></a>（3）协议</h3><ul><li>控制发送和接受信息</li><li>例如：TCP、IP、HTTP、Skype</li></ul><h2 id="二、如何建造计算机网络"><a href="#二、如何建造计算机网络" class="headerlink" title="二、如何建造计算机网络"></a>二、如何建造计算机网络</h2><h3 id="1-连通性"><a href="#1-连通性" class="headerlink" title="1 连通性"></a>1 连通性</h3><p>（1）链路</p><ul><li>点到点链路</li><li>节点：中间结点</li></ul><p>（2）交换网络</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">交换网络</span><br><span class="line"></span><br><span class="line">一种基础网络</span><br><span class="line"></span><br><span class="line">两种类型的交换网络：电路交换和分组交换</span><br></pre></td></tr></table></figure><p>（3）网络互连</p><ul><li>多个独立的网络相互连接形成互联网</li><li>路由器、网关：连接两个或多个网络的特殊节点</li></ul><p>（4）主机和主机的连通性</p><ul><li>直接连接或间接连接</li><li>网络节点的识别</li></ul><p>（5）路由</p><ul><li>如何将报文发至目的节点</li></ul><h3 id="2-可拓展的连通性"><a href="#2-可拓展的连通性" class="headerlink" title="2 可拓展的连通性"></a>2 可拓展的连通性</h3><p>（1）梅特卡夫定律</p><ul><li>是指网络价值以用户数量的平方的速度增长。 这个法则告诉我们：网络中总人数是n，网络价值是n×n=n²。</li></ul><h3 id="3-通信网络的分类"><a href="#3-通信网络的分类" class="headerlink" title="3 通信网络的分类"></a>3 通信网络的分类</h3><ul><li>交换网络（考试会考计算时间）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">电路交换--多路复用、时分复用、频分复用</span><br><span class="line">        --网络资源被分成片</span><br><span class="line">        --优点：带宽保证、通信可靠、路由机制简单、数据包结构的额外开销小</span><br><span class="line">        --缺点：浪费带宽、受限连接、连接建立延时、网络状态</span><br><span class="line">        --电话网</span><br><span class="line">        </span><br><span class="line">分组交换：数据通过离散的数据分组进行传输</span><br><span class="line">        --先把较长的报文划分较短的、固定长的数据段</span><br><span class="line">        --每个数据前添加收不构成分组</span><br><span class="line">        --统计复用</span><br><span class="line">        --实例：ip数据网</span><br><span class="line">报文交换</span><br></pre></td></tr></table></figure></li><li>广播网络</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">传播时延</span><br><span class="line"></span><br><span class="line">传输时延</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">排队</span><br><span class="line"></span><br><span class="line">丢包</span><br></pre></td></tr></table></figure><h3 id="4-通用服务"><a href="#4-通用服务" class="headerlink" title="4 通用服务"></a>4 通用服务</h3><h4 id="1-什么是通用服务"><a href="#1-什么是通用服务" class="headerlink" title="(1)什么是通用服务"></a>(1)什么是通用服务</h4><ul><li>一些可以被应用车农夫调用的构件</li></ul><h4 id="2-相同的通信模式"><a href="#2-相同的通信模式" class="headerlink" title="(2)相同的通信模式"></a>(2)相同的通信模式</h4><ul><li>请求/响应</li><li>消息流</li></ul><h4 id="3-三类故障"><a href="#3-三类故障" class="headerlink" title="(3)三类故障"></a>(3)三类故障</h4><ul><li>比特错误</li><li>分组丢失</li><li>节点宕机</li></ul><h3 id="5-分层结构中的一些基本概念"><a href="#5-分层结构中的一些基本概念" class="headerlink" title="5 分层结构中的一些基本概念"></a>5 分层结构中的一些基本概念</h3><h4 id="（1）实体"><a href="#（1）实体" class="headerlink" title="（1）实体"></a>（1）实体</h4><h4 id="（2）协议"><a href="#（2）协议" class="headerlink" title="（2）协议"></a>（2）协议</h4><ul><li>语法：数据与控制信息的结构或格式</li><li>语义：需要发出何种控制信息，完成何的种动作以及做出何种响应。</li><li>同步：事件实现顺序详细说明。</li></ul><h2 id="三、非常重要，但是自己已经弄懂的了问题"><a href="#三、非常重要，但是自己已经弄懂的了问题" class="headerlink" title="三、非常重要，但是自己已经弄懂的了问题"></a>三、非常重要，但是自己已经弄懂的了问题</h2><h3 id="1-电路交换的有点和缺点，以及需要辩证地理解其有缺点。"><a href="#1-电路交换的有点和缺点，以及需要辩证地理解其有缺点。" class="headerlink" title="1 电路交换的有点和缺点，以及需要辩证地理解其有缺点。"></a>1 电路交换的有点和缺点，以及需要辩证地理解其有缺点。</h3><p>答：电路交换的优点：带宽保证、通信可靠、路由机制简单、数据包结构的额外开销小。</p><p>缺点：浪费带宽、受限连接、连接建立延时、网络状态。</p><p>理解：电路交换的优缺点实质就是相互关联的，在一定的环境下，优点可能演变为缺点，缺点可能演变为优点，我们只有真正理解事物的本质，才能让事物为我们所用，取长补短。</p><h3 id="2-分组交换的优点和缺点，以及需要辩证地理解其有缺点。"><a href="#2-分组交换的优点和缺点，以及需要辩证地理解其有缺点。" class="headerlink" title="2 分组交换的优点和缺点，以及需要辩证地理解其有缺点。"></a>2 分组交换的优点和缺点，以及需要辩证地理解其有缺点。</h3><p>答：优点：不存在带宽浪费、多路复用技术、服务、健壮性。</p><p>缺点：无法保证带宽、每个分组的开销、复杂的端到端控制、时延和拥塞。</p><h2 id="四、自己没有弄懂的问题"><a href="#四、自己没有弄懂的问题" class="headerlink" title="四、自己没有弄懂的问题"></a>四、自己没有弄懂的问题</h2><h3 id="1-关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？"><a href="#1-关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？" class="headerlink" title="1 关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？"></a>1 关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？</h3><h3 id="2-Ipv4和Ipv6的相同和区别？"><a href="#2-Ipv4和Ipv6的相同和区别？" class="headerlink" title="2 Ipv4和Ipv6的相同和区别？"></a>2 Ipv4和Ipv6的相同和区别？</h3><h3 id="3-对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？"><a href="#3-对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？" class="headerlink" title="3 对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？"></a>3 对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？</h3><h3 id="4-对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？"><a href="#4-对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？" class="headerlink" title="4 对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？"></a>4 对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？</h3><h2 id="五、分层的协议层"><a href="#五、分层的协议层" class="headerlink" title="五、分层的协议层"></a>五、分层的协议层</h2><h3 id="一、封装"><a href="#一、封装" class="headerlink" title="一、封装"></a>一、封装</h3><ul><li>通过封装, 协议实体可以在分组中携带信息通告对等实体如何处理收到的分组</li><li>首部/尾部的加载及分-离</li></ul><h3 id="二、复用与解复用"><a href="#二、复用与解复用" class="headerlink" title="二、复用与解复用"></a>二、复用与解复用</h3><ul><li>复用(Multiplexing)来自源节点不同高层实体的数据，将数据解复用(Demultiplexing)至目的节点对应的高层实体</li><li>能够区别数据所属的高层实体需要</li><li>各种不同类型的解多路复用密钥</li><li>在接收端主机解复用：把收到的报文传送到正确的socket</li><li>在发送端主机采用复用：从多个得到数据，并添<br>加头部信息 (后面的分用会socket用到)</li></ul><h3 id="六、OSI七层模型"><a href="#六、OSI七层模型" class="headerlink" title="六、OSI七层模型"></a>六、OSI七层模型</h3><h4 id="1-各层功能定义"><a href="#1-各层功能定义" class="headerlink" title="1.各层功能定义"></a>1.各层功能定义</h4><ul><li>应用层：向终端用户提供各类应用服务, 例如: ftp, telnet</li><li>表示层：<br>数据结构表示, 数据格式转换(加密、压缩)</li><li>会话层：<br>提供会话管理, 接入控制, 数据传输同步等</li><li>传输层：<br>实现终端进程之间的逻辑信道</li><li>网络层：<br>处理分组交换网络中的路由选择</li><li>数据链路层：<br>收集比特流组合成帧</li><li>物理层：<br>处理通信链路上的原始比特流传输</li></ul><h4 id="2-传输模型"><a href="#2-传输模型" class="headerlink" title="2.传输模型"></a>2.传输模型</h4><ul><li>每个层次可以在数据的前后追加本层附加的数据</li></ul><h4 id="3-网络体系架构的五层模型"><a href="#3-网络体系架构的五层模型" class="headerlink" title="3. 网络体系架构的五层模型"></a>3. 网络体系架构的五层模型</h4><ul><li>应用进程数据先传送到应用层</li><li>加上应用层首部，成为应用层 PDU</li><li>加上运输层首部，成为运输层报文</li><li>加上网络层首部，成为 IP 数据报（或分组）</li><li>最下面的物理层把比特流传送到物理媒体</li></ul><h3 id="六、互联网的体系结构"><a href="#六、互联网的体系结构" class="headerlink" title="六、互联网的体系结构"></a>六、互联网的体系结构</h3><h4 id="1-分层结构"><a href="#1-分层结构" class="headerlink" title="1.分层结构"></a>1.分层结构</h4><ul><li>应用层</li><li>传输层：<br>进程与进程之间的消息传输, 两个主要的协议:<br>TCP (Transmission Control Protocol)<br>UDP (User Datagram Protocol)</li><li>IP层：<br>主机到主机的数据分组传输<br>唯一协议: IP</li><li>网络接入层：没有指定该层的实际细节，可以是任意一种底层网络</li></ul><h4 id="2-设计原则"><a href="#2-设计原则" class="headerlink" title="2.设计原则"></a>2.设计原则</h4><ul><li>沙漏模型是Internet能够快速适应用户新应用需求和网络技术更新的关键.</li><li>“Simple Core and Complex Host’’ Philosophy</li></ul><h4 id="3-分组交换网中时延的四个来源"><a href="#3-分组交换网中时延的四个来源" class="headerlink" title="3.分组交换网中时延的四个来源"></a>3.分组交换网中时延的四个来源</h4><ul><li>节点处理时延</li><li>排队延时</li><li>传输延时</li><li>传播延时</li></ul><h4 id="4-网络性能-吞吐量"><a href="#4-网络性能-吞吐量" class="headerlink" title="4.网络性能: 吞吐量"></a>4.网络性能: 吞吐量</h4><ul><li>吞吐量: 发送者与接收者之间比特交换的速率 (比特/单位时间)</li><li>瞬时: 在给定时间点的速率</li></ul><h3 id="七、网络性能"><a href="#七、网络性能" class="headerlink" title="七、网络性能"></a>七、网络性能</h3><h4 id="1-链路带宽"><a href="#1-链路带宽" class="headerlink" title="1.链路带宽"></a>1.链路带宽</h4><ul><li>原始定义：信号的频带宽度, 用 Hertz (Hz) 表示</li><li>网络定义: 一段特定的时间内网络所能传送的比特数, 用<br>bits per second (bps)表示</li></ul><h4 id="2-应用性能需求"><a href="#2-应用性能需求" class="headerlink" title="2.应用性能需求"></a>2.应用性能需求</h4><ul><li>平均速率及突发流量</li><li>内存溢出导致的数据包丢弃</li><li>时延抖动</li></ul><h3 id="八-套接字编程"><a href="#八-套接字编程" class="headerlink" title="八.套接字编程"></a>八.套接字编程</h3><ul><li>Socket：一个本地的，应用程序创建的，操作系统控制的接口。</li><li>套接字(socket): 应用进程之间的接口，实现端到端的传输协议</li><li>Socket API类别<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PF_INET : 用于互联网编程</span><br><span class="line">PF_UNIX: 用于Unix 管道编程</span><br><span class="line">PF_PACKET:直接访问网络接口 (i.e, 绕过TCP &#x2F; IP协议栈)</span><br></pre></td></tr></table></figure></li><li>两种基本socket API分别支持两种传输服务:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SOCK_STREAM: 可靠的，字节流服务 (TCP)  SOCK_DGRAM: 非可靠的数据报服务 (UDP)</span><br></pre></td></tr></table></figure></li></ul><h3 id="没有懂的问题"><a href="#没有懂的问题" class="headerlink" title="没有懂的问题"></a>没有懂的问题</h3><p>1.为什么网络体系架构没有像OSI一样分为7层；</p><p>2.链路带宽对于吞吐量有什么影响；</p><p>3.对于Socket编程没有在华为组这样的使用经历，我们该怎么深入了解socket编程。</p><h3 id="懂了的问题"><a href="#懂了的问题" class="headerlink" title="懂了的问题"></a>懂了的问题</h3><h4 id="1-带宽与吞吐量的区别？"><a href="#1-带宽与吞吐量的区别？" class="headerlink" title="1.带宽与吞吐量的区别？"></a>1.带宽与吞吐量的区别？</h4><p>答：吞吐量和带宽是很容易搞混的一个词，两者的单位都是Mbps。先来看两者对应的英语，吞吐量：throughput；带宽：Max net bitrate。当讨论通信链路的带宽时，一般是指链路上每秒所能传送的比特数，它取决于链路时钟速率和信道编码，在计算机网络中又称为线速。可以说以太网的带宽是10Mbps。但是需要区分链路上的可用带宽（带宽）与实际链路中每秒所能传送的比特数（吞吐量）。通常更倾向于用“吞吐量”一词来表示一个系统的测试性能。这样，因为实现受各种低效率因素的影响，所以由一段带宽为10Mbps的链路连接的一对节点可能只达到2Mbps的吞吐量。这样就意味着，一个主机上的应用能够以2Mbps的速度向另外的一个主机发送数据。</p><h4 id="2-网络延迟是怎样产生的？"><a href="#2-网络延迟是怎样产生的？" class="headerlink" title="2.网络延迟是怎样产生的？"></a>2.网络延迟是怎样产生的？</h4><p>网络延迟 = 传输延迟 + 处理延迟 + 缓冲队列延迟</p><ul><li>1）传输延迟这个延迟很好理解，指光、电信号在有线介质上的延迟，或无线电信号在空气介质中的延迟，这种传输延迟只和光速有关、或电信号的传输速度有关，用户无法改变该延迟。对于一条选定的端对端路径，此值是恒定的。</li><li>2）处理延迟接收IP包，查询转发表，硬件、或软件转发，包括封装、解封装、编码、解码时间，经过设备越多，设备吞吐能力越弱（一秒可以转发多少Gb的数据），延迟越大。但对于一条选定的端对端路径，此值也是恒定的。</li><li>3）缓冲队列延迟当端到端的路径上，没有任何网络拥塞，缓冲队列的延迟几户为0，网络转发性能达到线速度，好像两端用一根线直连。</li></ul></div><div class="reward-container"><div>你的支持就是我前进的动力</div> <button onclick='var qr=document.getElementById("qr");qr.style.display="none"===qr.style.display?"block":"none"'> 打赏</button><div id="qr" style="display:none"><div style="display:inline-block"> <img src="/images/loading/loading.gif" data-original="/images/wechatpay.jpg" alt="Kongo 微信支付"><p>微信支付</p></div><div style="display:inline-block"> <img src="/images/loading/loading.gif" data-original="/images/alipay.jpg" alt="Kongo 支付宝"><p>支付宝</p></div></div></div><footer class="post-footer"><div class="post-tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tags"></i> 计算机网络</a></div><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"> <a href="/2018/10/06/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BC%80%E5%A7%8B%E8%BF%9E%E6%8E%A5/" rel="next" title="第二章 开始连接">第二章 开始连接<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="第一章 基础一、什么是网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一章 基础">
+<meta property="og:url" content="http://yoursite.com/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Kongo&#39;s blog">
+<meta property="og:description" content="第一章 基础一、什么是网络">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/21/N8NUtf.jpg">
+<meta property="article:published_time" content="2018-10-06T08:07:10.000Z">
+<meta property="article:modified_time" content="2020-06-21T14:40:17.705Z">
+<meta property="article:author" content="Kongo">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/21/N8NUtf.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>第一章 基础 | Kongo's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Kongo's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/honghong1234" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpeg">
+      <meta itemprop="name" content="Kongo">
+      <meta itemprop="description" content="闳的博客，记录技术、生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kongo's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第一章 基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-06 16:07:10" itemprop="dateCreated datePublished" datetime="2018-10-06T16:07:10+08:00">2018-10-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-21 22:40:17" itemprop="dateModified" datetime="2020-06-21T22:40:17+08:00">2020-06-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/06/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://s1.ax1x.com/2020/06/21/N8NUtf.jpg">
+    <br>
+</center>
+
+<h1 id="第一章-基础"><a href="#第一章-基础" class="headerlink" title="第一章 基础"></a>第一章 基础</h1><h2 id="一、什么是网络"><a href="#一、什么是网络" class="headerlink" title="一、什么是网络"></a>一、什么是网络</h2><a id="more"></a>
+<h3 id="（1）-什么是网络"><a href="#（1）-什么是网络" class="headerlink" title="（1） 什么是网络"></a>（1） 什么是网络</h3><ul>
+<li>将两个或多个实体连接为在一起的系统；</li>
+</ul>
+<h3 id="（2）计算机网络"><a href="#（2）计算机网络" class="headerlink" title="（2）计算机网络"></a>（2）计算机网络</h3><ul>
+<li>自主计算机的互联集合</li>
+<li>互联网是一个典型的计算机网络</li>
+</ul>
+<h3 id="（3）协议"><a href="#（3）协议" class="headerlink" title="（3）协议"></a>（3）协议</h3><ul>
+<li>控制发送和接受信息</li>
+<li>例如：TCP、IP、HTTP、Skype</li>
+</ul>
+<h2 id="二、如何建造计算机网络"><a href="#二、如何建造计算机网络" class="headerlink" title="二、如何建造计算机网络"></a>二、如何建造计算机网络</h2><h3 id="1-连通性"><a href="#1-连通性" class="headerlink" title="1 连通性"></a>1 连通性</h3><p>（1）链路</p>
+<ul>
+<li>点到点链路</li>
+<li>节点：中间结点</li>
+</ul>
+<p>（2）交换网络</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">交换网络</span><br><span class="line"></span><br><span class="line">一种基础网络</span><br><span class="line"></span><br><span class="line">两种类型的交换网络：电路交换和分组交换</span><br></pre></td></tr></table></figure>
+
+<p>（3）网络互连</p>
+<ul>
+<li>多个独立的网络相互连接形成互联网</li>
+<li>路由器、网关：连接两个或多个网络的特殊节点</li>
+</ul>
+<p>（4）主机和主机的连通性</p>
+<ul>
+<li>直接连接或间接连接</li>
+<li>网络节点的识别</li>
+</ul>
+<p>（5）路由</p>
+<ul>
+<li>如何将报文发至目的节点</li>
+</ul>
+<h3 id="2-可拓展的连通性"><a href="#2-可拓展的连通性" class="headerlink" title="2 可拓展的连通性"></a>2 可拓展的连通性</h3><p>（1）梅特卡夫定律</p>
+<ul>
+<li>是指网络价值以用户数量的平方的速度增长。 这个法则告诉我们：网络中总人数是n，网络价值是n×n=n²。</li>
+</ul>
+<h3 id="3-通信网络的分类"><a href="#3-通信网络的分类" class="headerlink" title="3 通信网络的分类"></a>3 通信网络的分类</h3><ul>
+<li>交换网络（考试会考计算时间）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">电路交换--多路复用、时分复用、频分复用</span><br><span class="line">        --网络资源被分成片</span><br><span class="line">        --优点：带宽保证、通信可靠、路由机制简单、数据包结构的额外开销小</span><br><span class="line">        --缺点：浪费带宽、受限连接、连接建立延时、网络状态</span><br><span class="line">        --电话网</span><br><span class="line">        </span><br><span class="line">分组交换：数据通过离散的数据分组进行传输</span><br><span class="line">        --先把较长的报文划分较短的、固定长的数据段</span><br><span class="line">        --每个数据前添加收不构成分组</span><br><span class="line">        --统计复用</span><br><span class="line">        --实例：ip数据网</span><br><span class="line">报文交换</span><br></pre></td></tr></table></figure></li>
+<li>广播网络</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">传播时延</span><br><span class="line"></span><br><span class="line">传输时延</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">排队</span><br><span class="line"></span><br><span class="line">丢包</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-通用服务"><a href="#4-通用服务" class="headerlink" title="4 通用服务"></a>4 通用服务</h3><h4 id="1-什么是通用服务"><a href="#1-什么是通用服务" class="headerlink" title="(1)什么是通用服务"></a>(1)什么是通用服务</h4><ul>
+<li>一些可以被应用车农夫调用的构件</li>
+</ul>
+<h4 id="2-相同的通信模式"><a href="#2-相同的通信模式" class="headerlink" title="(2)相同的通信模式"></a>(2)相同的通信模式</h4><ul>
+<li>请求/响应</li>
+<li>消息流</li>
+</ul>
+<h4 id="3-三类故障"><a href="#3-三类故障" class="headerlink" title="(3)三类故障"></a>(3)三类故障</h4><ul>
+<li>比特错误</li>
+<li>分组丢失</li>
+<li>节点宕机</li>
+</ul>
+<h3 id="5-分层结构中的一些基本概念"><a href="#5-分层结构中的一些基本概念" class="headerlink" title="5 分层结构中的一些基本概念"></a>5 分层结构中的一些基本概念</h3><h4 id="（1）实体"><a href="#（1）实体" class="headerlink" title="（1）实体"></a>（1）实体</h4><h4 id="（2）协议"><a href="#（2）协议" class="headerlink" title="（2）协议"></a>（2）协议</h4><ul>
+<li>语法：数据与控制信息的结构或格式</li>
+<li>语义：需要发出何种控制信息，完成何的种动作以及做出何种响应。</li>
+<li>同步：事件实现顺序详细说明。</li>
+</ul>
+<h2 id="三、非常重要，但是自己已经弄懂的了问题"><a href="#三、非常重要，但是自己已经弄懂的了问题" class="headerlink" title="三、非常重要，但是自己已经弄懂的了问题"></a>三、非常重要，但是自己已经弄懂的了问题</h2><h3 id="1-电路交换的有点和缺点，以及需要辩证地理解其有缺点。"><a href="#1-电路交换的有点和缺点，以及需要辩证地理解其有缺点。" class="headerlink" title="1 电路交换的有点和缺点，以及需要辩证地理解其有缺点。"></a>1 电路交换的有点和缺点，以及需要辩证地理解其有缺点。</h3><p>答：电路交换的优点：带宽保证、通信可靠、路由机制简单、数据包结构的额外开销小。</p>
+<p>缺点：浪费带宽、受限连接、连接建立延时、网络状态。</p>
+<p>理解：电路交换的优缺点实质就是相互关联的，在一定的环境下，优点可能演变为缺点，缺点可能演变为优点，我们只有真正理解事物的本质，才能让事物为我们所用，取长补短。</p>
+<h3 id="2-分组交换的优点和缺点，以及需要辩证地理解其有缺点。"><a href="#2-分组交换的优点和缺点，以及需要辩证地理解其有缺点。" class="headerlink" title="2 分组交换的优点和缺点，以及需要辩证地理解其有缺点。"></a>2 分组交换的优点和缺点，以及需要辩证地理解其有缺点。</h3><p>答：优点：不存在带宽浪费、多路复用技术、服务、健壮性。</p>
+<p>缺点：无法保证带宽、每个分组的开销、复杂的端到端控制、时延和拥塞。</p>
+<h2 id="四、自己没有弄懂的问题"><a href="#四、自己没有弄懂的问题" class="headerlink" title="四、自己没有弄懂的问题"></a>四、自己没有弄懂的问题</h2><h3 id="1-关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？"><a href="#1-关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？" class="headerlink" title="1 关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？"></a>1 关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？</h3><h3 id="2-Ipv4和Ipv6的相同和区别？"><a href="#2-Ipv4和Ipv6的相同和区别？" class="headerlink" title="2 Ipv4和Ipv6的相同和区别？"></a>2 Ipv4和Ipv6的相同和区别？</h3><h3 id="3-对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？"><a href="#3-对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？" class="headerlink" title="3 对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？"></a>3 对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？</h3><h3 id="4-对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？"><a href="#4-对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？" class="headerlink" title="4 对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？"></a>4 对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？</h3><h2 id="五、分层的协议层"><a href="#五、分层的协议层" class="headerlink" title="五、分层的协议层"></a>五、分层的协议层</h2><h3 id="一、封装"><a href="#一、封装" class="headerlink" title="一、封装"></a>一、封装</h3><ul>
+<li>通过封装, 协议实体可以在分组中携带信息通告对等实体如何处理收到的分组</li>
+<li>首部/尾部的加载及分-离</li>
+</ul>
+<h3 id="二、复用与解复用"><a href="#二、复用与解复用" class="headerlink" title="二、复用与解复用"></a>二、复用与解复用</h3><ul>
+<li>复用(Multiplexing)来自源节点不同高层实体的数据，将数据解复用(Demultiplexing)至目的节点对应的高层实体</li>
+<li>能够区别数据所属的高层实体需要</li>
+<li>各种不同类型的解多路复用密钥</li>
+<li>在接收端主机解复用：把收到的报文传送到正确的socket</li>
+<li>在发送端主机采用复用：从多个得到数据，并添<br>加头部信息 (后面的分用会socket用到)</li>
+</ul>
+<h3 id="六、OSI七层模型"><a href="#六、OSI七层模型" class="headerlink" title="六、OSI七层模型"></a>六、OSI七层模型</h3><h4 id="1-各层功能定义"><a href="#1-各层功能定义" class="headerlink" title="1.各层功能定义"></a>1.各层功能定义</h4><ul>
+<li>应用层：向终端用户提供各类应用服务, 例如: ftp, telnet</li>
+<li>表示层：<br>数据结构表示, 数据格式转换(加密、压缩)</li>
+<li>会话层：<br>提供会话管理, 接入控制, 数据传输同步等</li>
+<li>传输层：<br>实现终端进程之间的逻辑信道</li>
+<li>网络层：<br>处理分组交换网络中的路由选择</li>
+<li>数据链路层：<br>收集比特流组合成帧</li>
+<li>物理层：<br>处理通信链路上的原始比特流传输</li>
+</ul>
+<h4 id="2-传输模型"><a href="#2-传输模型" class="headerlink" title="2.传输模型"></a>2.传输模型</h4><ul>
+<li>每个层次可以在数据的前后追加本层附加的数据</li>
+</ul>
+<h4 id="3-网络体系架构的五层模型"><a href="#3-网络体系架构的五层模型" class="headerlink" title="3. 网络体系架构的五层模型"></a>3. 网络体系架构的五层模型</h4><ul>
+<li>应用进程数据先传送到应用层</li>
+<li>加上应用层首部，成为应用层 PDU</li>
+<li>加上运输层首部，成为运输层报文</li>
+<li>加上网络层首部，成为 IP 数据报（或分组）</li>
+<li>最下面的物理层把比特流传送到物理媒体</li>
+</ul>
+<h3 id="六、互联网的体系结构"><a href="#六、互联网的体系结构" class="headerlink" title="六、互联网的体系结构"></a>六、互联网的体系结构</h3><h4 id="1-分层结构"><a href="#1-分层结构" class="headerlink" title="1.分层结构"></a>1.分层结构</h4><ul>
+<li>应用层</li>
+<li>传输层：<br>进程与进程之间的消息传输, 两个主要的协议:<br>TCP (Transmission Control Protocol)<br>UDP (User Datagram Protocol) </li>
+<li>IP层：<br>主机到主机的数据分组传输<br>唯一协议: IP</li>
+<li>网络接入层：没有指定该层的实际细节，可以是任意一种底层网络</li>
+</ul>
+<h4 id="2-设计原则"><a href="#2-设计原则" class="headerlink" title="2.设计原则"></a>2.设计原则</h4><ul>
+<li>沙漏模型是Internet能够快速适应用户新应用需求和网络技术更新的关键.</li>
+<li>“Simple Core and Complex Host’’ Philosophy</li>
+</ul>
+<h4 id="3-分组交换网中时延的四个来源"><a href="#3-分组交换网中时延的四个来源" class="headerlink" title="3.分组交换网中时延的四个来源"></a>3.分组交换网中时延的四个来源</h4><ul>
+<li>节点处理时延 </li>
+<li>排队延时</li>
+<li>传输延时</li>
+<li>传播延时</li>
+</ul>
+<h4 id="4-网络性能-吞吐量"><a href="#4-网络性能-吞吐量" class="headerlink" title="4.网络性能: 吞吐量"></a>4.网络性能: 吞吐量</h4><ul>
+<li>吞吐量: 发送者与接收者之间比特交换的速率 (比特/单位时间)</li>
+<li>瞬时: 在给定时间点的速率</li>
+</ul>
+<h3 id="七、网络性能"><a href="#七、网络性能" class="headerlink" title="七、网络性能"></a>七、网络性能</h3><h4 id="1-链路带宽"><a href="#1-链路带宽" class="headerlink" title="1.链路带宽"></a>1.链路带宽</h4><ul>
+<li>原始定义：信号的频带宽度, 用 Hertz (Hz) 表示</li>
+<li>网络定义: 一段特定的时间内网络所能传送的比特数, 用<br>bits per second (bps)表示</li>
+</ul>
+<h4 id="2-应用性能需求"><a href="#2-应用性能需求" class="headerlink" title="2.应用性能需求"></a>2.应用性能需求</h4><ul>
+<li>平均速率及突发流量</li>
+<li>内存溢出导致的数据包丢弃</li>
+<li>时延抖动</li>
+</ul>
+<h3 id="八-套接字编程"><a href="#八-套接字编程" class="headerlink" title="八.套接字编程"></a>八.套接字编程</h3><ul>
+<li>Socket：一个本地的，应用程序创建的，操作系统控制的接口。</li>
+<li>套接字(socket): 应用进程之间的接口，实现端到端的传输协议</li>
+<li>Socket API类别<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PF_INET : 用于互联网编程</span><br><span class="line">PF_UNIX: 用于Unix 管道编程</span><br><span class="line">PF_PACKET:直接访问网络接口 (i.e, 绕过TCP &#x2F; IP协议栈)</span><br></pre></td></tr></table></figure></li>
+<li>两种基本socket API分别支持两种传输服务:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SOCK_STREAM: 可靠的，字节流服务 (TCP)  SOCK_DGRAM: 非可靠的数据报服务 (UDP)</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id="没有懂的问题"><a href="#没有懂的问题" class="headerlink" title="没有懂的问题"></a>没有懂的问题</h3><p>1.为什么网络体系架构没有像OSI一样分为7层；</p>
+<p>2.链路带宽对于吞吐量有什么影响；</p>
+<p>3.对于Socket编程没有在华为组这样的使用经历，我们该怎么深入了解socket编程。</p>
+<h3 id="懂了的问题"><a href="#懂了的问题" class="headerlink" title="懂了的问题"></a>懂了的问题</h3><h4 id="1-带宽与吞吐量的区别？"><a href="#1-带宽与吞吐量的区别？" class="headerlink" title="1.带宽与吞吐量的区别？"></a>1.带宽与吞吐量的区别？</h4><p>答：吞吐量和带宽是很容易搞混的一个词，两者的单位都是Mbps。先来看两者对应的英语，吞吐量：throughput；带宽：Max net bitrate。当讨论通信链路的带宽时，一般是指链路上每秒所能传送的比特数，它取决于链路时钟速率和信道编码，在计算机网络中又称为线速。可以说以太网的带宽是10Mbps。但是需要区分链路上的可用带宽（带宽）与实际链路中每秒所能传送的比特数（吞吐量）。通常更倾向于用“吞吐量”一词来表示一个系统的测试性能。这样，因为实现受各种低效率因素的影响，所以由一段带宽为10Mbps的链路连接的一对节点可能只达到2Mbps的吞吐量。这样就意味着，一个主机上的应用能够以2Mbps的速度向另外的一个主机发送数据。</p>
+<h4 id="2-网络延迟是怎样产生的？"><a href="#2-网络延迟是怎样产生的？" class="headerlink" title="2.网络延迟是怎样产生的？"></a>2.网络延迟是怎样产生的？</h4><p>网络延迟 = 传输延迟 + 处理延迟 + 缓冲队列延迟</p>
+<ul>
+<li>1）传输延迟这个延迟很好理解，指光、电信号在有线介质上的延迟，或无线电信号在空气介质中的延迟，这种传输延迟只和光速有关、或电信号的传输速度有关，用户无法改变该延迟。对于一条选定的端对端路径，此值是恒定的。</li>
+<li>2）处理延迟接收IP包，查询转发表，硬件、或软件转发，包括封装、解封装、编码、解码时间，经过设备越多，设备吞吐能力越弱（一秒可以转发多少Gb的数据），延迟越大。但对于一条选定的端对端路径，此值也是恒定的。</li>
+<li>3）缓冲队列延迟当端到端的路径上，没有任何网络拥塞，缓冲队列的延迟几户为0，网络转发性能达到线速度，好像两端用一根线直连。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    
+        <div class="reward-container">
+  <div>你的支持就是我前进的动力</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/wechatpay.jpg" alt="Kongo 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading/loading.gif" data-original="/images/alipay.jpg" alt="Kongo 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tags"></i> 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2018/10/06/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BC%80%E5%A7%8B%E8%BF%9E%E6%8E%A5/" rel="next" title="第二章 开始连接">
+      第二章 开始连接 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -18,7 +512,169 @@
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章-基础"><span class="nav-text">第一章 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是网络"><span class="nav-text">一、什么是网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）-什么是网络"><span class="nav-text">（1） 什么是网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）计算机网络"><span class="nav-text">（2）计算机网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）协议"><span class="nav-text">（3）协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、如何建造计算机网络"><span class="nav-text">二、如何建造计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-连通性"><span class="nav-text">1 连通性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-可拓展的连通性"><span class="nav-text">2 可拓展的连通性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-通信网络的分类"><span class="nav-text">3 通信网络的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-通用服务"><span class="nav-text">4 通用服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是通用服务"><span class="nav-text">(1)什么是通用服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-相同的通信模式"><span class="nav-text">(2)相同的通信模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-三类故障"><span class="nav-text">(3)三类故障</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-分层结构中的一些基本概念"><span class="nav-text">5 分层结构中的一些基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）实体"><span class="nav-text">（1）实体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）协议"><span class="nav-text">（2）协议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、非常重要，但是自己已经弄懂的了问题"><span class="nav-text">三、非常重要，但是自己已经弄懂的了问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-电路交换的有点和缺点，以及需要辩证地理解其有缺点。"><span class="nav-text">1 电路交换的有点和缺点，以及需要辩证地理解其有缺点。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-分组交换的优点和缺点，以及需要辩证地理解其有缺点。"><span class="nav-text">2 分组交换的优点和缺点，以及需要辩证地理解其有缺点。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、自己没有弄懂的问题"><span class="nav-text">四、自己没有弄懂的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？"><span class="nav-text">1 关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Ipv4和Ipv6的相同和区别？"><span class="nav-text">2 Ipv4和Ipv6的相同和区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？"><span class="nav-text">3 对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？"><span class="nav-text">4 对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、分层的协议层"><span class="nav-text">五、分层的协议层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、封装"><span class="nav-text">一、封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、复用与解复用"><span class="nav-text">二、复用与解复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、OSI七层模型"><span class="nav-text">六、OSI七层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-各层功能定义"><span class="nav-text">1.各层功能定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-传输模型"><span class="nav-text">2.传输模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-网络体系架构的五层模型"><span class="nav-text">3. 网络体系架构的五层模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、互联网的体系结构"><span class="nav-text">六、互联网的体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-分层结构"><span class="nav-text">1.分层结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设计原则"><span class="nav-text">2.设计原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-分组交换网中时延的四个来源"><span class="nav-text">3.分组交换网中时延的四个来源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-网络性能-吞吐量"><span class="nav-text">4.网络性能: 吞吐量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、网络性能"><span class="nav-text">七、网络性能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-链路带宽"><span class="nav-text">1.链路带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-应用性能需求"><span class="nav-text">2.应用性能需求</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八-套接字编程"><span class="nav-text">八.套接字编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#没有懂的问题"><span class="nav-text">没有懂的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懂了的问题"><span class="nav-text">懂了的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-带宽与吞吐量的区别？"><span class="nav-text">1.带宽与吞吐量的区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-网络延迟是怎样产生的？"><span class="nav-text">2.网络延迟是怎样产生的？</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Kongo" src="/images/header.jpeg"><p class="site-author-name" itemprop="name">Kongo</p><div class="site-description" itemprop="description">闳的博客，记录技术、生活</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">19</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">7</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/"><span class="site-state-item-count">15</span> <span class="site-state-item-name">标签</span></a></div></nav></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2020</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">闳</span></div><div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动</div><br> Total<span id="busuanzi_value_site_pv"></span> views.<br> 您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴<br><span id="busuanzi_value_page_pv"></span> Hits</div></footer></div><script color="0,0,0" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script><script size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script><script src="/lib/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script><script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script defer="defer" src="/lib/three/three.min.js"></script><script defer="defer" src="/lib/three/three-waves.min.js"></script><script src="/js/local-search.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章-基础"><span class="nav-text">第一章 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是网络"><span class="nav-text">一、什么是网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）-什么是网络"><span class="nav-text">（1） 什么是网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）计算机网络"><span class="nav-text">（2）计算机网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）协议"><span class="nav-text">（3）协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、如何建造计算机网络"><span class="nav-text">二、如何建造计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-连通性"><span class="nav-text">1 连通性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-可拓展的连通性"><span class="nav-text">2 可拓展的连通性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-通信网络的分类"><span class="nav-text">3 通信网络的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-通用服务"><span class="nav-text">4 通用服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是通用服务"><span class="nav-text">(1)什么是通用服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-相同的通信模式"><span class="nav-text">(2)相同的通信模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-三类故障"><span class="nav-text">(3)三类故障</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-分层结构中的一些基本概念"><span class="nav-text">5 分层结构中的一些基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）实体"><span class="nav-text">（1）实体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）协议"><span class="nav-text">（2）协议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、非常重要，但是自己已经弄懂的了问题"><span class="nav-text">三、非常重要，但是自己已经弄懂的了问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-电路交换的有点和缺点，以及需要辩证地理解其有缺点。"><span class="nav-text">1 电路交换的有点和缺点，以及需要辩证地理解其有缺点。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-分组交换的优点和缺点，以及需要辩证地理解其有缺点。"><span class="nav-text">2 分组交换的优点和缺点，以及需要辩证地理解其有缺点。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、自己没有弄懂的问题"><span class="nav-text">四、自己没有弄懂的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？"><span class="nav-text">1 关于计算机网络应用问题，它对应着现代企业中的什么工作，下一代计算机网络会是怎样的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Ipv4和Ipv6的相同和区别？"><span class="nav-text">2 Ipv4和Ipv6的相同和区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？"><span class="nav-text">3 对于分组交换存在的丢包情况，我们在平时上网中是不是下载一个东西，在下到一半的情况下突然下载失败了，这是不是就是丢包了？如果丢包，用户层面是如何体现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？"><span class="nav-text">4 对于网络7层我们在什么样的工程应用中会遇到，这7层本质是协议，还是什么，设计这么多层是否显得过于冗余？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、分层的协议层"><span class="nav-text">五、分层的协议层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、封装"><span class="nav-text">一、封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、复用与解复用"><span class="nav-text">二、复用与解复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、OSI七层模型"><span class="nav-text">六、OSI七层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-各层功能定义"><span class="nav-text">1.各层功能定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-传输模型"><span class="nav-text">2.传输模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-网络体系架构的五层模型"><span class="nav-text">3. 网络体系架构的五层模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、互联网的体系结构"><span class="nav-text">六、互联网的体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-分层结构"><span class="nav-text">1.分层结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设计原则"><span class="nav-text">2.设计原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-分组交换网中时延的四个来源"><span class="nav-text">3.分组交换网中时延的四个来源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-网络性能-吞吐量"><span class="nav-text">4.网络性能: 吞吐量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、网络性能"><span class="nav-text">七、网络性能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-链路带宽"><span class="nav-text">1.链路带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-应用性能需求"><span class="nav-text">2.应用性能需求</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八-套接字编程"><span class="nav-text">八.套接字编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#没有懂的问题"><span class="nav-text">没有懂的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懂了的问题"><span class="nav-text">懂了的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-带宽与吞吐量的区别？"><span class="nav-text">1.带宽与吞吐量的区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-网络延迟是怎样产生的？"><span class="nav-text">2.网络延迟是怎样产生的？</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kongo"
+      src="/images/header.jpeg">
+  <p class="site-author-name" itemprop="name">Kongo</p>
+  <div class="site-description" itemprop="description">闳的博客，记录技术、生活</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<br>
+Total <span id="busuanzi_value_site_pv"></span> views.
+<br>
+您是闳的第<span id="busuanzi_value_site_uv"></span>个小伙伴
+<br>
+<span id="busuanzi_value_page_pv"></span> Hits
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -44,4 +700,16 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({pluginRootPath:"live2dw/",pluginJsPath:"lib/",pluginModelPath:"assets/ Relative)",tagMode:!1,log:!1,model:{jsonPath:"/live2dw/assets/koharu.model.json"},display:{position:"right",width:200,height:300},mobile:{show:!0},react:{opacityDefault:.7}})</script><script>window.imageLazyLoadSetting={isSPA:!1,processImages:null}</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})})</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)void 0,0<=(t=r[a].getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this)</script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/ Relative)","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":true},"react":{"opacityDefault":0.7}});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>
